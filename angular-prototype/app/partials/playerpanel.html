@@ -1,0 +1,27 @@
+<div id="messages">
+    <ul ng-repeat="message in messages">
+        <li>{{message}}</li>
+    </ul>
+</div>
+
+<div id="tally">
+    <ul ng-repeat="score in top_scores">
+        <li>{{score}}</li>
+    </ul>
+</div>
+
+<div id="question">
+    {{question}}
+</div>
+
+<div id="choices">
+    <span ng-repeat="choice in choices">
+        <span class="choice_label">{{choice.label}}</span>
+        <span class="choice_select">input type="checkbox" value="{{choice.selected}}"/></span>
+    </span>
+</div>
+
+<div id="actionbar">
+    <button id="vote">Vote</button>
+    <button id="quit">Quit Game</button>
+</div>

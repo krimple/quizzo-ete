@@ -1,0 +1,16 @@
+<div id="joinform">
+    <h3>Welcome to Quizzo</h3>
+    <form>
+    <em>Please join our quiz by entering a nickname and an email address. The game will begin shortly.</em>
+    <p>
+        <label for="nickname"><b>Nickname</b></label>
+        <input type="text" ng-model="nickname" id="nickname"/> <span class="error">{{nickname.error}}</span>
+    </p>
+    <p>
+        <label for="nickname"><b>Email address</b></label>
+        <input type="text" ng-model="email" id="email"/> <span class="error">{{email.error}}</span>
+    </p>
+
+    <button id="join" ng-click="join_game($location)">Join</button>
+    </form>
+</div>
