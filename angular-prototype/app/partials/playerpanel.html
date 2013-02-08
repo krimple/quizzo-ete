@@ -1,9 +1,13 @@
-<div id="messages">
-    <ul ng-repeat="message in messages">
-        <li>{{message}}</li>
-    </ul>
+<div class="row" ng-show="messages != Undefined">
+    <div class="span1"></div>
+    <div id="player-messages" class="span10">
+        <h3>Messages...</h3>
+        <ul ng-repeat="message in messages">
+            <li>{{message}}</li>
+        </ul>
+    </div>
+    <div class="span1"></div>
 </div>
-
 <div id="tally">
     <ul ng-repeat="score in top_scores">
         <li>{{score}}</li>
@@ -17,11 +21,12 @@
 <div id="choices">
     <span ng-repeat="choice in choices">
         <span class="choice_label">{{choice.label}}</span>
-        <span class="choice_select">input type="checkbox" value="{{choice.selected}}"/></span>
+        <span class="choice_select">
+            <input type="checkbox" ng-model="{{choice.selected}}"/></span>
     </span>
 </div>
 
 <div id="actionbar">
-    <button id="vote">Vote</button>
-    <button id="quit">Quit Game</button>
+    <button id="vote" ng-click="vote()">Vote</button>
+    <button id="quit" ng-click="quit()">Quit Game</button>
 </div>

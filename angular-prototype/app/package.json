@@ -1,0 +1,17 @@
+{
+        "Ken Rimple": "Ken Rimple <krimple@chariotsolutions.com>",
+        "name": "node_quizzo_prototype",
+        "description": "Demo",
+        "version": "0.0.1",
+        "main": "server.js",
+        "engines": {
+                "node": ">=0.8"
+        },
+        "dependencies": {
+                "express": "3.1.0"
+        },
+        "devDependencies": {
+                "nodeunit": "0.7.4",
+                "mocha": "1.8.1"
+        }
+}
