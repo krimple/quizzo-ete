@@ -7,5 +7,5 @@ To install the server:
 
 To run the server:
 
-Issue `node server.js` - the server runs on port 4567
-
+1. cd to the `angular-prototype/app` directory (subdirectory under this one)
+2. Issue `node server.js` - the server runs on port 4567
