@@ -1,19 +1,36 @@
-<div id="joinform">
-    <h3>Welcome to Quizzo</h3>
-    <form>
-    <em>Please join our quiz by entering a nickname and an email address. The game will begin shortly.</em>
-    <p>
-        <label for="nickname"><b>Nickname</b></label>
-        <input type="text"
-               ng-model="nickname"
-               ng-change="verify-nickname()"
-               id="nickname"/> <span class="error">{{nickname.error}}</span>
-    </p>
-    <p>
-        <label for="email"><b>Email address</b></label>
-        <input type="text" ng-model="email" id="email"/> <span class="error">{{email.error}}</span>
-    </p>
+<div class="row center" ng-cloak>
+    <span class="span4">
 
-    <button id="join" ng-click="join_game($location)">Join</button>
-    </form>
+    </span>
+
+    <span class="span4">
+    <div id="joinpanel">
+        <h3>Welcome to Quizzo</h3>
+        <em>Please join our quiz by entering a nickname and an email address. The game will begin shortly.</em>
+
+        <form class="panelform left">
+            <p>
+                <label for="nickname"><b>Nickname</b></label>
+                <input type="text"
+                       ng-model="nickname"
+                       ng-change="verify_nick(nickname)"
+                       id="nickname"
+                        /> <span ng-show="badNick" class="error">Nickname already used...</span>
+
+            </p>
+
+            <p>
+                <label for="email"><b>Email address</b></label>
+                <input type="text"
+                       ng-model="email"
+                       id="email"
+                       ng-change="verify_email(email)"/> <span ng-show="badEmail" class="error">Email address already used...</span>
+            </p>
+
+            <button id="join" ng-click="join_game($location)"
+                    ng-show="!badNick && !badEmail">Join</button>
+        </form>
+    </span>
+    <span class="span4"></span>
+</div>
 </div>

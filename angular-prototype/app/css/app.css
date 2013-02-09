@@ -25,3 +25,41 @@ div#player-messages {
     margin-bottom: 10px;
     border: 1px solid black;
 }
+
+div#joinpanel {
+    position: fixed;
+    width: 600px;
+    height: 400px;
+    top: 50%;
+    left: 50%;
+    margin-left: -300px;
+    margin-top: -250px;
+    background-color: #fafad2;
+    border: 1px #000000 groove;
+}
+
+div#joinpanel em {
+    position: relative;
+    text-align: center;
+    width: 200px;
+    height: auto;
+    font-size: 90%;
+}
+
+form.panelform {
+    margin-left: 90px;
+    margin-right: 30px;
+    margin-top: 40px;
+}
+
+.center {
+    text-align: center;
+}
+
+.left {
+    text-align: left;
+}
+
+[ng\:cloak], [ng-cloak], .ng-cloak {
+    display: none;
+}

@@ -1,6 +1,6 @@
 'use strict';
 
-function JoinCtrl($rootScope, $scope, $location, nickNameCheck) {
+function JoinCtrl($rootScope, $scope, $location, nickNameCheckService, emailAddressCheckService) {
     $scope.join_game = function() {
         console.log("clicked join");
         // bad developer ;)
@@ -11,12 +11,17 @@ function JoinCtrl($rootScope, $scope, $location, nickNameCheck) {
     };
 
     $scope.verify_nick = function() {
-      var answer = nickNameCheck($scope.nickname);
-      if (! answer) {
-        console.log("Bad nickname", $scope.nickname);
-      } else {
-        console.log("Good nickname: ", $scope.nickname);
-      }
+      console.log("verify nickname - ", $scope.nickname);
+      var result = nickNameCheckService.search($scope.nickname);
+      console.log("verify result - ", result);
+      $scope.badNick = result;
+    };
+
+    $scope.verify_email = function() {
+      console.log("verify email - ", $scope.email);
+      var result = emailAddressCheckService.search($scope.email);
+      console.log("verify result - ", result);
+      $scope.badEmail = result;
     }
 }
 
@@ -24,6 +29,25 @@ function PlayCtrl($scope, $http, $location) {
     console.log("trying to show votes");
     $scope.score = 10;
     $scope.messages = ['one', 'two', 'three'];
+    $scope.question = "What is the air speed velocity of a swallow?";
+    $scope.top_scores = [134, 130, 112];
+    $scope.choices = [{
+        label: "African or European?",
+        selected: false
+      },
+      {
+        label: "What color?",
+        selected: false
+      },
+      {
+        label: "I didn't know there was a difference",
+        selected: false
+      },
+      {
+        label: "Edam",
+        selected: false
+      }];
+
     $scope.vote = function($http) {
         console.log("Sending vote...");
     };
