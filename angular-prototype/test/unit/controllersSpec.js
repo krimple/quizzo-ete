@@ -2,26 +2,21 @@
 
 /* jasmine specs for controllers go here */
 
-describe('MyCtrl1', function(){
-  var myCtrl1;
 
-  beforeEach(function(){
-    myCtrl1 = new MyCtrl1();
-  });
-
-
-  it('should ....', function() {
-    //spec body
-  });
-});
-
-
-describe('MyCtrl2', function(){
-  var myCtrl2;
+describe('JoinCtrl', function(){
+  var myJoinCtrl;
 
 
   beforeEach(function(){
-    myCtrl2 = new MyCtrl2();
+    var scope = {};
+    var location = {};
+    var playerService = function() {
+      return {
+        getPlayer : function() { return "John"; }
+      };
+
+    };
+    // TODO - not working myJoinCtrl = new JoinCtrl(scope, location, playerService);
   });
 
 
