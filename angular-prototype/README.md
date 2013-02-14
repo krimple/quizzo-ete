@@ -23,4 +23,6 @@ To run tests:
 
 Docs:
 
-Matchers are Jasmine-based:  https://github.com/pivotal/jasmine/wiki/Matchers
+*  unit Matchers are Jasmine-based:  https://github.com/pivotal/jasmine/wiki/Matchers
+*  e2e mocks - include $httpBackend for simulating rear resources - http://docs.angularjs.org/api/ngMock.$httpBackend
+*  
