@@ -146,7 +146,7 @@ myAppServices.factory('quizManagerService', function() {
   };
 
   quizManagerServiceImpl.getChoices = function() {
-    this.assertProperState('IN_PROGRESS');
+    this.assertProperState('AWAITING_ANSWER');
     return this.questions[this.currentQuestionIndex].choices;
   };
 
@@ -169,7 +169,7 @@ myAppServices.factory('quizManagerService', function() {
       this.endQuiz();
       return false;
     } else {
-      this.setQuizState('IN_PROGRESS');
+      this.setQuizState('AWAITING_ANSWER');
       this.currentQuestion = this.questions[this.currentQuestionIndex];
       return true;
     }
@@ -177,7 +177,7 @@ myAppServices.factory('quizManagerService', function() {
 
   quizManagerServiceImpl.startQuiz = function() {
     // let's go!
-    this.setQuizState('IN_PROGRESS');
+    this.setQuizState('AWAITING_ANSWER');
   };
 
   quizManagerServiceImpl.endQuiz = function() {
@@ -188,22 +188,23 @@ myAppServices.factory('quizManagerService', function() {
   quizManagerServiceImpl.setQuizState = function(newQuizState) {
     // guard state transitions
     if (this.currentQuizState == 'NOT_STARTED') {
-      if (!newQuizState == 'IN_PROGRESS' && this.newQuizState == 'COMPLETE') {
+      if (!newQuizState == 'AWAITING_ANSWER' && this.newQuizState == 'COMPLETE') {
         throw 'Cannot move from NOT_STARTED to the state of ' + newQuizState;
       }
     }
 
-    if (this.currentQuizState == 'IN_PROGRESS') {
+    if (this.currentQuizState == 'AWAITING_ANSWER') {
       if (!newQuizState == 'COMPLETE' && !newQuizState == 'WAIT_NEXT_QUESTION') {
-        throw 'Cannot move from IN_PROGRESS to the state of ' + newQuizState;
+        throw 'Cannot move from AWAITING_ANSWER to the state of ' + newQuizState;
       }
     }
 
     if (this.currentQuizState == 'WAIT_NEXT_QUESTION') {
-      if (newQuizState != 'IN_PROGRESS' && newQuizState != 'COMPLETE') {
+      if (newQuizState != 'AWAITING_ANSWER' && newQuizState != 'COMPLETE') {
         throw 'Cannot move from WAIT_NEXT_QUESTION to the state of ' + newQuizState;
       }
     }
+
 
     if (this.currentQuizState == 'COMPLETE') {
       throw 'Game over. Cannot change states.';
