@@ -21,3 +21,6 @@ To run tests:
 2. Jasmine-based unit spec tests - run every time something is saved - ./test.sh
 3. Angular scenario end to end (e2e) tests - run ./e2e-test.sh - this does not repeat - make sure to start the server first...
 
+Docs:
+
+Matchers are Jasmine-based:  https://github.com/pivotal/jasmine/wiki/Matchers
