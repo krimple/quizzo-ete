@@ -25,4 +25,4 @@ Docs:
 
 *  unit Matchers are Jasmine-based:  https://github.com/pivotal/jasmine/wiki/Matchers
 *  e2e mocks - include $httpBackend for simulating rear resources - http://docs.angularjs.org/api/ngMock.$httpBackend
-*  
+*  e2e expectations - use http://docs.angularjs.org/api/angular.element to match elements in the DOM
