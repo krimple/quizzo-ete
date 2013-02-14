@@ -40,32 +40,22 @@ myAppServices.factory('leaderBoardService', function() {
 
 myAppServices.factory('playerService', function () {
   /** stub service implementation */
-  var playerServiceImpl = {},
-  currentPlayer,
-  currentPlayerEmailAddress,
-  loggedIn = false;
+  var playerServiceImpl = {};
 
   /** our service state - stubbed until we use a web service against a live engine */
   playerServiceImpl.nickNameValues = ['dave', 'chuck', 'sal'];
-  playerServiceImpl.emailAddressValues = ['foo@bar.baz.com', 'zork@mit.edu'];
 
   /** returns true if a value exists, false otherwise */
   playerServiceImpl.searchNickName = function (value) {
     return (this.nickNameValues.indexOf(value) != -1);
   };
 
-  playerServiceImpl.searchEmailAddress = function (value) {
-    return (this.emailAddressValues.indexOf(value) != -1);
-  };
-
-  playerServiceImpl.setPlayerInfo = function (player, email) {
+  playerServiceImpl.setNickName = function (nickName) {
     // in real server this would be implemented in a concurrent way. This is
     // just a stub.
-    if (!playerServiceImpl.searchNickName(player) &&
-        !playerServiceImpl.searchEmailAddress(email)) {
+    if (!playerServiceImpl.searchNickName(nickName)) {
       // set service state
-      this.currentPlayer = player;
-      this.currentPlayerEmailAddress = email;
+      this.currentPlayer = nickName;
       return true;
     } else {
       return false;
@@ -76,10 +66,6 @@ myAppServices.factory('playerService', function () {
     return this.currentPlayer;
   };
 
-  playerServiceImpl.getEmailAddress = function () {
-    return this.currentPlayerEmailAddress;
-  };
-
   return playerServiceImpl;
 });
 
@@ -87,6 +73,16 @@ myAppServices.factory('playerService', function () {
 myAppServices.factory('quizManagerService', function() {
 
   var quizManagerServiceImpl = {};
+  // stubbed state
+  quizManagerServiceImpl.currentQuestionIndex = -1;
+  quizManagerServiceImpl.currentQuestion = {};
+  quizManagerServiceImpl.score = 0;
+
+  // this will stay - browser state - any initialized or non-answered question has a -1 value...
+  // this code line smells worse than an old donkey walking through a bucket of pig swill...
+  quizManagerServiceImpl.selectedAnswer = -1;
+
+  // this information is all for stubbing.
 
   quizManagerServiceImpl.currentQuizState = 'NOT_STARTED';
   quizManagerServiceImpl.questions = [
@@ -134,57 +130,75 @@ myAppServices.factory('quizManagerService', function() {
     ]
   }
   ];
-  quizManagerServiceImpl.currentQuestionIndex = 0;
-  quizManagerServiceImpl.currentQuestion = {};
-  quizManagerServiceImpl.score = 0;
 
+  /////////////////////// BEGIN IMPLEMENTATION METHODS  
+  //
+  quizManagerServiceImpl.startQuiz = function() {
+    // let's go!
+    this.setQuizState('AWAITING_ANSWER');
+    this.nextQuestion();
+  };
+
+  // get the current question payload
   quizManagerServiceImpl.getCurrentQuestion = function() {
-    var idx = this.currentQuestionIndex;
-    console.log('current question index', idx);
-    console.log('current question is', this.questions[idx]);
-    return this.questions[this.currentQuestionIndex];
+    console.log(this.currentQuestionIndex);
+    if (this.currentQuestionIndex == -1) {
+      throw 'not started.';
+    }
+    if (this.currentQuestionIndex < this.questions.length) {
+      this.setQuizState('AWAITING_ANSWER'); 
+      return this.questions[this.currentQuestionIndex];
+    } else {
+      // todo - what now?
+      throw 'no questions left!';
+    }
   };
 
-  quizManagerServiceImpl.getChoices = function() {
-    this.assertProperState('AWAITING_ANSWER');
-    return this.questions[this.currentQuestionIndex].choices;
+   
+  /* Make call when clicking on a checkbox / span to select it for voting */
+  quizManagerServiceImpl.setAnswer = function(choiceIndex) {
+    var maxChoiceIndex = this.questions[this.currentQuestionIndex].choices.length - 1;
+    if (choiceIndex >= 0 && choiceIndex <= maxChoiceIndex) {
+      this.selectedAnswer = choiceIndex;
+    } else {
+      console.log('invalid answer for the current question.');
+    }
   };
 
-  quizManagerServiceImpl.answer = function(choiceIdx) {
-    var maxChoiceIdx = this.questions[this.currentQuestionIndex].choices.length - 1;
-
-    if (choiceIdx >= 0 && choiceIdx <= maxChoiceIdx) {
-      var answerScore = this.questions[this.currentQuestionIndex].choices[choiceIdx].score;
-      this.score = this.score + answerScore;
+  // scoring is stubbed and will take place on the server
+  quizManagerServiceImpl.vote = function() {
+    if (this.selectedAnswer > -1) {
+      var answerScore = this.getCurrentQuestion().choices[this.selectedAnswer].score;
+      this.score = this.score + this.selectedAnswer;
       this.setQuizState('WAIT_NEXT_QUESTION');
     } else {
+      // todo - what now?
       throw 'Cannot answer question unless system is ready.';
     }
   };
 
+  // will be replaced by subscription to next question message from server
   quizManagerServiceImpl.nextQuestion = function() {
-
+    // reset the answer selected by the user
+    this.selectedAnswer = -1;
+    // if able, move to the next question
+    if (this.currentQuestionIndex < this.questions.length) {
     this.currentQuestionIndex++;
-    if (this.currentQuestionIndex > this.questions.length - 1) {
-      this.endQuiz();
-      return false;
-    } else {
-      this.setQuizState('AWAITING_ANSWER');
       this.currentQuestion = this.questions[this.currentQuestionIndex];
       return true;
+    } else {
+      this.endQuiz();
+      return false;
     }
   };
 
-  quizManagerServiceImpl.startQuiz = function() {
-    // let's go!
-    this.setQuizState('AWAITING_ANSWER');
-  };
-
+  // let's call this one a day!
   quizManagerServiceImpl.endQuiz = function() {
     this.currentQuestion = this.questions.length - 1;
     this.setQuizState('COMPLETE');
   };
 
+  // Erzatz state machine - sad programmer...
   quizManagerServiceImpl.setQuizState = function(newQuizState) {
     // guard state transitions
     if (this.currentQuizState == 'NOT_STARTED') {
@@ -217,5 +231,6 @@ myAppServices.factory('quizManagerService', function() {
     return this.score;
   };
 
+  quizManagerServiceImpl.startQuiz();
   return quizManagerServiceImpl;
 });

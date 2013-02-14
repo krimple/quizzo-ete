@@ -42,43 +42,29 @@ describe('service', function() {
       expect(playerService.getPlayer()).toBeUndefined();
     }));
 
-    it('should find existing emails for foo@bar.baz.com and zork.mit.edu', inject(function(playerService) {
-      var emails = ['foo@bar.baz.com', 'zork@mit.edu'];
-      emails.forEach(function(val) {
-        expect(playerService.searchEmailAddress(val)).toEqual(true);
-      });
-    }));
 
 
     it("should set player info when adding unused player information", inject(function(playerService) {
-      playerService.setPlayerInfo("Joe", "Joe@test.com");
+      playerService.setNickName("Joe");
       expect(playerService.getPlayer()).toEqual("Joe");
-      expect(playerService.getEmailAddress()).toEqual("Joe@test.com");
     }));
   });
 
-  describe('quizManagerService', function() {
+  describe('playTheGame', function() {
+    it('should ask three questions', inject(function(quizManagerService) {
 
-    it('should present the next question when started', inject(function(quizManagerService) {
+      var loop;
       quizManagerService.startQuiz();
-      expect(quizManagerService.getCurrentQuestion().question).toEqual('Who are you?');
+      for (loop = 0; loop <= 2; loop++) {
+        var question = quizManagerService.getCurrentQuestion();
+        expect(question).toBeDefined();
+        expect(question.choices).toBeDefined();
+        expect(question.question).toBeDefined();
+        quizManagerService.setAnswer(1);
+        quizManagerService.vote();
+        quizManagerService.nextQuestion();
+      }
+      expect(quizManagerService.getScore()).toBeGreaterThan(0);
     }));
-
-    describe('playTheGame', function() {
-      it('should ask three questions', inject(function(quizManagerService) {
-
-        var loop;
-        quizManagerService.startQuiz();
-        for (loop = 0; loop <= 2; loop++) {
-          var question = quizManagerService.getCurrentQuestion();
-          expect(question).toBeDefined();
-          expect(question.choices).toBeDefined();
-          expect(question.question).toBeDefined();
-          quizManagerService.answer(1);
-          quizManagerService.nextQuestion();
-        }
-        expect(quizManagerService.getScore()).toBeGreaterThan(0);
-      }));
-    });
   });
 });

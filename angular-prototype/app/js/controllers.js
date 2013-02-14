@@ -4,7 +4,7 @@ myApp.controller('JoinCtrl', function ($scope, $location, playerService, quizMan
   $scope.join_game = function (nickName, emailAddress) {
     console.log("clicked join");
     // bad developer ;)
-    playerService.setPlayerInfo(nickname, emailAddress);
+    playerService.setNickName(nickname);
     // do the check here...
     $location.path("/play");
   };
@@ -15,43 +15,33 @@ myApp.controller('JoinCtrl', function ($scope, $location, playerService, quizMan
     console.log("verify result - ", result);
     $scope.badNick = result;
   };
+});
 
-  $scope.verify_email = function () {
-    console.log("verify email - ", $scope.email);
-    var result = playerService.searchEmailAddress($scope.email);
-    console.log("verify result - ", result);
-    $scope.badEmail = result;
+myApp.controller('QuestionCtrl', function($scope, quizManagerService) {
+
+  $scope.question = quizManagerService.getCurrentQuestion();
+
+  $scope.setAnswer = function() {
+    // we'll cache it in the local session state
+    quizManagerService.setAnswer(choiceNumber);
+  };
+
+  // this would actually call the service that communicated the vote
+  $scope.castVote = function () {
+    if (quizManagerService.answerRecorded()) {
+      quizManagerService.vote();
+    } else {
+      console.log('no answer set');
+      // TODO - how to show this? maybe we hide the voting button?
+    }
   };
 });
 
-myApp.controller('QuestionCtrl', function(quizManagerService) {
-  $scope.question = quizManagerService.get
-});
-
+/** deprecated */
 myApp.controller('PlayCtrl', function ($scope, $http, $location) {
   console.log("trying to show votes");
   $scope.score = 10;
-  $scope.messages = ['one', 'two', 'three'];
-  $scope.question = "What is the air speed velocity of a swallow?";
   $scope.top_scores = [134, 130, 112];
-  $scope.choices = [
-    {
-      label: "African or European?",
-      selected: false
-    },
-    {
-      label: "What color?",
-      selected: false
-    },
-    {
-      label: "I didn't know there was a difference",
-      selected: false
-    },
-    {
-      label: "Edam",
-      selected: false
-    }
-  ];
 
   $scope.vote = function ($http) {
     console.log("Sending vote...");

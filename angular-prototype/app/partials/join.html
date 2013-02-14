@@ -11,24 +11,15 @@
         <form class="panelform left">
             <p>
                 <label for="nickname"><b>Nickname</b></label>
-                <input type="text"
+                <input type="text" 
                        ng-model="nickname"
                        ng-change="verify_nick(nickname)"
                        id="nickname"
                         /> <span ng-show="badNick" class="error">Nickname already used...</span>
 
-            </p>
-
-            <p>
-                <label for="email"><b>Email address</b></label>
-                <input type="text"
-                       ng-model="email"
-                       id="email"
-                       ng-change="verify_email(email)"/> <span ng-show="badEmail" class="error">Email address already used...</span>
-            </p>
-
             <button id="join" ng-click="join_game($location)"
-                    ng-show="!badNick && !badEmail">Join</button>
+              ng-show="!badNick && nickname">Join</button>
+            </p>
         </form>
     </span>
     <span class="span4"></span>
