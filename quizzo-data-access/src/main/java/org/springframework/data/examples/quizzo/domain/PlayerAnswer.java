@@ -12,6 +12,10 @@
  */
 package org.springframework.data.examples.quizzo.domain;
 
+import java.math.BigInteger;
+
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.util.Assert;
 
 /**
@@ -19,53 +23,77 @@ import org.springframework.util.Assert;
  *
  */
 public class PlayerAnswer {
+	private BigInteger id;
 	private final String playerId;
 	private final String quizId;
 	private final int questionNumber;
 	private final String instanceId;
 	private final Choice.Letter choice;
+
+//	db.playerAnswer.find({playerId:'p2'}).pretty()
+//	{
+//		"_id" : ObjectId("511e42e1ba7013df56d8c87d"),
+//		"_class" : "org.springframework.data.examples.quizzo.domain.PlayerAnswer",
+//		"playerId" : "p2",
+//		"quizId" : "q1",
+//		"questionNumber" : 0,
+//		"instanceId" : "i1",
+//		"choice" : "b"
+//	}
+
 	
+	@PersistenceConstructor
+	public PlayerAnswer(ObjectId id, String playerId, String instanceId, String quizId, int questionNumber, String choice){
+		this(playerId,instanceId, quizId, questionNumber, choice.charAt(0));
+		//this.id = id;
+	}
 	public PlayerAnswer(String playerId, String instanceId, String quizId, int questionNumber, char choice) {
-		Assert.hasLength(playerId,"player ID cannot be null or blank.");
-		Assert.hasLength(instanceId,"instance ID cannot be null or blank.");
-		Assert.hasLength(quizId,"quiz ID cannot be null or blank.");
-		Assert.isTrue(questionNumber >= 0,"question number must be >= 0.");
-		
+
+		Assert.hasLength(playerId, "player ID cannot be null or blank.");
+		Assert.hasLength(instanceId, "instance ID cannot be null or blank.");
+		Assert.hasLength(quizId, "quiz ID cannot be null or blank.");
+		Assert.isTrue(questionNumber >= 0, "question number must be >= 0.");
+
 		this.playerId = playerId;
 		this.instanceId = instanceId;
 		this.quizId = quizId;
 		this.questionNumber = questionNumber;
 		this.choice = Choice.Letter.validate(choice);
 	}
+
 	/**
 	 * @return the playerId
 	 */
 	public String getPlayerId() {
 		return playerId;
 	}
+
 	/**
 	 * @return the quizId
 	 */
 	public String getQuizId() {
 		return quizId;
 	}
+
 	/**
 	 * @return the questionNumber
 	 */
 	public int getQuestionNumber() {
 		return questionNumber;
 	}
+
 	/**
 	 * @return the instanceId
 	 */
 	public String getInstanceId() {
 		return instanceId;
 	}
+
 	/**
 	 * @return the choice
 	 */
 	public String getChoice() {
 		return choice.name();
 	}
-	
+
 }
