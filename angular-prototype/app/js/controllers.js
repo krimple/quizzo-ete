@@ -1,35 +1,54 @@
 'use strict';
 
-myApp.controller('JoinCtrl', function ($scope, $location, playerService, quizManagerService) {
+myApp.controller('JoinCtrl', function ($scope, $location, PlayerService, QuizManagerService) {
   $scope.join_game = function (nickName, emailAddress) {
     console.log("clicked join");
     // bad developer ;)
-    playerService.setNickName(nickname);
+    PlayerService.setNickName(nickname);
     // do the check here...
     $location.path("/play");
   };
 
   $scope.verify_nick = function () {
     console.log("verify nickname - ", $scope.nickname);
-    var result = playerService.searchNickName($scope.nickname);
+    var result = PlayerService.searchNickName($scope.nickname);
     console.log("verify result - ", result);
     $scope.badNick = result;
   };
 });
 
-myApp.controller('QuestionCtrl', function($scope, quizManagerService) {
+myApp.controller('TallyCtrl', function() {
+});
 
-  $scope.question = quizManagerService.getCurrentQuestion();
+myApp.controller('QuestionCtrl', function($scope, QuizManagerService) {
 
-  $scope.setAnswer = function() {
-    // we'll cache it in the local session state
-    quizManagerService.setAnswer(choiceNumber);
-  };
+  $scope.question = QuizManagerService.getCurrentQuestion().question;
+
+  $scope.$on('newquestion', function() {
+    $scope.question = QuizManagerService.getCurrentQuestion().question;
+  });
+
+});
+
+myApp.controller('VoteCtrl', function($scope, $location, QuizManagerService) {
+
+  $scope.answer_choices = QuizManagerService.getCurrentQuestion().choices;
+
+  $scope.$on('newquestion', function() {
+    $scope.answer_choices = QuizManagerService.getCurrentQuestion().choices;
+  });
+ 
 
   // this would actually call the service that communicated the vote
   $scope.castVote = function () {
-    if (quizManagerService.answerRecorded()) {
-      quizManagerService.vote();
+    var selectedChoice = voteForm.choices.item().value;
+    if (selectedChoice) {
+      console.log("voting"); 
+      QuizManagerService.vote(selectedChoice);
+      var moreQuestions = QuizManagerService.nextQuestion();
+      if (!moreQuestions) {
+        $location.path('/bye');
+      }
     } else {
       console.log('no answer set');
       // TODO - how to show this? maybe we hide the voting button?
@@ -37,19 +56,9 @@ myApp.controller('QuestionCtrl', function($scope, quizManagerService) {
   };
 });
 
-/** deprecated */
 myApp.controller('PlayCtrl', function ($scope, $http, $location) {
-  console.log("trying to show votes");
   $scope.score = 10;
   $scope.top_scores = [134, 130, 112];
-
-  $scope.vote = function ($http) {
-    console.log("Sending vote...");
-  };
-
-  $scope.quit = function () {
-    $location.path("/bye");
-  };
 });
 
 myApp.controller('ByeCtrl', function($scope) {

@@ -60,8 +60,7 @@ describe('service', function() {
         expect(question).toBeDefined();
         expect(question.choices).toBeDefined();
         expect(question.question).toBeDefined();
-        quizManagerService.setAnswer(1);
-        quizManagerService.vote();
+        quizManagerService.vote(1);
         quizManagerService.nextQuestion();
       }
       expect(quizManagerService.getScore()).toBeGreaterThan(0);

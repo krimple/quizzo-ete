@@ -26,7 +26,7 @@ import com.mongodb.WriteConcern;
 @Configuration
 @EnableMongoRepositories(basePackages="org.springframework.data.examples.quizzo.repository")
 public class ApplicationConfig extends AbstractMongoConfiguration {
-	private String hostName="192.168.20.138";
+	private String hostName="127.0.0.1";
 	@Override
 	protected String getDatabaseName() {
 		return "quizzo";

@@ -3,40 +3,43 @@
         <h2>Your question...</h2>
     </span>
 </div>
-<div ng-controller='QuestionCtrl' class='row center' ng-cloak>
+<div class='row center' ng-cloak>
     <span class='span3 tally'>
         <h5>High Scores</h5>
         <hr/>
-        <span ng-repeat='score in top_scores'>
+        <span ng-controller='TallyCtrl' ng-repeat='score in top_scores'>
            {{$index + 1}} - {{score}}
             <br/>
         </span>
     </span>
     <span class='span1'></span>
-    <span class='hero-unit span4 question'>
-            {{question.question}}
+    <span ng-controller='QuestionCtrl' class='hero-unit span4 question'>
+            {{question}}
     </span>
     <span class='span1'></span>
 </div>
 
-<div ng-controller='QuestionCtrl' class='row'
-     ng-repeat='choice in question.choices'>
+<div class='row'>
 
-    <span class='span3'></span>
-    <span class='span6'>
-      <label for='choice_{{$index}}' class='choice_label'>{{choice.value}}</label>
-      <input id='choice_{{$index}}' type='checkbox' ng-model='choice.selected' value='{{choice.value}}'/> <br/>
-    </span>
-    <span class='span3'></span>
-</div>
-
-<div class='row center' ng-cloak>
+    <form name='voteForm' ng-controller='VoteCtrl'>
     <span class='span4'></span>
     <span class='span4'>
-        <div id='actionbar'>
-            <button id='vote' ng-click='vote()'>Vote</button>
-            <button id='quit' ng-click='quit()'>Quit Game</button>
-        </div>
+      <ul style='list-style: none;'>
+       <li style="margin-bottom: 10px;" ng-repeat='answer_choice in answer_choices'>
+        <span style="vertical-align: bottom; float: left; margin-right: 2em;">
+          <input type='radio'
+           ng-model='selectedChoice'
+           name="choices"
+           value='{{$index}}'></span>
+        <span style="vertical-align: bottom; float: left">
+           <label style="font-size: 1.5em; font-weight: medium;">{{answer_choice.value}}</label>
+        </span>
+        </li>
+      </ul>
+       <button id='vote' 
+         ng-show='voteForm.$valid' ng-click='castVote()'>Vote</button>
     </span>
     <span class='span4'></span>
+  </form>
 </div>
+

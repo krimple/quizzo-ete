@@ -5,7 +5,7 @@ var myAppServices = angular.module('myApp.services', []);
 
 myAppServices.value('version', '0.1');
 
-myAppServices.factory('leaderBoardService', function() {
+myAppServices.factory('LeaderBoardService', function() {
   var leaderBoardServiceImpl = {},
   leaders = [
     {
@@ -38,7 +38,7 @@ myAppServices.factory('leaderBoardService', function() {
 
 });
 
-myAppServices.factory('playerService', function () {
+myAppServices.factory('PlayerService', function () {
   /** stub service implementation */
   var playerServiceImpl = {};
 
@@ -70,7 +70,7 @@ myAppServices.factory('playerService', function () {
 });
 
 
-myAppServices.factory('quizManagerService', function() {
+myAppServices.factory('QuizManagerService', function($rootScope) {
 
   var quizManagerServiceImpl = {};
   // stubbed state
@@ -141,7 +141,6 @@ myAppServices.factory('quizManagerService', function() {
 
   // get the current question payload
   quizManagerServiceImpl.getCurrentQuestion = function() {
-    console.log(this.currentQuestionIndex);
     if (this.currentQuestionIndex == -1) {
       throw 'not started.';
     }
@@ -154,22 +153,12 @@ myAppServices.factory('quizManagerService', function() {
     }
   };
 
-   
-  /* Make call when clicking on a checkbox / span to select it for voting */
-  quizManagerServiceImpl.setAnswer = function(choiceIndex) {
-    var maxChoiceIndex = this.questions[this.currentQuestionIndex].choices.length - 1;
-    if (choiceIndex >= 0 && choiceIndex <= maxChoiceIndex) {
-      this.selectedAnswer = choiceIndex;
-    } else {
-      console.log('invalid answer for the current question.');
-    }
-  };
 
   // scoring is stubbed and will take place on the server
-  quizManagerServiceImpl.vote = function() {
-    if (this.selectedAnswer > -1) {
-      var answerScore = this.getCurrentQuestion().choices[this.selectedAnswer].score;
-      this.score = this.score + this.selectedAnswer;
+  quizManagerServiceImpl.vote = function(selectedAnswer) {
+    if (selectedAnswer > -1) {
+      var answerScore = this.getCurrentQuestion().choices[selectedAnswer].score;
+      this.score = this.score + answerScore;
       this.setQuizState('WAIT_NEXT_QUESTION');
     } else {
       // todo - what now?
@@ -179,12 +168,11 @@ myAppServices.factory('quizManagerService', function() {
 
   // will be replaced by subscription to next question message from server
   quizManagerServiceImpl.nextQuestion = function() {
-    // reset the answer selected by the user
-    this.selectedAnswer = -1;
     // if able, move to the next question
     if (this.currentQuestionIndex < this.questions.length) {
-    this.currentQuestionIndex++;
+      this.currentQuestionIndex++;
       this.currentQuestion = this.questions[this.currentQuestionIndex];
+      $rootScope.$broadcast('newquestion');
       return true;
     } else {
       this.endQuiz();
