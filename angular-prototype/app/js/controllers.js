@@ -5,6 +5,7 @@ myApp.controller('JoinCtrl', function ($scope, $location, PlayerService, QuizMan
     console.log("clicked join");
     // bad developer ;)
     PlayerService.setNickName(nickname);
+    QuizManagerService.startQuiz();
     // do the check here...
     $location.path("/play");
   };
@@ -61,11 +62,9 @@ myApp.controller('PlayCtrl', function ($scope, $http, $location) {
   $scope.top_scores = [134, 130, 112];
 });
 
-myApp.controller('ByeCtrl', function($scope) {
+myApp.controller('ByeCtrl', function($scope, QuizManagerService) {
   $scope.statistics = {
-    "score": "130",
-    "maxScore": "150",
-    "percentCorrect": "86%",
-    "topScorers": ['phil', 'joe', 'alex']
+    "score": QuizManagerService.getScore(),
+    "maxScore": "150"
   };
 });

@@ -63,3 +63,25 @@ form.panelform {
 [ng\:cloak], [ng-cloak], .ng-cloak {
     display: none;
 }
+
+span.choices {
+  border: 1px solid grey;
+}
+
+ul.quiz-list {
+  list-style-type: none;
+}
+
+ul.quiz-list li input {
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 3px;
+  margin-right: 2em;
+  margin-bottom: 2em;
+}
+div.question-text {
+  font-weight: 400;
+  font-style: italic;
+  font-size: 1.5em;
+  text-align: center;
+}

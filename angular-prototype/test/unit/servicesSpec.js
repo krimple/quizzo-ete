@@ -13,10 +13,10 @@ describe('service', function() {
     }));
   });
 
-  describe('leaderBoardService', function() {
+  describe('LeaderBoardService', function() {
 
-    it('should return top 5 scorers - nickname and score', inject(function(leaderBoardService) {
-      var scores = leaderBoardService.getTopScorers();
+    it('should return top 5 scorers - nickname and score', inject(function(LeaderBoardService) {
+      var scores = LeaderBoardService.getTopScorers();
       expect(scores.length).toBe(5);
       scores.forEach(function(score) {
         expect(score.nickName).toBeTruthy();
@@ -25,45 +25,46 @@ describe('service', function() {
     }));
   });
 
-  describe("playerService", function() {
+  describe('PlayerService', function() {
 
-    it('should find an existing player for dave, chuck, sal', inject(function(playerService) {
+    it('should find an existing player for dave, chuck, sal', inject(function(PlayerService) {
       var names = ['dave', 'chuck', 'sal'];
       names.forEach(function(val) {
-        expect(playerService.searchNickName(val)).toEqual(true);
+        expect(PlayerService.searchNickName(val)).toEqual(true);
       });
     }));
 
-    it('should not find an existing player for phil', inject(function(playerService) {
-      expect(playerService.searchNickName('phil')).toEqual(false);
+    it('should not find an existing player for phil', inject(function(PlayerService) {
+      expect(PlayerService.searchNickName('phil')).toEqual(false);
     }));
 
-    it('should return false when using an existing nickname', inject(function(playerService) {
-      expect(playerService.getPlayer()).toBeUndefined();
+    it('should return false when using an existing nickname', inject(function(PlayerService) {
+      expect(PlayerService.getPlayer()).toBeUndefined();
     }));
 
 
 
-    it("should set player info when adding unused player information", inject(function(playerService) {
-      playerService.setNickName("Joe");
-      expect(playerService.getPlayer()).toEqual("Joe");
+    it('should set player info when adding unused player information', inject(function(PlayerService) {
+      PlayerService.setNickName('Joe');
+      expect(PlayerService.getPlayer()).toEqual('Joe');
     }));
   });
 
   describe('playTheGame', function() {
-    it('should ask three questions', inject(function(quizManagerService) {
+    it('should ask three questions', inject(function(QuizManagerService) {
 
       var loop;
-      quizManagerService.startQuiz();
+      QuizManagerService.startQuiz();
       for (loop = 0; loop <= 2; loop++) {
-        var question = quizManagerService.getCurrentQuestion();
+        var question = QuizManagerService.getCurrentQuestion();
+        console.log('question', question);
         expect(question).toBeDefined();
         expect(question.choices).toBeDefined();
         expect(question.question).toBeDefined();
-        quizManagerService.vote(1);
-        quizManagerService.nextQuestion();
+        QuizManagerService.vote(1);
+        QuizManagerService.nextQuestion();
       }
-      expect(quizManagerService.getScore()).toBeGreaterThan(0);
+      expect(QuizManagerService.getScore()).toBeGreaterThan(0);
     }));
   });
 });

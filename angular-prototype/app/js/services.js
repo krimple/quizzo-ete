@@ -135,8 +135,8 @@ myAppServices.factory('QuizManagerService', function($rootScope) {
   //
   quizManagerServiceImpl.startQuiz = function() {
     // let's go!
+    this.currentQuestionIndex = 0;
     this.setQuizState('AWAITING_ANSWER');
-    this.nextQuestion();
   };
 
   // get the current question payload
@@ -169,7 +169,7 @@ myAppServices.factory('QuizManagerService', function($rootScope) {
   // will be replaced by subscription to next question message from server
   quizManagerServiceImpl.nextQuestion = function() {
     // if able, move to the next question
-    if (this.currentQuestionIndex < this.questions.length) {
+    if (this.currentQuestionIndex < (this.questions.length - 1)) {
       this.currentQuestionIndex++;
       this.currentQuestion = this.questions[this.currentQuestionIndex];
       $rootScope.$broadcast('newquestion');

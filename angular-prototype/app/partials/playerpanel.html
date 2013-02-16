@@ -3,6 +3,7 @@
         <h2>Your question...</h2>
     </span>
 </div>
+
 <div class='row center' ng-cloak>
     <span class='span3 tally'>
         <h5>High Scores</h5>
@@ -13,30 +14,29 @@
         </span>
     </span>
     <span class='span1'></span>
-    <span ng-controller='QuestionCtrl' class='hero-unit span4 question'>
-            {{question}}
+    <span ng-controller='QuestionCtrl' style="border: 1px solid yellow;" class='span4 hero-unit question'>
+      <div class='question-text'>{{question}}</div>
     </span>
-    <span class='span1'></span>
+    <span class='span4'></span>
 </div>
-
+<div class='row center' ng-cloak>
+    <span class='span12'>
+      <h2>Choose an answer...</h2>
+    </span>
+</div>
 <div class='row'>
-
     <form name='voteForm' ng-controller='VoteCtrl'>
     <span class='span4'></span>
-    <span class='span4'>
-      <ul style='list-style: none;'>
-       <li style="margin-bottom: 10px;" ng-repeat='answer_choice in answer_choices'>
-        <span style="vertical-align: bottom; float: left; margin-right: 2em;">
+    <span class='span4 choices hero-unit'>
+      <ul class='quiz-list'>
+       <li ng-repeat='answer_choice in answer_choices'>
           <input type='radio'
            ng-model='selectedChoice'
-           name="choices"
-           value='{{$index}}'></span>
-        <span style="vertical-align: bottom; float: left">
-           <label style="font-size: 1.5em; font-weight: medium;">{{answer_choice.value}}</label>
-        </span>
+           name='choices'
+           value='{{$index}}'>{{answer_choice.value}}
         </li>
       </ul>
-       <button id='vote' 
+       <button id='vote'
          ng-show='voteForm.$valid' ng-click='castVote()'>Vote</button>
     </span>
     <span class='span4'></span>
