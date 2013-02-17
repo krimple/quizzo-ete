@@ -10,6 +10,8 @@ files = [
   'test/unit/**/*.js'
 ];
 
+logLevel = LOG_DEBUG;
+
 autoWatch = true;
 
 browsers = ['Chrome'];

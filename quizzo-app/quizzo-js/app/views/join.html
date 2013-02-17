@@ -1,0 +1,27 @@
+<div class="row center" ng-cloak>
+    <span class="span4">
+
+    </span>
+
+    <span class="span4">
+    <div id="joinpanel">
+        <h3>Welcome to Quizzo</h3>
+        <em>Please join our quiz by entering a nickname and an email address. The game will begin shortly.</em>
+
+        <form class="panelform left">
+            <p>
+                <label for="nickname"><b>Nickname</b></label>
+                <input type="text" 
+                       ng-model="nickname"
+                       ng-change="verify_nick(nickname)"
+                       id="nickname"
+                        /> <span ng-show="badNick" class="error">Nickname already used...</span>
+
+            <button id="join" ng-click="join_game($location)"
+              ng-show="!badNick && nickname">Join</button>
+            </p>
+        </form>
+    </span>
+    <span class="span4"></span>
+</div>
+</div>
