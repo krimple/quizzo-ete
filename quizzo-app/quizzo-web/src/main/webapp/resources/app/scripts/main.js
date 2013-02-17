@@ -1,0 +1,1 @@
+"use strict";angular.module("quizzoApp",[]).config(["$routeProvider",function(e){e.when("/join",{templateUrl:"views/join.html",controller:"JoinCtrl"}).when("/play",{templateUrl:"views/playerpanel.html",controller:"PlayCtrl"}).when("/bye",{templateUrl:"views/bye.html",controller:"ByeCtrl"}).otherwise({redirectTo:"/join"})}]);

@@ -128,6 +128,7 @@
 				<version>2.0</version>
 				   <configuration>
 				   <!-- not sure why I have to do this -->
+           <!-- KJR - this is the webapp name - we can use something else, maybe just '/' -->
                 		<path>/${project.build.finalName}</path>
         			</configuration>
         			 <dependencies>

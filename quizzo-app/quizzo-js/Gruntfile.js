@@ -11,7 +11,7 @@ module.exports = function (grunt) {
   // configurable paths
   var yeomanConfig = {
     app: 'app',
-    dist: 'dist'
+    dist: '../quizzo-web/src/main/webapp/resources/app'
   };
 
   grunt.initConfig({
@@ -125,7 +125,7 @@ module.exports = function (grunt) {
     // but still available if needed
     /*concat: {
         dist: {}
-    },*/
+    },
     uglify: {
       dist: {
         files: {
@@ -135,7 +135,7 @@ module.exports = function (grunt) {
           ]
         }
       }
-    },
+    },*/
     useminPrepare: {
       html: '<%= yeoman.app %>/index.html',
       options: {
@@ -169,27 +169,7 @@ module.exports = function (grunt) {
         }
       }
     },
-    htmlmin: {
-      dist: {
-        options: {
-          /*removeCommentsFromCDATA: true,
-          // https://github.com/yeoman/grunt-usemin/issues/44
-          //collapseWhitespace: true,
-          collapseBooleanAttributes: true,
-          removeAttributeQuotes: true,
-          removeRedundantAttributes: true,
-          useShortDoctype: true,
-          removeEmptyAttributes: true,
-          removeOptionalTags: true*/
-        },
-        files: [{
-          expand: true,
-          cwd: '<%= yeoman.app %>',
-          src: '*.html',
-          dest: '<%= yeoman.dist %>'
-        }]
-      }
-    },
+
     copy: {
       dist: {
         files: [{
@@ -201,7 +181,19 @@ module.exports = function (grunt) {
             '*.{ico,txt}',
             '.htaccess'
           ]
-        }]
+        },
+		{
+          expand: true,
+          cwd: '<%= yeoman.app %>',
+          src: '*.html',
+          dest: '<%= yeoman.dist %>'
+        },
+		{
+		  expand: true,
+		  cwd: '<%= yeoman.app %>/views',
+		  src: '*.html',
+		  dest: '<%= yeoman.dist %>/views'
+		}]
       }
     },
     bower: {
@@ -243,7 +235,6 @@ module.exports = function (grunt) {
     'cssmin',
     'htmlmin',
     'concat',
-    'uglify',
     'copy',
     'usemin'
   ]);
