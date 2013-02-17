@@ -72,6 +72,9 @@ public class Quiz {
 
 	public void addQuestion(MultipleChoiceQuestion question) {
 		Assert.notNull(question, "question cannot be null");
+		if (question.getQuestionNumber() == 0) {
+			question.setQuestionNumber(questions.size() + 1);
+		}
 		this.questions.add(question);
 	}
 
@@ -82,7 +85,7 @@ public class Quiz {
 	}
 
 	public int getScore(PlayerAnswer answer) {
-		return questions.get(answer.getQuestionNumber()).getChoice(answer.getChoice()).getScore();
+		return questions.get(answer.getQuestionNumber()-1).getChoice(answer.getChoice()).getScore();
 	}
 
 }

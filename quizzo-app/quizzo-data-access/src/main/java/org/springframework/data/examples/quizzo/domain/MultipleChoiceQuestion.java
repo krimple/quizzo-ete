@@ -24,6 +24,7 @@ import org.springframework.util.Assert;
  */
 public class MultipleChoiceQuestion {
 	private final String text;
+	private int questionNumber;
 	private final Map<Choice.Letter,Choice> choices;
 	 
 	public MultipleChoiceQuestion(String text) {
@@ -60,5 +61,17 @@ public class MultipleChoiceQuestion {
 	public Choice getChoice(char letter) {
 		Letter ltr = Choice.Letter.fromChar(letter);
 		return ltr == null? null: getChoice(ltr);
+	}
+	/**
+	 * @return the questionNumber
+	 */
+	public int getQuestionNumber() {
+		return questionNumber;
+	}
+	/**
+	 * @param questionNumber the questionNumber to set
+	 */
+	public void setQuestionNumber(int questionNumber) {
+		this.questionNumber = questionNumber;
 	}
 }

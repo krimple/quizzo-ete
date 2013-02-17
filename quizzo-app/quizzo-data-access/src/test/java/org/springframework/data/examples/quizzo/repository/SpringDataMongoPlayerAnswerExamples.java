@@ -31,11 +31,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes={DataAccessConfig.class})
+@ContextConfiguration(classes = { DataAccessConfig.class })
 public class SpringDataMongoPlayerAnswerExamples {
 	@Autowired
 	public PlayerAnswerRepository playerAnswerRepo;
-	
+
 	@Before
 	public void setUp() {
 		PlayerAnswer ans = new PlayerAnswer("p1", "i1", "q1", 0, 'a');
@@ -43,24 +43,22 @@ public class SpringDataMongoPlayerAnswerExamples {
 		ans = new PlayerAnswer("p2", "i1", "q1", 0, 'b');
 		playerAnswerRepo.save(ans);
 	}
+
 	@Test
 	public void test() {
-	
-		List<PlayerAnswer> answers = playerAnswerRepo.findAll();
-		assertEquals(2,answers.size());
-		answers = playerAnswerRepo.findByQuizId("q1");
-		assertEquals(2,answers.size());
-		
+		List<PlayerAnswer> answers = playerAnswerRepo.findByQuizId("q1");
+		assertEquals(2, answers.size());
+
 		answers = playerAnswerRepo.findByGameId("i1");
-		assertEquals(2,answers.size());
-		
-		answers = playerAnswerRepo.findByGameIdAndPlayerId("i1","p1");
-		assertEquals(1,answers.size());
-		
-		answers = playerAnswerRepo.findByGameIdAndQuestionNumber("i1",0);
-		assertEquals(2,answers.size());
+		assertEquals(2, answers.size());
+
+		answers = playerAnswerRepo.findByGameIdAndPlayerId("i1", "p1");
+		assertEquals(1, answers.size());
+
+		answers = playerAnswerRepo.findByGameIdAndQuestionNumber("i1", 0);
+		assertEquals(2, answers.size());
 	}
-	
+
 	@After
 	public void tearDown() {
 		playerAnswerRepo.delete(playerAnswerRepo.findByQuizId("q1"));
