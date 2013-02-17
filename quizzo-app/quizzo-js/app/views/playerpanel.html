@@ -1,0 +1,45 @@
+<div class='row center' ng-cloak>
+    <span class='span12'>
+        <h2>Your question...</h2>
+    </span>
+</div>
+
+<div class='row center' ng-cloak>
+    <span class='span3 tally'>
+        <h5>High Scores</h5>
+        <hr/>
+        <span ng-controller='TallyCtrl' ng-repeat='score in top_scores'>
+           {{$index + 1}} - {{score}}
+            <br/>
+        </span>
+    </span>
+    <span class='span1'></span>
+    <span ng-controller='QuestionCtrl' style="border: 1px solid yellow;" class='span4 hero-unit question'>
+      <div class='question-text'>{{question}}</div>
+    </span>
+    <span class='span4'></span>
+</div>
+<div class='row center' ng-cloak>
+    <span class='span12'>
+      <h2>Choose an answer...</h2>
+    </span>
+</div>
+<div class='row'>
+    <form name='voteForm' ng-controller='VoteCtrl'>
+    <span class='span4'></span>
+    <span class='span4 choices hero-unit'>
+      <ul class='quiz-list'>
+       <li ng-repeat='answer_choice in answer_choices'>
+          <input type='radio'
+           ng-model='selectedChoice'
+           name='choices'
+           value='{{$index}}'>{{answer_choice.value}}
+        </li>
+      </ul>
+       <button id='vote'
+         ng-show='voteForm.$valid' ng-click='castVote()'>Vote</button>
+    </span>
+    <span class='span4'></span>
+  </form>
+</div>
+
