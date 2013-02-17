@@ -96,6 +96,6 @@ public class SpringDataMongoQuizExamples {
 	
 	@After
 	public void tearDown() {
-		//quizRepo.delete("quiz1");
+		quizRepo.delete("quiz1");
 	}
 }
