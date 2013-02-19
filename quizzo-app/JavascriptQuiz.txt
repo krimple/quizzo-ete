@@ -1,0 +1,127 @@
+Javascript Quiz
+1.	Inside which HTML element do we put the JavaScript?
+	a. <script> | 10
+	b. <javascript> | 0
+	c. <scripting> | 0
+	d. <js> |0
+
+2.	What is the correct JavaScript syntax to write "Hello World"?
+
+	a. document.write("Hello World") |10
+	b. ("Hello World") |0
+	c. "Hello World" |0
+	d. response.write("Hello World") |0
+
+ 3.	Where is the correct place to insert a JavaScript?
+
+	a. The <body> section |0
+	b. Both the <head> section and the <body> section are correct | 10
+	c. The <head> section |0
+
+ 4.	What is the correct syntax for referring to an external script called "xxx.js"?
+
+	a. <script type="text/javascript" src="xxx.js"> | 10
+	b. <script type="text/javascript" name="xxx.js"> |0
+	c. <script type="text/javascript" href="xxx.js"> |0
+ 	 
+5.	The external JavaScript file must contain the <script> tag
+
+	a. True |0
+	b. False |10
+
+ 6.	How do you write "Hello World" in an alert box?
+
+	a. alert("Hello World") |10
+	b. alertBox="Hello World" |0
+	c. alertBox("Hello World") |0
+	d. msgBox("Hello World") |0
+
+7.	How do you create a function?
+
+	a. function myFunction() | 10
+	b. function=myFunction() |0
+	c. function:myFunction() |0
+ 	 
+ 8.	How do you call a function named "myFunction"?
+
+	a. call myFunction() | 0
+	b. myFunction() |10
+	c. call function myFunction |0
+ 	 
+9.	How do you write a conditional statement for executing some code if "i" is equal to 5?
+
+	if (i==5) | 10
+	if i=5 then |0
+	if i==5 then |0
+	if i=5 |0
+
+10.	How do you write a conditional statement for executing some code if "i" is NOT equal to 5?
+
+	a. if (i != 5) |10
+	b. if =! 5 then |0
+	c. if <>5 |0
+	d. if (i <> 5) |0
+
+11.	How does a "while" loop start?
+
+	a. while i=1 to 10 |0
+	b. while (i<=10;i++) |0
+	c. while (i<=10)|10
+
+12.	How does a "for" loop start?
+
+	a. for (i = 0; i <= 5; i++) |10
+	b. for i = 1 to 5 |0
+	c. for (i = 0; i <= 5) |0
+	d. for (i <= 5; i++) |0
+
+13.	How can you add a comment in a JavaScript?
+
+	a. 'This is a comment |0
+	b. <!--This is a comment--> |0
+	c. //This is a comment |10				
+
+14.	What is the correct JavaScript syntax to insert a comment that has more than one line?
+
+	a. //This comment has\nmore than one line// |0
+	b. /*This comment has\nmore than one line*/ |10
+	c. <!--This comment has\nmore than one line--> |0
+
+15.	What is the correct way to write a JavaScript array?
+
+	a. var txt = new Array(1:"tim",2:"kim",3:"jim") |0
+	b. var txt = new Array:1=("tim")2=("kim")3=("jim") |0
+	c. var txt = new Array("tim","kim","jim") |10
+	d. var txt = new Array="tim","kim","jim"|0 
+
+16.	How do you round the number 7.25, to the nearest integer?
+
+	a. rnd(7.25) |0
+	b. Math.rnd(7.25) |0
+	c. round(7.25) |0
+	d. Math.round(7.25) |10
+
+ 17. How do you find the number with the highest value of x and y?
+
+	a. Math.ceil(x,y)|0
+	b. top(x,y)|0
+	c. Math.max(x,y)|10
+	d. ceil(x,y)|0
+
+18.	What is the correct JavaScript syntax for opening a new window called "w2" ?
+
+	a. w2=window.open("http://www.w3schools.com"); |10
+	b. w2=window.new("http://www.w3schools.com");  |0
+
+19.	How do you put a message in the browser's status bar?
+
+	a. window.status = "put your message here" |0
+	b. statusbar = "put your message here" | 0
+	c. status("put your message here") | 0
+	d. window.status("put your message here") | 10
+
+20.	How can you find a client's browser name?
+
+	a. navigator.appName |10
+	b. client.navName |0
+	c. browser.name |0

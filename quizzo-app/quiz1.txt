@@ -1,0 +1,12 @@
+Test Quiz
+1. What is the best programming language?
+a. Java |5
+b. Javascript |10
+c. Groovy |20
+d. Cobol |0
+
+2. What is your favorite color?
+a. Red |0
+b. Blue |5
+c. Green |20
+d. Yellow |2

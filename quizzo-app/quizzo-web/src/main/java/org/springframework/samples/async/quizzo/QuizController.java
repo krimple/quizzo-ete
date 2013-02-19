@@ -15,21 +15,28 @@ package org.springframework.samples.async.quizzo;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.aop.aspectj.AspectJAdviceParameterNameDiscoverer.AmbiguousBindingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.examples.quizzo.domain.Game;
 import org.springframework.data.examples.quizzo.domain.MultipleChoiceQuestion;
+import org.springframework.data.examples.quizzo.domain.PlayerAnswer;
 import org.springframework.data.examples.quizzo.domain.Quiz;
 import org.springframework.data.examples.quizzo.repository.QuizRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -63,7 +70,7 @@ public class QuizController {
 	 * @param response
 	 * @return
 	 */
-	@RequestMapping(value = "start/{quizId}", method = RequestMethod.GET)
+	@RequestMapping(value = "start/{quizId}", method = RequestMethod.POST)
 	@ResponseBody
 	public Game startGame(@PathVariable String quizId, HttpServletResponse response) {
 
@@ -72,6 +79,29 @@ public class QuizController {
 			sendHttpStatusResponse(404, "quiz " + quizId + " not found.", response);
 		}
 		return newGame(quiz);
+	}
+	
+	@RequestMapping(value = "answer", 
+			method = RequestMethod.POST,
+			consumes = "application/json")
+	@ResponseBody
+	public Object submitAnswer(/*HttpServletRequest*/@RequestBody PlayerAnswer answer) {
+		logger.debug("submit answer from " + answer.getPlayerId() + 
+				" question:" + answer.getQuestionNumber() + 
+				" choice: " + answer.getChoice());
+		
+//		try {
+//			byte[] bytes = new byte[answer.getContentLength()];
+//			answer.getInputStream().read(bytes);
+//			String content = new String(bytes);
+//			logger.debug(new String(bytes));
+//			ObjectMapper mapper = new ObjectMapper();
+//			PlayerAnswer panswer = mapper.readValue(bytes, PlayerAnswer.class);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		return null;
 	}
 
 	/**

@@ -14,6 +14,8 @@ package org.springframework.data.examples.quizzo.domain;
 
 import java.math.BigInteger;
 
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.util.Assert;
@@ -25,22 +27,30 @@ import org.springframework.util.Assert;
 public class PlayerAnswer {
 	private BigInteger id;
 	private final String playerId;
-	private final String quizId;
+	private String quizId;
 	private final int questionNumber;
-	private final String gameId;
+	private String gameId;
 	
 	private final Choice.Letter choice;
 	
-	public PlayerAnswer(BigInteger id, String playerId, String gameId, String quizId, int questionNumber,@Value("#root.choice") char choice){
-		this(playerId,gameId, quizId, questionNumber, choice);
-		this.id = id;
+	/**
+	 * Constructor for submitted responses
+	 * @param playerId
+	 * @param questionNumber
+	 * @param choice
+	 */
+	@JsonCreator
+	public PlayerAnswer(
+			@JsonProperty("playerId") String playerId, 
+			@JsonProperty("questionNumber") int questionNumber,
+			@JsonProperty("choice") char choice){
+		this(playerId,null, null, questionNumber, choice);
 	}
+	
 	@PersistenceConstructor
 	public PlayerAnswer(String playerId, String gameId, String quizId, int questionNumber, @Value("#root.choice") char choice) {
 
 		Assert.hasText(playerId, "player ID cannot be null or blank.");
-		Assert.hasText(gameId, "game ID cannot be null or blank.");
-		Assert.hasText(quizId, "quiz ID cannot be null or blank.");
 		Assert.isTrue(questionNumber >= 0, "question number must be >= 0.");
 
 		this.playerId = playerId;
@@ -87,6 +97,24 @@ public class PlayerAnswer {
 	
 	public BigInteger getId() {
 		return id;
+	}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(BigInteger id) {
+		this.id = id;
+	}
+	/**
+	 * @param quizId the quizId to set
+	 */
+	public void setQuizId(String quizId) {
+		this.quizId = quizId;
+	}
+	/**
+	 * @param gameId the gameId to set
+	 */
+	public void setGameId(String gameId) {
+		this.gameId = gameId;
 	}
 
 }

@@ -37,6 +37,10 @@ public class Quiz {
 		this.questions = questions;
 		this.gamesPlayed = gamesPlayed;
 	}
+	
+	public Quiz(String id, String title, List<MultipleChoiceQuestion> questions) {
+		this(id,title,questions,new ArrayList<Game>());
+	}
 
 	public Quiz(String id, String title) {
 		this(id, title, new ArrayList<MultipleChoiceQuestion>(), new ArrayList<Game>());
