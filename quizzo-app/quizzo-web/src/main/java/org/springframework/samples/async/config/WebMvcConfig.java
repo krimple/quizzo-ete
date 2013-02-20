@@ -11,10 +11,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.*;
 import org.thymeleaf.spring3.SpringTemplateEngine;
 import org.thymeleaf.spring3.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
@@ -25,6 +22,7 @@ import org.thymeleaf.templateresolver.TemplateResolver;
 @Import(ServiceConfig.class)
 @ComponentScan(basePackages = { "org.springframework.samples.async" })
 public class WebMvcConfig extends WebMvcConfigurationSupport {
+
 
 	@Override
 	public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
@@ -45,7 +43,13 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 		registry.addResourceHandler("/resources/**").addResourceLocations("resources/");
 	}
 
-	@Bean
+//    @Override
+//    protected void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(new CORSInterceptor());
+//        super.addInterceptors(registry);
+//    }
+
+    @Bean
 	public ViewResolver viewResolver() {
 		ThymeleafViewResolver resolver = new ThymeleafViewResolver();
 		resolver.setTemplateEngine(templateEngine());

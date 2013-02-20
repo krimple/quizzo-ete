@@ -5,6 +5,7 @@ angular.module('quizzoApp', []).
     $routeProvider.
       when('/join', {templateUrl: 'views/join.html', controller: 'JoinCtrl'}).
       when('/play', {templateUrl: 'views/playerpanel.html', controller: 'PlayCtrl'}).
+      when('/chat', {templateUrl: 'views/chat.html', controller: 'ChatCtrl'}).
       when('/bye', {templateUrl: 'views/bye.html', controller: 'ByeCtrl'}).
       otherwise({redirectTo: '/join'});
 }]);
@@ -91,6 +92,75 @@ angular.module('quizzoApp').
     "maxScore": "150"
   };
 });
+
+angular.module('quizzoApp').
+  controller('ChatCtrl', function ($scope, $http) {
+    $scope.userName = '';
+    $scope.chatContent = '';
+    $scope.messageIndex = 0;
+    $scope.message = '';
+    $scope.keepPolling = false;
+
+    $scope.joinChat = function () {
+      if ($scope.userName) {
+        $scope.keepPolling = true;
+        $scope.pollForMessages();
+        alert('poll finished');
+      } else {
+        alert('IGNORING');
+      }
+
+    };
+
+    $scope.sendMessage = function () {
+      $http({
+        method: 'POST',
+        url: '../../mvc/chat',
+        params: {'message': $scope.message}
+      }).success(function (data, status, headers, config) {
+          $scope.pollForMessages();
+        }).error(function (data, status, headers, config) {
+          alert('failure - ' + status);
+        });
+    };
+
+    $scope.pollForMessages = function () {
+      if (!$scope.keepPolling === true) {
+        alert("chat disabled");
+        return;
+      } else {
+        console.log('moving into polling code');
+      }
+
+      // bad parameters
+      $http({
+        method: 'GET',
+        url: '../../mvc/chat',
+        params: {'messageIndex': $scope.messageIndex}
+      }).success(function (data, status, headers, config) {
+          for (var i = 0; i < data.length; i++) {
+            // prepend to top (history below, like twitter)
+            $scope.chatContent = data[i] + '\n' + $scope.chatContent;
+            $scope.messageIndex = $scope.messageIndex + 1;
+          }
+        }).error(function (data, status, headers, config) {
+          $scope.resetUI();
+          console.error("Unable to retrieve chat messages. Chat ended.");
+        });
+
+      // this is a timer? complete : pollForMessages
+      // doubt this will work as is
+      //$scope.pollForMessages();
+
+      $('#message').focus();
+
+    };
+
+    $scope.leaveChat = function () {
+      $scope.keepPolling = false;
+      $scope.userName = '';
+    }
+  });
 
 'use strict';
 

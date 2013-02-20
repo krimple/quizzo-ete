@@ -16,6 +16,9 @@
 
 package org.springframework.samples.async.config;
 
+import javax.servlet.Filter;
+import javax.servlet.FilterRegistration;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration.Dynamic;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -37,9 +40,8 @@ public class DispatcherServletInitializer extends AbstractAnnotationConfigDispat
            return new String[] { "/*" };
    }
 
-   @Override
+    @Override
    protected void customizeRegistration(Dynamic registration) {
            registration.setAsyncSupported(true);
     }
-
 }
