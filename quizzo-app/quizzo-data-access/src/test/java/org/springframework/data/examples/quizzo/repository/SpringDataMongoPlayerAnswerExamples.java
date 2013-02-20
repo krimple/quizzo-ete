@@ -13,6 +13,8 @@
 package org.springframework.data.examples.quizzo.repository;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.util.List;
 
@@ -22,6 +24,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.examples.quizzo.config.DataAccessConfig;
+import org.springframework.data.examples.quizzo.domain.Player;
 import org.springframework.data.examples.quizzo.domain.PlayerAnswer;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -57,6 +60,12 @@ public class SpringDataMongoPlayerAnswerExamples {
 
 		answers = playerAnswerRepo.findByGameIdAndQuestionNumber("i1", 0);
 		assertEquals(2, answers.size());
+		
+		assertNotNull(playerAnswerRepo.findByGameIdAndPlayerIdAndQuestionNumber("i1","p1", 0));
+		assertNull(playerAnswerRepo.findByGameIdAndPlayerIdAndQuestionNumber("i1","p1",1));
+		assertNull(playerAnswerRepo.findByGameIdAndPlayerIdAndQuestionNumber("i2","p1",0));
+		assertNull(playerAnswerRepo.findByGameIdAndPlayerIdAndQuestionNumber("i1","p3",0));
+
 	}
 
 	@After

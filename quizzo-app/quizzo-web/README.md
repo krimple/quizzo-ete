@@ -53,5 +53,11 @@ e.g.,
 		curl -H "Content-Type: application/json" -X POST -d 		'{"playerId":"dave","questionNumber":"1","choice":"a"}' http://localhost:		8080/quizzo-web/quiz/answer
 			
 
-	
+_Note: Post a response requires the following conditions are met. If not this request will return a 403 response code_
+
+- 	The player exists in the repository
+-   The game is in progress
+-   The current question is the same as the question being answered
+-   The player has not answered the question for this game already
+-   The choice is in the range of choices available for the question
 

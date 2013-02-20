@@ -5,8 +5,6 @@ import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.data.examples.quizzo.config.ServiceConfig;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -19,7 +17,6 @@ import org.thymeleaf.templateresolver.TemplateResolver;
 
 @Configuration
 @EnableScheduling
-@Import(ServiceConfig.class)
 @ComponentScan(basePackages = { "org.springframework.samples.async" })
 public class WebMvcConfig extends WebMvcConfigurationSupport {
 
