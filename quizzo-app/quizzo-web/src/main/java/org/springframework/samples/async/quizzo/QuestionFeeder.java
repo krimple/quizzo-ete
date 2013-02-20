@@ -13,6 +13,7 @@
 package org.springframework.samples.async.quizzo;
 
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
@@ -20,32 +21,35 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.data.examples.quizzo.domain.MultipleChoiceQuestion;
 import org.springframework.data.examples.quizzo.domain.Quiz;
+import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 /**
  * @author David Turanski
  *
  */
-public class Quizzo implements Runnable {
-	private static Log logger = LogFactory.getLog(Quizzo.class);
+class QuestionFeeder implements Runnable {
+	private static Log logger = LogFactory.getLog(QuestionFeeder.class);
 	private long questionExpiryTime;
 	private final Quiz quiz;
-	private BlockingQueue<MultipleChoiceQuestion> questions;
+	private final BlockingQueue<MultipleChoiceQuestion> questions;
+	private final CountDownLatch latch;
 
-	public Quizzo(Quiz quiz) {
+	QuestionFeeder(Quiz quiz, CountDownLatch latch) {
+		this.latch = latch;
 		this.quiz = quiz;
 		questions = new LinkedBlockingQueue<MultipleChoiceQuestion>();
 	}
 
-	public void setQuestionExpiryTime(long questionExpiryTime) {
+	void setQuestionExpiryTime(long questionExpiryTime) {
 		this.questionExpiryTime = questionExpiryTime;
 	}
 	
-	public MultipleChoiceQuestion getNextQuestion() {
+	MultipleChoiceQuestion getNextQuestion() {
 		MultipleChoiceQuestion question = null;
 		try {
-			question =  questions.poll(questionExpiryTime, TimeUnit.MILLISECONDS);
+			question =  questions.poll(questionExpiryTime*1100, TimeUnit.MICROSECONDS);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		logger.debug("getNextQuestion returning question " + (question == null? "null":question.getQuestionNumber()));
@@ -53,7 +57,7 @@ public class Quizzo implements Runnable {
 	}
 	
 
-	public synchronized void reset() {
+	synchronized void reset() {
 		questions.clear();
 	}
 	/* (non-Javadoc)
@@ -63,9 +67,11 @@ public class Quizzo implements Runnable {
 	public void run() {
 		logger.debug("running quiz...");
 		questions.clear();
+		Assert.isTrue(!CollectionUtils.isEmpty(quiz.getQuestions()),"the quiz " + quiz.getId() + " contains no questions");
 		for (MultipleChoiceQuestion question : quiz.getQuestions()) {
 			try {
 				questions.put(question);
+				latch.countDown();
 				Thread.sleep(questionExpiryTime);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block

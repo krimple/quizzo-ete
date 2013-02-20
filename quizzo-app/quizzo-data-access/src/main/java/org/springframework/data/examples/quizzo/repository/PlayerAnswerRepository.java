@@ -26,6 +26,7 @@ public interface PlayerAnswerRepository extends MongoRepository<PlayerAnswer,Big
 	public List<PlayerAnswer> findByQuizId(String quizId);
 	public List<PlayerAnswer> findByGameId(String gameId);
 	public List<PlayerAnswer> findByGameIdAndPlayerId(String gameId, String playerId);
+	public PlayerAnswer findByGameIdAndPlayerIdAndQuestionNumber(String gameId, String playerId, int questionNumber);
 	public List<PlayerAnswer> findByGameIdAndQuestionNumber(String gameId, int questionNumber);
 	
 }

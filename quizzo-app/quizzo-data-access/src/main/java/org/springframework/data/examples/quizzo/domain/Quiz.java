@@ -13,6 +13,8 @@
 package org.springframework.data.examples.quizzo.domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.data.annotation.PersistenceConstructor;
@@ -34,7 +36,13 @@ public class Quiz {
 		Assert.notNull(id, "id cannot be null or blank");
 		this.id = id;
 		this.title = title;
-		this.questions = questions;
+		Collections.sort(questions, new Comparator<MultipleChoiceQuestion>() {
+			@Override
+			public int compare(MultipleChoiceQuestion q1, MultipleChoiceQuestion q2) {
+				return q1.getQuestionNumber() - q2.getQuestionNumber();
+			}
+		});
+		this.questions  = questions;
 		this.gamesPlayed = gamesPlayed;
 	}
 	

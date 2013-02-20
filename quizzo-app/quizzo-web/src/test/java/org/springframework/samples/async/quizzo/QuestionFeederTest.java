@@ -12,23 +12,25 @@
  */
 package org.springframework.samples.async.quizzo;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.data.examples.quizzo.domain.MultipleChoiceQuestion;
 import org.springframework.data.examples.quizzo.domain.Quiz;
-import org.springframework.test.AssertThrows;
 
 /**
  * @author David Turanski
  *
  */
 
-public class QuizzoTest {
+public class QuestionFeederTest {
 	Quiz quiz;
 	@Before
 	public void setUp() {
@@ -56,10 +58,11 @@ public class QuizzoTest {
 
 	@Test
 	public void test() throws InterruptedException {
-		Quizzo quizzo = new Quizzo(quiz);
+		CountDownLatch latch = new CountDownLatch(1);
+		QuestionFeeder quizzo = new QuestionFeeder(quiz, latch);
 		quizzo.setQuestionExpiryTime(500);
 		new Thread(quizzo).start();
-		 
+		latch.await(500,TimeUnit.MILLISECONDS);
 		assertEquals(quiz.getQuestions().get(0),quizzo.getNextQuestion());
 		assertEquals(quiz.getQuestions().get(1),quizzo.getNextQuestion());
 		assertNull(quizzo.getNextQuestion());

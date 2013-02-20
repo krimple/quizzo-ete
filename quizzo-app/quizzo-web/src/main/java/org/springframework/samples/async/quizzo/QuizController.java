@@ -13,28 +13,19 @@
 package org.springframework.samples.async.quizzo;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.springframework.aop.aspectj.AspectJAdviceParameterNameDiscoverer.AmbiguousBindingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.examples.quizzo.domain.Game;
 import org.springframework.data.examples.quizzo.domain.MultipleChoiceQuestion;
 import org.springframework.data.examples.quizzo.domain.PlayerAnswer;
 import org.springframework.data.examples.quizzo.domain.Quiz;
 import org.springframework.data.examples.quizzo.repository.QuizRepository;
+import org.springframework.samples.async.quizzo.GameRunner.AnswerStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,15 +44,16 @@ import org.springframework.web.context.request.async.DeferredResult;
 public class QuizController {
 	private static Log logger = LogFactory.getLog(QuizController.class);
 	//TODO - This should be a property
-	private static final long QUESTION_TIME_INTERVAL = 15000;
+	private static final long QUESTION_EXPIRY_TIME = 15000;
 
 	private final QuizRepository quizRepository;
-	private final QuestionRequestProcessor questionRequestProcessor;
+	private final GameRunner gameRunner;
 
 	@Autowired
-	public QuizController(QuizRepository quizRepository) {
+	public QuizController(QuizRepository quizRepository, GameRunner gameRunner) {
 		this.quizRepository = quizRepository;
-		this.questionRequestProcessor = new QuestionRequestProcessor();
+		this.gameRunner = gameRunner;
+		this.gameRunner.setQuestionExpiryTime(QUESTION_EXPIRY_TIME);
 	}
 
 	/**
@@ -78,30 +70,43 @@ public class QuizController {
 		if (quiz == null) {
 			sendHttpStatusResponse(404, "quiz " + quizId + " not found.", response);
 		}
-		return newGame(quiz);
+		return gameRunner.startGame(quiz);
 	}
-	
-	@RequestMapping(value = "answer", 
-			method = RequestMethod.POST,
-			consumes = "application/json")
+
+	@RequestMapping(value = "answer", method = RequestMethod.POST, consumes = "application/json")
 	@ResponseBody
-	public Object submitAnswer(/*HttpServletRequest*/@RequestBody PlayerAnswer answer) {
-		logger.debug("submit answer from " + answer.getPlayerId() + 
-				" question:" + answer.getQuestionNumber() + 
-				" choice: " + answer.getChoice());
-		
-//		try {
-//			byte[] bytes = new byte[answer.getContentLength()];
-//			answer.getInputStream().read(bytes);
-//			String content = new String(bytes);
-//			logger.debug(new String(bytes));
-//			ObjectMapper mapper = new ObjectMapper();
-//			PlayerAnswer panswer = mapper.readValue(bytes, PlayerAnswer.class);
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		return null;
+	public void submitAnswer(@RequestBody PlayerAnswer answer, HttpServletResponse response) {
+		logger.debug("submit answer from " + answer.getPlayerId() + " question:" + answer.getQuestionNumber()
+				+ " choice: " + answer.getChoice());
+		AnswerStatus status = gameRunner.submitPlayerAnswer(answer);
+		switch (status) {
+		case ANSWER_SUBMITTED:
+			sendHttpStatusResponse(201, "answer submitted", response);
+			break;
+		case NO_GAME_INPROGRESS:
+			sendHttpStatusResponse(403, "no game in progress", response);
+			break;
+		case QUESTION_EXPIRED:
+			sendHttpStatusResponse(403, "the question answered is no longer active", response);
+			break;
+
+		case INVALID_QUESTION_NUMBER:
+			sendHttpStatusResponse(403, "question number provided does not match the currently active question",
+					response);
+			break;
+		case PLAYER_NOT_REGISTERED:
+			sendHttpStatusResponse(403, "player " + answer.getPlayerId()+" is not registered",
+					response);
+			break;
+		case INVALID_CHOICE:
+			sendHttpStatusResponse(403, "'" + answer.getChoice()+"' is not a valid choice for this question",
+					response);
+			break;
+		case DUPLICATE_ANSWER:
+			sendHttpStatusResponse(403,"player " + answer.getPlayerId()+" has already answered this question",
+					response);
+			break;
+		}
 	}
 
 	/**
@@ -129,11 +134,11 @@ public class QuizController {
 		deferredResult.onCompletion(new Runnable() {
 			@Override
 			public void run() {
-				questionRequestProcessor.removeRequest(deferredResult);
+				gameRunner.removeRequest(deferredResult);
 			}
 		});
 
-		questionRequestProcessor.addRequest(deferredResult);
+		gameRunner.addRequest(deferredResult);
 		return deferredResult;
 	}
 
@@ -175,70 +180,4 @@ public class QuizController {
 			e.printStackTrace();
 		}
 	}
-
-	private synchronized Game newGame(Quiz quiz) {
-		//Record the game
-		Game game = quiz.startGame();
-		quizRepository.save(quiz);
-
-		//Start feeding questions
-		questionRequestProcessor.setQuiz(quiz);
-		new Thread(questionRequestProcessor).start();
-		return game;
-	}
-
-	/**
-	 * This runs in a background thread, waiting QUESTION_TIME_INTERVAL ms 
-	 * for the next question and setting deferred results when it arrives
-	 * @author David Turanski
-	 *
-	 */
-	static class QuestionRequestProcessor implements Runnable {
-		private static Log logger = LogFactory.getLog(QuizController.class);
-		private final List<DeferredResult<MultipleChoiceQuestion>> requests = Collections
-				.synchronizedList(new ArrayList<DeferredResult<MultipleChoiceQuestion>>());
-		private Quiz quiz;
-
-		/* (non-Javadoc)
-		 * @see java.lang.Runnable#run()
-		 */
-		@Override
-		public void run() {
-			logger.debug("running question processor ...");
-			Assert.notNull(quiz, "cannot start with a null quiz!");
-
-			//	Start yet another thread to serve questions over a BlockingQueue 
-			//	at the configured interval relative to the start of the game this is necessary because 
-			//	the timing of the questions is asynchronous relative to the arrival of requests
-			Quizzo quizzo = new Quizzo(quiz);
-			quizzo.setQuestionExpiryTime(QUESTION_TIME_INTERVAL);
-			new Thread(quizzo).start();
-
-			boolean done = false;
-			while (!done) {
-				MultipleChoiceQuestion question = quizzo.getNextQuestion();
-				for (DeferredResult<MultipleChoiceQuestion> request : requests) {
-					logger.debug("calling setResult on request..." + request);
-					request.setResult(question);
-				}
-				done = question == null;
-			}
-			this.quiz = null;
-		}
-
-		public void addRequest(DeferredResult<MultipleChoiceQuestion> request) {
-			logger.debug("adding request ..." + request);
-			this.requests.add(request);
-		}
-
-		public void removeRequest(DeferredResult<MultipleChoiceQuestion> request) {
-			logger.debug("removing request ..." + request);
-			this.requests.remove(request);
-		}
-
-		public void setQuiz(Quiz quiz) {
-			this.quiz = quiz;
-		}
-	}
-
 }

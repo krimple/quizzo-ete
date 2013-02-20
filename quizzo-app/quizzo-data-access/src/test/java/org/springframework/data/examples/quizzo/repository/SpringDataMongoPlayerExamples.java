@@ -33,8 +33,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class SpringDataMongoPlayerExamples {
 	@Autowired
 	public PlayerRepository playerRepo;
-	Player dave = new Player("dave000000");
-	Player ken = new Player("ken000000");
+	Player dave = new Player("dave01");
+	Player ken = new Player("ken01");
 	@Before
 	public void setUp() {
 		
