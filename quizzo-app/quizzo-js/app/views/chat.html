@@ -1,0 +1,40 @@
+<div class="row" >&nbsp;</div>
+<div class="row" >&nbsp;</div>
+<div class="row" >&nbsp;</div>
+<div class="hero-unit">
+    <div ng-controller='ChatCtrl'>
+        <div class="hero-unit">
+            <h1>
+                Chat!
+            </h1>
+            <p>
+                <label for="userName">User:</label>
+                <input id="userName" name="userName"
+                       ng-model='userName' type="text">
+                <input name="messageIndex" type="hidden"
+                       ng-model='messageIndex'>
+                <button id="start"
+                        ng-show='userName' ng-click="joinChat()">Join Chat</button>
+            </p>
+        </div>
+        <p ng-show='userName && keepPolling'>
+            You're chatting as {{userName}} <button id="leave" type="submit" ng-click="leaveChat()">Leave Chat</button>
+        </p>
+        <p>Message Index: {{messageIndex}}.</p>
+        <p>Poll now: <button id='poll' name='poll' ng-click="pollForMessages()">Poll</button></p>
+        <div>
+            <textarea rows="15" cols="60"
+                      readonly="readonly" ng-model='chatContent'>
+            </textarea>
+        </div><!-- was a form with a post to /mvc/chat -->
+        <div ng-show='userName && keepPolling'>
+            <p>
+                <input id="message"
+                       ng-model='message' name="message" type="text">
+                <button id="post" ng-click="sendMessage()">Post</button>
+                Message will be: {{message}}
+            </p>
+        </div>
+    </div>
+
+</div>
