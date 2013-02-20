@@ -1,9 +1,9 @@
 angular.module('quizzoApp').
   controller('ChatCtrl', function ($scope, $http, $timeout) {
     // for remote testing
-    $scope.prefix = 'http://quizzo-ete.com:8080/quizzo/';
+    //$scope.prefix = 'http://quizzo-ete.com:8080/quizzo/';
     // for local testing
-    // $scope.prefix = '../../
+    $scope.prefix = '../../';
     $scope.userName = '';
     $scope.chatContent = '';
     $scope.messageIndex = 0;

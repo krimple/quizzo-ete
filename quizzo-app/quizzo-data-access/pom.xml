@@ -10,7 +10,7 @@
 	<artifactId>quizzo-data-access</artifactId>
 
 	<name>quizzo-data-access</name>
-	<description>Data Access Layer for Quizzo-ette</description>
+	<description>Data Access Layer for Quizzo-ete</description>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.data</groupId>
@@ -47,4 +47,22 @@
 			<version>1.8.1</version>
 		</dependency>
 	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.gmaven</groupId>
+				<artifactId>gmaven-plugin</artifactId>
+				<version>1.5</version>
+				<configuration>
+					<providerSelection>1.8</providerSelection>
+				</configuration>
+				<goals>
+					<goal>generateStubs</goal>
+					<goal>compile</goal>
+					<goal>generateTestStubs</goal>
+					<goal>testCompile</goal>
+				</goals>
+			</plugin>
+		</plugins>
+	</build>
 </project>

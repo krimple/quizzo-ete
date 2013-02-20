@@ -20,6 +20,7 @@
         <p ng-show='userName && keepPolling'>
             You're chatting as {{userName}} <button id="leave" type="submit" ng-click="leaveChat()">Leave Chat</button>
         </p>
+        <p>Message Index: {{messageIndex}}.</p>
         <p>Poll now: <button id='poll' name='poll' ng-click="pollForMessages()">Poll</button></p>
         <div>
             <textarea rows="15" cols="60"
