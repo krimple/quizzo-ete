@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.examples.quizzo.PlayerService;
+import org.springframework.data.examples.quizzo.PlayerServiceImpl;
 import org.springframework.data.examples.quizzo.ScoreService;
 import org.springframework.data.examples.quizzo.repository.PlayerAnswerRepository;
 import org.springframework.data.examples.quizzo.repository.PlayerRepository;
@@ -42,7 +43,7 @@ public class ServiceConfig {
 	 }
 	 
 	 @Bean
-	 PlayerService playerService() {
-		 return new PlayerService(playerRepository);
+     PlayerService playerService() {
+		 return new PlayerServiceImpl(playerRepository);
 	 }
 }

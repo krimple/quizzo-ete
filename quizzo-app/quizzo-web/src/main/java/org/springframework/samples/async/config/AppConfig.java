@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.examples.quizzo.config.DataAccessConfig;
+import org.springframework.data.examples.quizzo.config.ServiceConfig;
 import org.springframework.data.examples.quizzo.repository.PlayerAnswerRepository;
 import org.springframework.data.examples.quizzo.repository.PlayerRepository;
 import org.springframework.data.examples.quizzo.repository.QuizRepository;
@@ -27,7 +28,7 @@ import org.springframework.samples.async.quizzo.GameRunner;
  *
  */
 @Configuration
-@Import(DataAccessConfig.class)
+@Import({ ServiceConfig.class, DataAccessConfig.class })
 public class AppConfig {
 	 @Autowired
 	 QuizRepository quizRepository;

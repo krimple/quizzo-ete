@@ -24,6 +24,7 @@ import org.springframework.data.examples.quizzo.domain.MultipleChoiceQuestion;
 import org.springframework.data.examples.quizzo.domain.PlayerAnswer;
 import org.springframework.data.examples.quizzo.domain.Quiz;
 import org.springframework.data.examples.quizzo.repository.QuizRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.samples.async.quizzo.GameRunner.AnswerStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -66,9 +67,18 @@ public class QuizController {
 	@ResponseBody
 	public Game startGame(@PathVariable String quizId, HttpServletResponse response) {
 
+        // can't start if we've already started a game...
+        if (gameRunner.isGameInProgress()) {
+            sendHttpStatusResponse(HttpStatus.BAD_REQUEST.value(), "game already in progress", response);
+            return null;
+        }
+
 		Quiz quiz = getQuizById(quizId);
+
+        // can't start if we can't find the quiz
 		if (quiz == null) {
 			sendHttpStatusResponse(404, "quiz " + quizId + " not found.", response);
+            return null;
 		}
 		return gameRunner.startGame(quiz);
 	}
@@ -124,11 +134,11 @@ public class QuizController {
 	public DeferredResult<MultipleChoiceQuestion> getNextQuestion(HttpServletResponse response) {
 		logger.debug("got nextq request");
 		//TODO: Anything special we need to indicate the game is over? - Currently nextq returns null after last question
-		//		if (questionRequestProcessor.isGameOver()) {
-		//			logger.debug("game over");
-		//			sendHttpStatusResponse(204, "Game over - no more questions", response);
-		//			return null;
-		//		}
+		if (!gameRunner.isGameInProgress()) {
+			logger.debug("game over");
+			sendHttpStatusResponse(204, "Game over - no more questions", response);
+			return null;
+		}
 
 		final DeferredResult<MultipleChoiceQuestion> deferredResult = new DeferredResult<MultipleChoiceQuestion>();
 		deferredResult.onCompletion(new Runnable() {

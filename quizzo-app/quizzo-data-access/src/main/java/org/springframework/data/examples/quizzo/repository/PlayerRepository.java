@@ -15,10 +15,14 @@ package org.springframework.data.examples.quizzo.repository;
 import org.springframework.data.examples.quizzo.domain.Player;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import java.util.List;
+
 /**
  * @author David Turanski
  *
  */
-public interface PlayerRepository extends MongoRepository<Player,String>{
-
+public interface PlayerRepository extends MongoRepository<Player,String> {
+    // watch it - name is regex. must sanitize before sending here or hacks abound?
+    public List<Player> findByNameLike(String name);
+    public Player findOneByName(String name);
 }

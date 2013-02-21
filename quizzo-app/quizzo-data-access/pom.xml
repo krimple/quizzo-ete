@@ -56,12 +56,24 @@
 				<configuration>
 					<providerSelection>1.8</providerSelection>
 				</configuration>
-				<goals>
-					<goal>generateStubs</goal>
-					<goal>compile</goal>
-					<goal>generateTestStubs</goal>
-					<goal>testCompile</goal>
-				</goals>
+                <executions>
+                    <execution>
+                        <id>compile-groovy</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>generateStubs</goal>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>test-compile-groovy</id>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>generateTestStubs</goal>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
 			</plugin>
 		</plugins>
 	</build>

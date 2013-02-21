@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.examples.quizzo.domain.Choice;
 import org.springframework.data.examples.quizzo.domain.MultipleChoiceQuestion;
 import org.springframework.samples.async.config.AppConfig;
 import org.springframework.samples.async.config.WebMvcConfig;
@@ -54,7 +55,7 @@ public class QuizControllerTest {
 
 	@Test
 	@DirtiesContext
-	public void testStartQuizAndAskQuestion() throws Exception {
+	public void testStartQuizAskQuestionAndGetAnswer() throws Exception {
 		this.mvc.perform(post("/quiz/start/JavascriptQuiz")).andExpect(
 				status().isOk());
 		
@@ -63,6 +64,23 @@ public class QuizControllerTest {
 		
 		Object async = result.getAsyncResult(15000L); 
 		Assert.assertTrue(async.getClass().isAssignableFrom(MultipleChoiceQuestion.class));
+
+        // assume that there is an answer 'a'
+        MultipleChoiceQuestion mcq = (MultipleChoiceQuestion) async;
+        Choice choice = mcq.getChoices().get('a');
+
+        //this.mvc.perform(post("/quiz/answer").param("choice", choice);
 	}
+
+    @Test
+    @DirtiesContext
+    public void testStartQuizTwiceShouldFail() throws Exception {
+        this.mvc.perform(post("/quiz/start/JavascriptQuiz")).andExpect(
+                status().isOk());
+
+        this.mvc.perform(post("/quiz/start/FooBarBaz")).andExpect(
+                status().isBadRequest());
+
+    }
 
 }

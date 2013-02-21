@@ -42,12 +42,16 @@ import org.springframework.web.context.request.async.DeferredResult;
  * for the next question and setting deferred results when it arrives
  * @author David Turanski
  *
+ * TODO - figure out how to cancel a game - cancel request atomic?
  */
 public class GameRunner implements Runnable {
 	private static Log logger = LogFactory.getLog(GameRunner.class);
 	private final List<DeferredResult<MultipleChoiceQuestion>> requests = Collections
 			.synchronizedList(new ArrayList<DeferredResult<MultipleChoiceQuestion>>());
 	private Quiz quiz;
+    // TODO - Maybe we implement an enum for the lifecycle here - NOT_STARTED, STARTED, FINISHED?
+    // For the nextq request we had to also determine whether the game was started in the first place
+    public AtomicBoolean gameStarted = new AtomicBoolean(false);
 	public AtomicBoolean gameInProgress = new AtomicBoolean();
 	private long questionExpiryTime;
 	private Game game;
@@ -96,6 +100,7 @@ public class GameRunner implements Runnable {
 		} catch (InterruptedException e) {
 			throw new RuntimeException("Error encountered starting game", e);
 		}
+        gameStarted.set(true);
 		gameInProgress.set(true);
 		logger.debug("game in progress...");
 		while (gameInProgress.get()) {
@@ -140,7 +145,7 @@ public class GameRunner implements Runnable {
 	
 	synchronized AnswerStatus submitPlayerAnswer(PlayerAnswer answer) {
 		Assert.notNull(answer, "answer cannot be null");
-		Assert.notNull(answer.getPlayerId(),"answer contains a null player ID");
+		Assert.notNull(answer.getPlayerId(), "answer contains a null player ID");
 		if (playerRepository.findOne(answer.getPlayerId()) == null){
 			return AnswerStatus.PLAYER_NOT_REGISTERED;
 		}
