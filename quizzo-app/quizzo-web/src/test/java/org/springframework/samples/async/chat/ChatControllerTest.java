@@ -31,7 +31,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.test.web.servlet.MockMvc;
 
-public class ChatControllerTests {
+public class ChatControllerTest {
 
 	private MockMvc mockMvc;
 

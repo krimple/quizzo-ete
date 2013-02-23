@@ -48,7 +48,8 @@ public class PlayerAnswer {
 	}
 	
 	@PersistenceConstructor
-	public PlayerAnswer(String playerId, String gameId, String quizId, int questionNumber, @Value("#root.choice") char choice) {
+	public PlayerAnswer(String playerId, String gameId, String quizId, int questionNumber,
+                        char choice) {
 
 		Assert.hasText(playerId, "player ID cannot be null or blank.");
 		Assert.isTrue(questionNumber >= 0, "question number must be >= 0.");

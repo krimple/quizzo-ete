@@ -25,23 +25,24 @@ import java.io.Serializable;
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class PlayerGameSession implements Serializable {
 
-    private QuizRun currentQuizRun;
+    private String gameId;
 
-    private Player player;
+    private String playerId;
 
-    public void setCurrentQuizRun(QuizRun quizRun) {
-        this.currentQuizRun = quizRun;
+    public String getGameId() {
+        return gameId;
     }
 
-    public QuizRun getCurrentQuizRun() {
-        return currentQuizRun;
+    public void setGameId(String gameId) {
+        this.gameId = gameId;
     }
 
-    public Player getPlayer() {
-        return player;
+    public String getPlayerId() {
+        return playerId;
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
+    public void setPlayerId(String playerId) {
+        this.playerId = playerId;
     }
 }
+

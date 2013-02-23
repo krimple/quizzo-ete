@@ -80,7 +80,7 @@ public class ScoreServiceExamples {
 		for (MultipleChoiceQuestion question: questions) {
 			quiz.addQuestion(question);
 		}
-		gameId = quiz.startGame().getId();
+		gameId = quiz.startGame("demo quiz - " + System.currentTimeMillis()).getId();
 		quizRepo.save(quiz);
 		
 		List<PlayerAnswer> answers = new ArrayList<PlayerAnswer>();

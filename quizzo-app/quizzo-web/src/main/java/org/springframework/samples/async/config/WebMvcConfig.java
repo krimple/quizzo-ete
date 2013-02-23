@@ -2,12 +2,17 @@ package org.springframework.samples.async.config;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.examples.quizzo.repository.PlayerAnswerRepository;
+import org.springframework.data.examples.quizzo.repository.PlayerRepository;
+import org.springframework.data.examples.quizzo.repository.QuizRepository;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
-import org.springframework.samples.async.quizzo.engine.QuizRunEngine;
+import org.springframework.samples.async.quizzo.engine.GameRunEngine;
+import org.springframework.samples.async.quizzo.engine.inmemory.GameRunEngineInMemoryImpl;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
@@ -21,8 +26,15 @@ import org.thymeleaf.templateresolver.TemplateResolver;
 @ComponentScan(basePackages = { "org.springframework.samples.async" })
 public class WebMvcConfig extends WebMvcConfigurationSupport {
 
+    @Autowired
+    QuizRepository quizRepository;
+    @Autowired
+    PlayerAnswerRepository playerAnswerRepository;
+    @Autowired
+    PlayerRepository playerRepository;
 
-	@Override
+
+    @Override
 	public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
 		configurer.setDefaultTimeout(30*1000L);
 	}
@@ -72,8 +84,8 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 	}
 
     @Bean
-    public QuizRunEngine quizRun() {
-        return new QuizRunEngine();
+    public GameRunEngine quizRun() {
+        return new GameRunEngineInMemoryImpl(quizRepository, playerRepository, playerAnswerRepository);
     }
 
 

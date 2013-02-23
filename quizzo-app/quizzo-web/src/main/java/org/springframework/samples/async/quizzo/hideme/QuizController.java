@@ -25,7 +25,6 @@ import org.springframework.data.examples.quizzo.domain.PlayerAnswer;
 import org.springframework.data.examples.quizzo.domain.Quiz;
 import org.springframework.data.examples.quizzo.repository.QuizRepository;
 import org.springframework.http.HttpStatus;
-import org.springframework.samples.async.quizzo.engine.QuizRunEngine;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;

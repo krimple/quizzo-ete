@@ -3,9 +3,7 @@ package org.springframework.samples.async.quizzo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.samples.async.quizzo.engine.QuizModeratorSession;
-import org.springframework.samples.async.quizzo.engine.QuizRun;
-import org.springframework.samples.async.quizzo.engine.QuizRunEngine;
-import org.springframework.samples.async.quizzo.responses.GameAlreadyStartedResponse;
+import org.springframework.samples.async.quizzo.engine.GameRunEngine;
 import org.springframework.samples.async.quizzo.responses.GameNotStartedResponse;
 import org.springframework.samples.async.quizzo.responses.QuizPollResponse;
 import org.springframework.samples.async.quizzo.responses.QuizStartedResponse;
@@ -20,13 +18,13 @@ import java.util.Date;
 @RequestMapping("/moderator/game")
 public class QuizModeratorController extends AbstractQuizController {
 
-    private QuizRunEngine quizRunEngine;
+    private GameRunEngine gameRunEngine;
     private QuizModeratorSession quizModeratorSession;
 
     @Autowired
-    public QuizModeratorController(QuizRunEngine quizRunEngine,
+    public QuizModeratorController(GameRunEngine gameRunEngine,
                                    QuizModeratorSession quizModeratorSession) {
-        this.quizRunEngine = quizRunEngine;
+        this.gameRunEngine = gameRunEngine;
         this.quizModeratorSession = quizModeratorSession;
     }
 
@@ -43,9 +41,11 @@ public class QuizModeratorController extends AbstractQuizController {
 
         quizModeratorSession.setNickName(moderatorNickName);
         // TODO - verify there is no existing quiz run with this quizRunName...
-        String gameId = quizRunEngine.startQuizRun(id, runName);
+        String gameId = gameRunEngine.startQuizRunAndBeginTakingPlayers(id, runName);
 
         if (gameId != null) {
+            // never leak this - it is kept at the user session level
+            // so that it cannot be spoofed
             quizModeratorSession.setGameId(gameId);
             sendHttpStatusResponse(HttpStatus.OK.value(), "created.", response);
             return new QuizStartedResponse();
@@ -59,7 +59,7 @@ public class QuizModeratorController extends AbstractQuizController {
     public void moveToNextQuestion() {
         Assert.notNull(quizModeratorSession.getNickName());
         Assert.notNull(quizModeratorSession.getGameId());
-        quizRunEngine.moveToNextQuestion(quizModeratorSession.getGameId());
+        gameRunEngine.moveToNextQuestion(quizModeratorSession.getGameId());
     }
 
     // end current question
@@ -67,7 +67,7 @@ public class QuizModeratorController extends AbstractQuizController {
     public void endAnswers() {
         Assert.notNull(quizModeratorSession.getNickName());
         Assert.notNull(quizModeratorSession.getGameId());
-        quizRunEngine.endQuestion(quizModeratorSession.getGameId());
+        gameRunEngine.endQuestion(quizModeratorSession.getGameId());
     }
 
     // todo
@@ -79,7 +79,7 @@ public class QuizModeratorController extends AbstractQuizController {
     public void endGame() {
         Assert.notNull(quizModeratorSession.getNickName());
         Assert.notNull(quizModeratorSession.getGameId());
-        quizRunEngine.endQuiz(quizModeratorSession.getGameId());
+        gameRunEngine.endQuiz(quizModeratorSession.getGameId());
     }
 
     // todo
@@ -88,7 +88,7 @@ public class QuizModeratorController extends AbstractQuizController {
     public void destroyQuizRun() {
         Assert.notNull(quizModeratorSession.getNickName());
         Assert.notNull(quizModeratorSession.getGameId());
-        quizRunEngine.destroyQuizRun(quizModeratorSession.getGameId());
+        gameRunEngine.destroyQuizRun(quizModeratorSession.getGameId());
         quizModeratorSession.setGameId(null); // fly, be free!
 
     }

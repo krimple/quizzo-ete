@@ -243,7 +243,7 @@ angular.module('quizzoApp').factory('QuizManagerService', function($rootScope) {
 
   // this information is all for stubbing.
 
-  quizManagerServiceImpl.currentQuizState = 'NOT_STARTED';
+  quizManagerServiceImpl.currentQuizState = 'AWAITING_PLAYERS';
   quizManagerServiceImpl.questions = [
     {
     question: 'Who are you?',
@@ -348,9 +348,9 @@ angular.module('quizzoApp').factory('QuizManagerService', function($rootScope) {
   // Erzatz state machine - sad programmer...
   quizManagerServiceImpl.setQuizState = function(newQuizState) {
     // guard state transitions
-    if (this.currentQuizState == 'NOT_STARTED') {
+    if (this.currentQuizState == 'AWAITING_PLAYERS') {
       if (!newQuizState == 'AWAITING_ANSWER' && this.newQuizState == 'COMPLETE') {
-        throw 'Cannot move from NOT_STARTED to the state of ' + newQuizState;
+        throw 'Cannot move from AWAITING_PLAYERS to the state of ' + newQuizState;
       }
     }
 

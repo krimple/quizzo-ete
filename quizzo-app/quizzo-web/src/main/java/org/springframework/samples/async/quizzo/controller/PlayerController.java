@@ -55,7 +55,7 @@ public class PlayerController extends AbstractQuizController {
     @RequestMapping(method = RequestMethod.POST, value="register/{nickName}")
     public @ResponseBody Player registerUserByNickName(String nickName) {
         Player player = playerService.registerPlayer(nickName);
-        playerGameSession.setPlayer(player);
+        playerGameSession.setPlayerId(player.getName());
         return player;
     }
 }

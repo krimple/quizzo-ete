@@ -90,8 +90,8 @@ public class Quiz {
 		this.questions.add(question);
 	}
 
-	public Game startGame() {
-		Game game = new Game();
+	public Game startGame(String title) {
+		Game game = new Game(title);
 		this.gamesPlayed.add(game);
 		return game;
 	}

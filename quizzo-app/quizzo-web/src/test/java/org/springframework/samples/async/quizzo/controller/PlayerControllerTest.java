@@ -1,4 +1,4 @@
-package org.springframework.samples.async.quizzo;
+package org.springframework.samples.async.quizzo.controller;
 
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 import junit.framework.Assert;

@@ -65,9 +65,10 @@ public class SpringDataMongoQuizExamples {
 		for (MultipleChoiceQuestion question: questions) {
 			quiz.addQuestion(question);
 		}
-		quiz.startGame();
-		quiz.startGame();
-		quizRepo.save(quiz);
+		quiz.startGame("test - " + quiz.getTitle() + " - @" + System.currentTimeMillis());
+        quiz.startGame("second test - " + quiz.getTitle() + " - @" + System.currentTimeMillis());
+
+        quizRepo.save(quiz);
 	}
 	@Test
 	public void test() {

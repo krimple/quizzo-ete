@@ -1,4 +1,4 @@
-package org.springframework.samples.async.quizzo;
+package org.springframework.samples.async.quizzo.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -12,7 +12,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.async.config.AppConfig;
 import org.springframework.samples.async.config.WebMvcConfig;
-import org.springframework.samples.async.quizzo.engine.QuizRunEngine;
+import org.springframework.samples.async.quizzo.engine.GameRunEngine;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -27,14 +27,14 @@ import org.springframework.web.util.NestedServletException;
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { AppConfig.class, WebMvcConfig.class })
-public class QuizRunControllerTest {
+public class QuizModeratorControllerTest {
 
 
     @Autowired
     WebApplicationContext context;
 
     @Autowired
-    QuizRunEngine quizRunEngine;
+    GameRunEngine gameRunEngine;
 
     MockMvc mvc;
 
@@ -56,14 +56,14 @@ public class QuizRunControllerTest {
     }
 
     private MvcResult startGoodQuiz() throws Exception {
-        return this.mvc.perform(post("/quizRun/startQuiz/Javascript Quiz")).
+        return this.mvc.perform(post("/moderator/game/startGame/JavascrBQuiz/joey")).
                 andReturn();
     }
 
     @Test(expected = NestedServletException.class)
     @DirtiesContext
-    public void testNonExistantQuiz() throws Exception {
-        MvcResult result = this.mvc.perform(post("/quizRun/startQuiz/JavascrBQuiz")).andReturn();
+    public void testNonExistentQuiz() throws Exception {
+        MvcResult result = this.mvc.perform(post("/moderator/game/startGame/JavascrBQuiz/joey")).andReturn();
     }
 
     @Test

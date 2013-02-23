@@ -30,7 +30,7 @@ import org.springframework.data.examples.quizzo.domain.Quiz;
 import org.springframework.data.examples.quizzo.repository.PlayerAnswerRepository;
 import org.springframework.data.examples.quizzo.repository.PlayerRepository;
 import org.springframework.data.examples.quizzo.repository.QuizRepository;
-import org.springframework.samples.async.quizzo.QuestionFeeder;
+import org.springframework.samples.async.quizzo.hideme.QuestionFeeder;
 import org.springframework.util.Assert;
 import org.springframework.web.context.request.async.DeferredResult;
 
@@ -50,7 +50,7 @@ public class GameRunner implements Runnable {
 	private final List<DeferredResult<MultipleChoiceQuestion>> requests = Collections
 			.synchronizedList(new ArrayList<DeferredResult<MultipleChoiceQuestion>>());
 	private Quiz quiz;
-    // TODO - Maybe we implement an enum for the lifecycle here - NOT_STARTED, STARTED, FINISHED?
+    // TODO - Maybe we implement an enum for the lifecycle here - AWAITING_PLAYERS, STARTED, FINISHED?
     // For the nextq request we had to also determine whether the game was started in the first place
     public AtomicBoolean gameStarted = new AtomicBoolean(false);
 	public AtomicBoolean gameInProgress = new AtomicBoolean();
@@ -129,7 +129,7 @@ public class GameRunner implements Runnable {
 
 	synchronized Game startGame(Quiz quiz) {
 		this.quiz = quiz;
-		game = quiz.startGame();
+		game = quiz.startGame("automatically generated game - @" + System.currentTimeMillis());
 		quizRepository.save(quiz);
 		//Start a new game
 		new Thread(this).start();
