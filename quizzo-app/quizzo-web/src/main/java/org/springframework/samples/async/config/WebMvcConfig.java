@@ -7,6 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
+import org.springframework.samples.async.quizzo.engine.QuizRunEngine;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
@@ -69,5 +70,11 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 		resolver.setCacheable(false);
 		return resolver;
 	}
+
+    @Bean
+    public QuizRunEngine quizRun() {
+        return new QuizRunEngine();
+    }
+
 
 }

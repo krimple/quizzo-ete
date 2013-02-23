@@ -24,6 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.data.examples.quizzo.domain.MultipleChoiceQuestion;
 import org.springframework.data.examples.quizzo.domain.Quiz;
+import org.springframework.samples.async.quizzo.hideme.QuestionFeeder;
 
 /**
  * @author David Turanski

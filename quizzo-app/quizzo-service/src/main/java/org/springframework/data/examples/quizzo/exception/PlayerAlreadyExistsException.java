@@ -17,6 +17,6 @@ package org.springframework.data.examples.quizzo.exception;
  *
  */
 @SuppressWarnings("serial")
-public class PlayerAlreadyExistsException extends Exception {
+public class PlayerAlreadyExistsException extends RuntimeException {
 
 }

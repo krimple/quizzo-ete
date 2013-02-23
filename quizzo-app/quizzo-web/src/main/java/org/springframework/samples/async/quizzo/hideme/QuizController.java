@@ -10,7 +10,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-package org.springframework.samples.async.quizzo;
+package org.springframework.samples.async.quizzo.hideme;
 
 import java.io.IOException;
 
@@ -25,7 +25,7 @@ import org.springframework.data.examples.quizzo.domain.PlayerAnswer;
 import org.springframework.data.examples.quizzo.domain.Quiz;
 import org.springframework.data.examples.quizzo.repository.QuizRepository;
 import org.springframework.http.HttpStatus;
-import org.springframework.samples.async.quizzo.GameRunner.AnswerStatus;
+import org.springframework.samples.async.quizzo.engine.QuizRunEngine;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,6 +43,7 @@ import org.springframework.web.context.request.async.DeferredResult;
 @Controller
 @RequestMapping("/quiz")
 public class QuizController {
+
 	private static Log logger = LogFactory.getLog(QuizController.class);
 	//TODO - This should be a property
 	private static final long QUESTION_EXPIRY_TIME = 15000;
@@ -53,7 +54,7 @@ public class QuizController {
 	@Autowired
 	public QuizController(QuizRepository quizRepository, GameRunner gameRunner) {
 		this.quizRepository = quizRepository;
-		this.gameRunner = gameRunner;
+        this.gameRunner = gameRunner;
 		this.gameRunner.setQuestionExpiryTime(QUESTION_EXPIRY_TIME);
 	}
 
@@ -67,7 +68,7 @@ public class QuizController {
 	@ResponseBody
 	public Game startGame(@PathVariable String quizId, HttpServletResponse response) {
 
-        // can't start if we've already started a game...
+        // can't start if we've already started...
         if (gameRunner.isGameInProgress()) {
             sendHttpStatusResponse(HttpStatus.BAD_REQUEST.value(), "game already in progress", response);
             return null;
@@ -88,7 +89,7 @@ public class QuizController {
 	public void submitAnswer(@RequestBody PlayerAnswer answer, HttpServletResponse response) {
 		logger.debug("submit answer from " + answer.getPlayerId() + " question:" + answer.getQuestionNumber()
 				+ " choice: " + answer.getChoice());
-		AnswerStatus status = gameRunner.submitPlayerAnswer(answer);
+		GameRunner.AnswerStatus status = gameRunner.submitPlayerAnswer(answer);
 		switch (status) {
 		case ANSWER_SUBMITTED:
 			sendHttpStatusResponse(201, "answer submitted", response);

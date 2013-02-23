@@ -13,15 +13,16 @@
 package org.springframework.samples.async.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.*;
 import org.springframework.data.examples.quizzo.config.DataAccessConfig;
 import org.springframework.data.examples.quizzo.config.ServiceConfig;
 import org.springframework.data.examples.quizzo.repository.PlayerAnswerRepository;
 import org.springframework.data.examples.quizzo.repository.PlayerRepository;
 import org.springframework.data.examples.quizzo.repository.QuizRepository;
-import org.springframework.samples.async.quizzo.GameRunner;
+import org.springframework.samples.async.quizzo.hideme.GameRunner;
+import org.springframework.samples.async.quizzo.engine.PlayerGameSession;
+import org.springframework.samples.async.quizzo.engine.QuizRunEngine;
+import org.springframework.web.context.WebApplicationContext;
 
 /**
  * @author David Turanski
@@ -30,6 +31,13 @@ import org.springframework.samples.async.quizzo.GameRunner;
 @Configuration
 @Import({ ServiceConfig.class, DataAccessConfig.class })
 public class AppConfig {
+
+     @Bean
+     @Scope(value = WebApplicationContext.SCOPE_SESSION)
+     public PlayerGameSession playerGameSession() {
+         return new PlayerGameSession();
+     }
+
 	 @Autowired
 	 QuizRepository quizRepository;
 	 @Autowired
@@ -41,4 +49,12 @@ public class AppConfig {
 	 public GameRunner gameRunner() {
 		 return new GameRunner(quizRepository,playerAnswerRepository,playerRepository);
 	 }
+
+     @Bean
+     public QuizRunEngine quizRunEngine() {
+         QuizRunEngine engine =  new QuizRunEngine();
+         engine.setQuizRepository(quizRepository);
+         return quizRunEngine();
+     }
+
 }

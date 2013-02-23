@@ -17,16 +17,18 @@ import java.util.UUID;
 import org.joda.time.DateTime;
 
 /**
- * @author David Turanski
+ * @author David Turanski, Ken Rimple
  *
  */
 public class Game {
 	private final String id;
 	private final DateTime startTime;
+    private final String gameName;
 	
-	public Game() {
+	public Game(String gameName) {
 		id = UUID.randomUUID().toString();
 		startTime = new DateTime();
+        this.gameName = gameName;
 	}
 	/**
 	 * @return the id
@@ -41,4 +43,8 @@ public class Game {
 	public DateTime getStartTime() {
 		return startTime;
 	}
+
+    public String getGameName() {
+        return gameName;
+    }
 }
