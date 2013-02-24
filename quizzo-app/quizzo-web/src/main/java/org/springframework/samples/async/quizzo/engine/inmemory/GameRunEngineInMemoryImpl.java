@@ -12,7 +12,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class GameRunEngineInMemoryImpl implements GameRunEngine {
 
-
     private QuizRepository quizRepository;
 
     private PlayerRepository playerRepository;
@@ -52,13 +51,19 @@ public class GameRunEngineInMemoryImpl implements GameRunEngine {
     public String startQuizRunAndBeginTakingPlayers(String quizId, String gameId) {
         Quiz quiz = quizRepository.findOne(quizId);
         if (quiz == null) {
-            throw new RuntimeException("only call this once you've searched for the title in the controller/service...");
+            return null;
         } else {
             QuizGameInstance quizGameInstance = new QuizGameInstance(quiz, gameId);
             quizGameInstance.beginTakingPlayers();
             gameInstances.put(gameId, quizGameInstance);
             return gameId;
         }
+    }
+
+    @Override
+    public void stopTakingPlayersAndStartGamePlay(String gameId) {
+        QuizGameInstance quizGameInstance = getQuizRun(gameId);
+        quizGameInstance.beginAskingQuestions();
     }
 
     @Override

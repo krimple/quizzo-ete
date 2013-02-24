@@ -40,7 +40,7 @@ import org.springframework.web.context.request.async.DeferredResult;
  *
  */
 @Controller
-@RequestMapping("/quiz")
+//@RequestMapping("/quiz")
 public class QuizController {
 
 	private static Log logger = LogFactory.getLog(QuizController.class);

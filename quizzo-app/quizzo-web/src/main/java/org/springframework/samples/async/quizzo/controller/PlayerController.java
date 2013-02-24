@@ -6,10 +6,14 @@ import org.springframework.data.examples.quizzo.domain.Player;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.async.quizzo.engine.PlayerGameSession;
+import org.springframework.samples.async.quizzo.engine.PlayerGameSessionImpl;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,19 +23,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * To change this template use File | Settings | File Templates.
  */
 @Controller
-@RequestMapping("/player/*")
+@RequestMapping("/player")
 public class PlayerController extends AbstractQuizController {
 
     private PlayerService playerService;
 
-    // scoped proxy
-
-    private PlayerGameSession playerGameSession;
-
     @Autowired
-     public PlayerController(PlayerService playerService, PlayerGameSession playerGameSession) {
+     public PlayerController(PlayerService playerService) {
         this.playerService = playerService;
-        this.playerGameSession = playerGameSession;
     }
 
     @RequestMapping(method= RequestMethod.GET, value="searchFor/{nickName}")
@@ -53,8 +52,9 @@ public class PlayerController extends AbstractQuizController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value="register/{nickName}")
-    public @ResponseBody Player registerUserByNickName(String nickName) {
+    public @ResponseBody Player registerUserByNickName(HttpSession session, @PathVariable String nickName) {
         Player player = playerService.registerPlayer(nickName);
+        PlayerGameSession playerGameSession = getOrCreatePlayerGameSession(session);
         playerGameSession.setPlayerId(player.getName());
         return player;
     }

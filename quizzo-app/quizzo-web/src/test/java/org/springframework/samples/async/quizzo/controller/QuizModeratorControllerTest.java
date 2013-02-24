@@ -2,6 +2,7 @@ package org.springframework.samples.async.quizzo.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 import junit.framework.Assert;
@@ -10,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.samples.async.config.AppConfig;
 import org.springframework.samples.async.config.WebMvcConfig;
 import org.springframework.samples.async.quizzo.engine.GameRunEngine;
@@ -28,7 +30,6 @@ import org.springframework.web.util.NestedServletException;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { AppConfig.class, WebMvcConfig.class })
 public class QuizModeratorControllerTest {
-
 
     @Autowired
     WebApplicationContext context;
@@ -56,38 +57,16 @@ public class QuizModeratorControllerTest {
     }
 
     private MvcResult startGoodQuiz() throws Exception {
-        return this.mvc.perform(post("/moderator/game/startGame/JavascrBQuiz/joey")).
+        return this.mvc.perform(
+                post("/moderator/game/startGame/JavascriptQuiz/moderator/joey")).
                 andReturn();
     }
 
-    @Test(expected = NestedServletException.class)
+    @Test
     @DirtiesContext
     public void testNonExistentQuiz() throws Exception {
-        MvcResult result = this.mvc.perform(post("/moderator/game/startGame/JavascrBQuiz/joey")).andReturn();
-    }
-
-    @Test
-    @DirtiesContext
-    public void testStartQuizAndAskForQuestion() throws Exception {
-        startGoodQuiz();
-
-        MvcResult result = this.mvc.perform(get("/quizRun/Javascript Quiz/currentQuestion"))
-                .andReturn();
-
-        Assert.assertTrue(result.getResponse().getContentAsString().contains("QuestionPending"));
-    }
-
-    @Test
-    @DirtiesContext
-    public void testStartQuizAskForQuestionAndAnswer() throws Exception {
-
-        startGoodQuiz();
-        MvcResult result = this.mvc.perform(get("/quizRun/Javascript Quiz/currentQuestion"))
-                .andReturn();
-        Assert.assertTrue(result.getResponse().getContentAsString().contains("QuestionPending"));
-        //MvcResult result = this.mvc.perform(
-
-
+        MvcResult result = this.mvc.perform(post("/moderator/game/startGame/JavascrBQuiz/moderator/joey")).andReturn();
+        Assert.assertTrue(result.getResponse().getContentAsString().contains("GameNotStarted"));
 
     }
 }

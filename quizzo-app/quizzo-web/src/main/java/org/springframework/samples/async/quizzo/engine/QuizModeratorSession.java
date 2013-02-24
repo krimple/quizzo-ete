@@ -1,33 +1,18 @@
 package org.springframework.samples.async.quizzo.engine;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
-import org.springframework.stereotype.Component;
-import org.springframework.web.context.WebApplicationContext;
+/**
+ * Created with IntelliJ IDEA.
+ * User: kenrimple
+ * Date: 2/24/13
+ * Time: 2:16 AM
+ * To change this template use File | Settings | File Templates.
+ */
+public interface QuizModeratorSession {
+    String getNickName();
 
-@Component
-// todo - test scoped proxy - should work with cglib
-// but may have to extract getters/setters out to interface :(
-@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class QuizModeratorSession {
+    void setNickName(String nickName);
 
-    String nickName;
+    String getGameId();
 
-    String gameId;
-
-    public String getNickName() {
-        return nickName;
-    }
-
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
-    }
-
-    public String getGameId() {
-        return gameId;
-    }
-
-    public void setGameId(String gameId) {
-        this.gameId = gameId;
-    }
+    void setGameId(String gameId);
 }

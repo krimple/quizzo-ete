@@ -1,4 +1,4 @@
-package org.springframework.samples.async.quizzo.controller;
+package org.springframework.samples.async.quizzo.hideme;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -27,7 +27,7 @@ import org.springframework.web.context.WebApplicationContext;
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { AppConfig.class, WebMvcConfig.class })
-public class QuizControllerTest {
+public class QuizControllerTestNotEnabled {
 
 	@Autowired
 	WebApplicationContext context;

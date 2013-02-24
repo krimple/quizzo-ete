@@ -16,7 +16,7 @@ public interface GameRunEngine {
     // see if a particular quiz is complete
     boolean isQuizRunComplete(String title);
 
-    // run by an admin - returns the game id
+    // run by an admin - returns the game id or null if not found
     String startQuizRunAndBeginTakingPlayers(String quizId, String gameName);
 
     boolean moveToNextQuestion(String gameId);
@@ -32,4 +32,6 @@ public interface GameRunEngine {
     AnswerStatus submitPlayerAnswer(PlayerAnswer answer);
 
     void addPlayer(String gameId, String playerId);
+
+    void stopTakingPlayersAndStartGamePlay(String gameId);
 }

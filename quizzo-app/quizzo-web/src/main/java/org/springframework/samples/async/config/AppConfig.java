@@ -19,10 +19,9 @@ import org.springframework.data.examples.quizzo.config.ServiceConfig;
 import org.springframework.data.examples.quizzo.repository.PlayerAnswerRepository;
 import org.springframework.data.examples.quizzo.repository.PlayerRepository;
 import org.springframework.data.examples.quizzo.repository.QuizRepository;
-import org.springframework.samples.async.quizzo.engine.inmemory.GameRunEngineInMemoryImpl;
+import org.springframework.samples.async.quizzo.engine.PlayerGameSessionImpl;
 import org.springframework.samples.async.quizzo.hideme.GameRunner;
 import org.springframework.samples.async.quizzo.engine.PlayerGameSession;
-import org.springframework.samples.async.quizzo.engine.GameRunEngine;
 import org.springframework.web.context.WebApplicationContext;
 
 /**
@@ -36,7 +35,7 @@ public class AppConfig {
      @Bean
      @Scope(value = WebApplicationContext.SCOPE_SESSION)
      public PlayerGameSession playerGameSession() {
-         return new PlayerGameSession();
+         return new PlayerGameSessionImpl();
      }
 
 	 @Autowired
@@ -51,9 +50,5 @@ public class AppConfig {
 		 return new GameRunner(quizRepository,playerAnswerRepository,playerRepository);
 	 }
 
-     @Bean
-     public GameRunEngine quizRunEngine() {
-         return new GameRunEngineInMemoryImpl(quizRepository, playerRepository,  playerAnswerRepository);
-     }
 
 }

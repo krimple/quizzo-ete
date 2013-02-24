@@ -12,6 +12,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 
 @Controller
@@ -19,29 +20,31 @@ import java.util.Date;
 public class QuizModeratorController extends AbstractQuizController {
 
     private GameRunEngine gameRunEngine;
-    private QuizModeratorSession quizModeratorSession;
 
     @Autowired
-    public QuizModeratorController(GameRunEngine gameRunEngine,
-                                   QuizModeratorSession quizModeratorSession) {
+    public QuizModeratorController(GameRunEngine gameRunEngine) {
         this.gameRunEngine = gameRunEngine;
-        this.quizModeratorSession = quizModeratorSession;
+
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "startGame/{id}/moderator/{moderatorNickName}")
-    public @ResponseBody QuizPollResponse startGame(@PathVariable String id,
+    @RequestMapping(method = RequestMethod.POST, value = "startGame/{quizId}/moderator/{moderatorNickName}")
+    public @ResponseBody QuizPollResponse startGame(@PathVariable String quizId,
                                                     @PathVariable String moderatorNickName,
                                                     @RequestParam(required = false) String gameName,
+                                                    HttpSession session,
                                                     HttpServletResponse response) {
 
+        QuizModeratorSession quizModeratorSession = getOrCreateQuizModeratorSession(session);
         // TODO this feels like it needs to go into a quiz moderator service... Too fine grained here.
         Assert.notNull(moderatorNickName, "Must contain a moderator nick");
         String runName = gameName == null ?
-                "new game for " + id + " at " + new Date().toString() : gameName;
+                "new game for " + quizId + " at " + new Date().toString() : gameName;
 
+        // TODO - srp violated - move this to another method and guard
         quizModeratorSession.setNickName(moderatorNickName);
+
         // TODO - verify there is no existing quiz run with this quizRunName...
-        String gameId = gameRunEngine.startQuizRunAndBeginTakingPlayers(id, runName);
+        String gameId = gameRunEngine.startQuizRunAndBeginTakingPlayers(quizId, runName);
 
         if (gameId != null) {
             // never leak this - it is kept at the user session level
@@ -54,9 +57,19 @@ public class QuizModeratorController extends AbstractQuizController {
         }
     }
 
+    // begin play
+    @RequestMapping(method = RequestMethod.POST, value="beginPlay")
+    public void beginPlay(HttpSession session) {
+        QuizModeratorSession quizModeratorSession = getOrCreateQuizModeratorSession(session);
+        Assert.notNull(quizModeratorSession.getNickName());
+        Assert.notNull(quizModeratorSession.getGameId());
+        gameRunEngine.stopTakingPlayersAndStartGamePlay(quizModeratorSession.getGameId());
+    }
+
     // move to next question
     @RequestMapping(method = RequestMethod.POST, value = "nextQuestion")
-    public void moveToNextQuestion() {
+    public void moveToNextQuestion(HttpSession session) {
+        QuizModeratorSession quizModeratorSession = getOrCreateQuizModeratorSession(session);
         Assert.notNull(quizModeratorSession.getNickName());
         Assert.notNull(quizModeratorSession.getGameId());
         gameRunEngine.moveToNextQuestion(quizModeratorSession.getGameId());
@@ -64,7 +77,9 @@ public class QuizModeratorController extends AbstractQuizController {
 
     // end current question
     @RequestMapping(method = RequestMethod.POST, value="endAnswers")
-    public void endAnswers() {
+    public void endAnswers(HttpSession session) {
+        QuizModeratorSession quizModeratorSession = getOrCreateQuizModeratorSession(session);
+
         Assert.notNull(quizModeratorSession.getNickName());
         Assert.notNull(quizModeratorSession.getGameId());
         gameRunEngine.endQuestion(quizModeratorSession.getGameId());
@@ -76,7 +91,8 @@ public class QuizModeratorController extends AbstractQuizController {
 
     // end game - you can still review your score
     @RequestMapping(method = RequestMethod.POST, value="endGame")
-    public void endGame() {
+    public void endGame(HttpSession session) {
+        QuizModeratorSession quizModeratorSession = getOrCreateQuizModeratorSession(session);
         Assert.notNull(quizModeratorSession.getNickName());
         Assert.notNull(quizModeratorSession.getGameId());
         gameRunEngine.endQuiz(quizModeratorSession.getGameId());
@@ -85,11 +101,11 @@ public class QuizModeratorController extends AbstractQuizController {
     // todo
     // remove game from quiz run engine - it's gone and nobody else can run it
     @RequestMapping(method = RequestMethod.POST, value="endQuizRun")
-    public void destroyQuizRun() {
+    public void destroyQuizRun(HttpSession session) {
+        QuizModeratorSession quizModeratorSession = getOrCreateQuizModeratorSession(session);
         Assert.notNull(quizModeratorSession.getNickName());
         Assert.notNull(quizModeratorSession.getGameId());
         gameRunEngine.destroyQuizRun(quizModeratorSession.getGameId());
         quizModeratorSession.setGameId(null); // fly, be free!
-
     }
 }
