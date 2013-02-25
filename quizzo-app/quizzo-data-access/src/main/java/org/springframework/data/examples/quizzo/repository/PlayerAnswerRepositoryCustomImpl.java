@@ -3,17 +3,14 @@ package org.springframework.data.examples.quizzo.repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.examples.quizzo.domain.PlayerAnswer;
 import org.springframework.data.mongodb.MongoDbFactory;
-import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-
 
 import java.util.List;
 
 import static org.springframework.data.mongodb.core.query.Criteria.*;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
-public class CustomPlayerAnswerRepositoryImpl implements CustomPlayerAnswerRepository {
+public class PlayerAnswerRepositoryCustomImpl implements PlayerAnswerRepositoryCustom {
 
     @Autowired
     public void setMongoOperations(MongoDbFactory mongo) {
@@ -23,7 +20,7 @@ public class CustomPlayerAnswerRepositoryImpl implements CustomPlayerAnswerRepos
     private MongoTemplate mongoTemplate;
 
     @Override
-    public int calculateScoreForPlayerAndGame(String gameId, String playerName) {
+    public int calculateScore(String gameId, String playerName) {
         List<PlayerAnswer> scores = mongoTemplate.find(
                 query(
                         where("gameId").is(gameId)

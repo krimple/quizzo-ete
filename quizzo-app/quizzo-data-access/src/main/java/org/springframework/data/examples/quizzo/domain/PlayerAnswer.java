@@ -30,14 +30,8 @@ public class PlayerAnswer {
 	private String quizId;
 	private final int questionNumber;
 	private String gameId;
-	
-	private final Choice.Letter choice;
-
+	private final char choice;
     private final int score;
-
-    public int getScore() {
-        return score;
-    }
 
     /**
 	 * Constructor for submitted responses
@@ -48,15 +42,15 @@ public class PlayerAnswer {
 	@JsonCreator
 	public PlayerAnswer(
 			@JsonProperty("playerId") String playerId, 
-			@JsonProperty("questionNumber") int questionNumber,
+			@JsonProperty("questionNumber") Integer questionNumber,
 			@JsonProperty("choice") char choice,
-            @JsonProperty("score") int score){
-		this(playerId,null, null, questionNumber, choice, score);
+            @JsonProperty("score") Integer score) {
+		this(playerId, null, null, questionNumber, choice, score);
 	}
 	
 	@PersistenceConstructor
-	public PlayerAnswer(String playerId, String gameId, String quizId, int questionNumber,
-                        char choice, int score) {
+	public PlayerAnswer(String playerId, String gameId, String quizId,
+                        Integer questionNumber, char choice, Integer score) {
 
 		Assert.hasText(playerId, "player ID cannot be null or blank.");
 		Assert.isTrue(questionNumber >= 0, "question number must be >= 0.");
@@ -65,7 +59,7 @@ public class PlayerAnswer {
 		this.gameId = gameId;
 		this.quizId = quizId;
 		this.questionNumber = questionNumber;
-		this.choice = Choice.Letter.validate(choice);
+		this.choice = choice;
         this.score = score;
 	}
 
@@ -101,7 +95,7 @@ public class PlayerAnswer {
 	 * @return the choice
 	 */
 	public char getChoice() {
-		return choice.name().charAt(0);
+		return choice;
 	}
 	
 	public BigInteger getId() {
@@ -126,6 +120,7 @@ public class PlayerAnswer {
 		this.gameId = gameId;
 	}
 
-
-
+    public int getScore() {
+        return score;
+    }
 }

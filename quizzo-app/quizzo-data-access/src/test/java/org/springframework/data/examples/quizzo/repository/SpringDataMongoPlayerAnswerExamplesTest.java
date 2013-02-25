@@ -24,7 +24,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.examples.quizzo.config.DataAccessConfig;
-import org.springframework.data.examples.quizzo.domain.Player;
 import org.springframework.data.examples.quizzo.domain.PlayerAnswer;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -35,7 +34,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { DataAccessConfig.class })
-public class SpringDataMongoPlayerAnswerExamples {
+public class SpringDataMongoPlayerAnswerExamplesTest {
 
 	@Autowired
 	public PlayerAnswerRepository playerAnswerRepo;
@@ -44,28 +43,33 @@ public class SpringDataMongoPlayerAnswerExamples {
 	public void setUp() {
 		PlayerAnswer ans = new PlayerAnswer("p1", "i1", "q1", 0, 'a', 100);
 		playerAnswerRepo.save(ans);
+        ans = new PlayerAnswer("p1", "i1", "q1", 1,  'a', 100);
+        playerAnswerRepo.save(ans);
 		ans = new PlayerAnswer("p2", "i1", "q1", 0, 'b', 100);
 		playerAnswerRepo.save(ans);
 	}
 
 	@Test
-	public void test() {
+	public void testCreateAndSumUp() {
 		List<PlayerAnswer> answers = playerAnswerRepo.findByQuizId("q1");
-		assertEquals(2, answers.size());
+		assertEquals(3, answers.size());
 
 		answers = playerAnswerRepo.findByGameId("i1");
-		assertEquals(2, answers.size());
+		assertEquals(3, answers.size());
 
 		answers = playerAnswerRepo.findByGameIdAndPlayerId("i1", "p1");
-		assertEquals(1, answers.size());
+		assertEquals(2, answers.size());
 
 		answers = playerAnswerRepo.findByGameIdAndQuestionNumber("i1", 0);
 		assertEquals(2, answers.size());
 		
 		assertNotNull(playerAnswerRepo.findByGameIdAndPlayerIdAndQuestionNumber("i1","p1", 0));
-		assertNull(playerAnswerRepo.findByGameIdAndPlayerIdAndQuestionNumber("i1","p1",1));
+		// assertNull(playerAnswerRepo.findByGameIdAndPlayerIdAndQuestionNumber("i1","p1",1));
 		assertNull(playerAnswerRepo.findByGameIdAndPlayerIdAndQuestionNumber("i2","p1",0));
 		assertNull(playerAnswerRepo.findByGameIdAndPlayerIdAndQuestionNumber("i1","p3",0));
+
+        int score = playerAnswerRepo.calculateScore("i1", "p1");
+        assertEquals(200, score);
 
 	}
 

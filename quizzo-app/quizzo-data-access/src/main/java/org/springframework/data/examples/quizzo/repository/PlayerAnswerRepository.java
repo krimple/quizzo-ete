@@ -22,7 +22,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  * @author David Turanski
  *
  */
-public interface PlayerAnswerRepository extends MongoRepository<PlayerAnswer,BigInteger> {
+public interface PlayerAnswerRepository extends MongoRepository<PlayerAnswer,BigInteger>, PlayerAnswerRepositoryCustom {
 	public List<PlayerAnswer> findByQuizId(String quizId);
 	public List<PlayerAnswer> findByGameId(String gameId);
 	public List<PlayerAnswer> findByGameIdAndPlayerId(String gameId, String playerId);

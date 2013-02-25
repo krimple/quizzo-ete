@@ -33,7 +33,7 @@ import java.util.List;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes={DataAccessConfig.class})
-public class SpringDataMongoPlayerExamples {
+public class SpringDataMongoPlayerExamplesTest {
 
 	@Autowired
 	public PlayerRepository playerRepo;

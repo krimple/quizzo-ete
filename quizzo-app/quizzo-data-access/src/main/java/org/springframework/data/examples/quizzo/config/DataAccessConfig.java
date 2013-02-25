@@ -24,7 +24,9 @@ import com.mongodb.WriteConcern;
  *
  */
 @Configuration
-@EnableMongoRepositories(basePackages="org.springframework.data.examples.quizzo.repository")
+@EnableMongoRepositories(
+        basePackages="org.springframework.data.examples.quizzo.repository",
+        repositoryImplementationPostfix = "CustomImpl")
 public class DataAccessConfig extends AbstractMongoConfiguration {
 	private String hostName="localhost";
 	@Override
