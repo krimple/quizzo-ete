@@ -148,6 +148,10 @@ public class QuizGameInstance {
         this.gameState = newQuizState;
     }
 
+    public GameState getGameState() {
+        return this.gameState;
+    }
+
     public boolean isQuizRunComplete() {
         return gameState.equals(GameState.COMPLETE);
     }

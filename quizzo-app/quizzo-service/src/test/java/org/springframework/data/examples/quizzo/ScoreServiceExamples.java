@@ -84,14 +84,14 @@ public class ScoreServiceExamples {
 		quizRepo.save(quiz);
 		
 		List<PlayerAnswer> answers = new ArrayList<PlayerAnswer>();
-		answers.add(new PlayerAnswer("dave", gameId, quiz.getId(),0,'c'));
-		answers.add(new PlayerAnswer("ken", gameId, quiz.getId(),0,'b'));
+		answers.add(new PlayerAnswer("dave", gameId, quiz.getId(),0,'c', 10));
+		answers.add(new PlayerAnswer("ken", gameId, quiz.getId(),0,'b', 5));
 		
-		answers.add(new PlayerAnswer("dave", gameId, quiz.getId(),1,'b'));
-		answers.add(new PlayerAnswer("ken", gameId, quiz.getId(),1,'a'));
+		answers.add(new PlayerAnswer("dave", gameId, quiz.getId(),1,'b', 5));
+		answers.add(new PlayerAnswer("ken", gameId, quiz.getId(),1,'a', 10));
 		
-		answers.add(new PlayerAnswer("dave", gameId, quiz.getId(),2,'a'));
-		answers.add(new PlayerAnswer("ken", gameId, quiz.getId(),2,'a'));
+		answers.add(new PlayerAnswer("dave", gameId, quiz.getId(),2,'a', 5));
+		answers.add(new PlayerAnswer("ken", gameId, quiz.getId(),2,'a', 0));
 		
 		playerAnswerRepo.save(answers);
 		

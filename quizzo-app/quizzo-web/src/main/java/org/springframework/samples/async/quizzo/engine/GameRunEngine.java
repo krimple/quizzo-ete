@@ -34,4 +34,6 @@ public interface GameRunEngine {
     void addPlayer(String gameId, String playerId);
 
     void stopTakingPlayersAndStartGamePlay(String gameId);
+
+    GameState getGameState(String gameId);
 }

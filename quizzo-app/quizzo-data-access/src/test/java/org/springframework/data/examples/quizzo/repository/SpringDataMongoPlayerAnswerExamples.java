@@ -36,14 +36,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { DataAccessConfig.class })
 public class SpringDataMongoPlayerAnswerExamples {
+
 	@Autowired
 	public PlayerAnswerRepository playerAnswerRepo;
 
 	@Before
 	public void setUp() {
-		PlayerAnswer ans = new PlayerAnswer("p1", "i1", "q1", 0, 'a');
+		PlayerAnswer ans = new PlayerAnswer("p1", "i1", "q1", 0, 'a', 100);
 		playerAnswerRepo.save(ans);
-		ans = new PlayerAnswer("p2", "i1", "q1", 0, 'b');
+		ans = new PlayerAnswer("p2", "i1", "q1", 0, 'b', 100);
 		playerAnswerRepo.save(ans);
 	}
 

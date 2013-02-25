@@ -85,7 +85,7 @@ public class QuizRunEngineInMemoryImplTest {
         AnswerStatus status = gameRunEngine.submitPlayerAnswer(
                 new PlayerAnswer(fakePlayer.getName(),
                         "test-run", "dumbid",
-                        0, 'a'));
+                        0, 'a', 10));
 
         assertEquals(AnswerStatus.ANSWER_SUBMITTED, status);
     }

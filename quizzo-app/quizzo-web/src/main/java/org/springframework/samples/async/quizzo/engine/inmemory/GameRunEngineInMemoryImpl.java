@@ -6,6 +6,7 @@ import org.springframework.data.examples.quizzo.repository.PlayerRepository;
 import org.springframework.data.examples.quizzo.repository.QuizRepository;
 import org.springframework.samples.async.quizzo.engine.AnswerStatus;
 import org.springframework.samples.async.quizzo.engine.GameRunEngine;
+import org.springframework.samples.async.quizzo.engine.GameState;
 import org.springframework.util.Assert;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -157,4 +158,13 @@ public class GameRunEngineInMemoryImpl implements GameRunEngine {
         playerAnswerRepository.save(answer);
         return AnswerStatus.ANSWER_SUBMITTED;
     }
+
+    @Override
+    public GameState getGameState(String gameId) {
+        QuizGameInstance quizGameInstance = getQuizRun(gameId);
+        return quizGameInstance.getGameState();
+    }
+
+
+
 }

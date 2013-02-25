@@ -38,4 +38,6 @@ public class DataAccessConfig extends AbstractMongoConfiguration {
 		mongo.setWriteConcern(WriteConcern.SAFE);
 		return mongo;
 	}
+
+
 }

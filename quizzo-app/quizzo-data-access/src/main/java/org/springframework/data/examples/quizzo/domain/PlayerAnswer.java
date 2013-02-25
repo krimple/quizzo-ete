@@ -32,8 +32,14 @@ public class PlayerAnswer {
 	private String gameId;
 	
 	private final Choice.Letter choice;
-	
-	/**
+
+    private final int score;
+
+    public int getScore() {
+        return score;
+    }
+
+    /**
 	 * Constructor for submitted responses
 	 * @param playerId
 	 * @param questionNumber
@@ -43,13 +49,14 @@ public class PlayerAnswer {
 	public PlayerAnswer(
 			@JsonProperty("playerId") String playerId, 
 			@JsonProperty("questionNumber") int questionNumber,
-			@JsonProperty("choice") char choice){
-		this(playerId,null, null, questionNumber, choice);
+			@JsonProperty("choice") char choice,
+            @JsonProperty("score") int score){
+		this(playerId,null, null, questionNumber, choice, score);
 	}
 	
 	@PersistenceConstructor
 	public PlayerAnswer(String playerId, String gameId, String quizId, int questionNumber,
-                        char choice) {
+                        char choice, int score) {
 
 		Assert.hasText(playerId, "player ID cannot be null or blank.");
 		Assert.isTrue(questionNumber >= 0, "question number must be >= 0.");
@@ -59,6 +66,7 @@ public class PlayerAnswer {
 		this.quizId = quizId;
 		this.questionNumber = questionNumber;
 		this.choice = Choice.Letter.validate(choice);
+        this.score = score;
 	}
 
 	/**
@@ -117,5 +125,7 @@ public class PlayerAnswer {
 	public void setGameId(String gameId) {
 		this.gameId = gameId;
 	}
+
+
 
 }
