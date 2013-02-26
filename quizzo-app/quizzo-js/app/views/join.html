@@ -12,13 +12,12 @@
             <p>
                 <label for="nickname"><b>Nickname</b></label>
                 <input type="text" 
-                       ng-model="nickname"
-                       ng-change="verify_nick(nickname)"
+                       ng-model="nickName"
                        id="nickname"
-                        /> <span ng-show="badNick" class="error">Nickname already used...</span>
+                       ng-change="clear_nick_bad()"
+                        /> <span class="error" ng-show="showJoinError">{{joinError}}</span>
 
-            <button id="join" ng-click="join_game($location)"
-              ng-show="!badNick && nickname">Join</button>
+            <button id="join" ng-click="join_game(nickName)">Join</button>
             </p>
         </form>
     </span>

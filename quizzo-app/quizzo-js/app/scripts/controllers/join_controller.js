@@ -1,20 +1,20 @@
 'use strict';
 
 angular.module('quizzoApp').
-  controller('JoinCtrl', function ($scope, $location, PlayerService, QuizManagerService) {
-  $scope.join_game = function (nickName, emailAddress) {
-    console.log("clicked join");
-    // bad developer ;)
-    PlayerService.setNickName(nickname);
-    QuizManagerService.startQuiz();
-    // do the check here...
-    $location.path("/play");
+  controller('JoinCtrl', function ($rootScope, $location, PlayerService) {
+    $rootScope.showJoinError = false;
+    $rootScope.joinError = '';
+
+  $rootScope.$on("badNick", function(args) {
+      $rootScope.showJoinError = true;
+      $rootScope.joinError = "bad nickname -" + args[0] + " - please try another";
+  })
+  $rootScope.join_game = function (nickName, emailAddress) {
+    PlayerService.createNickName(nickName);
   };
 
-  $scope.verify_nick = function () {
-    console.log("verify nickname - ", $scope.nickname);
-    var result = PlayerService.searchNickName($scope.nickname);
-    console.log("verify result - ", result);
-    $scope.badNick = result;
+  $rootScope.clear_nick_bad = function() {
+    $rootScope.showJoinError = false;
+    $rootScope.joinError = "";
   };
 });

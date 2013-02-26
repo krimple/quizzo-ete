@@ -1,27 +1,21 @@
 'use strict';
 
-angular.module('quizzoApp').factory('PlayerService', function () {
+angular.module('quizzoApp').factory('PlayerService', function (serverPrefix, $location, $rootScope, $http) {
   /** stub service implementation */
   var playerServiceImpl = {};
 
-  /** our service state - stubbed until we use a web service against a live engine */
-  playerServiceImpl.nickNameValues = ['dave', 'chuck', 'sal'];
 
-  /** returns true if a value exists, false otherwise */
-  playerServiceImpl.searchNickName = function (value) {
-    return (this.nickNameValues.indexOf(value) != -1);
-  };
+  playerServiceImpl.createNickName = function (nickName) {
 
-  playerServiceImpl.setNickName = function (nickName) {
-    // in real server this would be implemented in a concurrent way. This is
-    // just a stub.
-    if (!playerServiceImpl.searchNickName(nickName)) {
-      // set service state
-      this.currentPlayer = nickName;
-      return true;
-    } else {
-      return false;
-    }
+    $http.post(serverPrefix + 'player/register/' + nickName).
+        success(function(data, status, headers, config) {
+            if (status == 201) {
+                $rootScope.badNick = false;
+                $location.path("/play");
+            } else if (status == 204) {
+                $rootScope.$broadcast("badNick", nickName);
+            }
+        });
   };
 
   playerServiceImpl.getPlayer = function() {

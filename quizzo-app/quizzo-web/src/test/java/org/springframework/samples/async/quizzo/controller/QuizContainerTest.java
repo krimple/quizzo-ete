@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.examples.quizzo.domain.Player;
 import org.springframework.data.examples.quizzo.repository.PlayerRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.samples.async.config.AppConfig;
@@ -75,8 +76,10 @@ public class QuizContainerTest {
             assertEquals(200, mockResponse.getStatus());
 
             // create and register our user in the game
-            Player player = playerController.registerUserByNickName(mockSession, "foobar");
-            assertNotNull(player);
+            ResponseEntity<Player> playerResponse =
+                    playerController.registerUserByNickName(mockSession, "foobar");
+            assertNotNull(playerResponse);
+
             QuizPollResponse joinGameResponse = gamePlayController.joinGame(mockSession, "jstest");
             assertTrue(joinGameResponse.getClass().isAssignableFrom(GameJoinedResponse.class));
 

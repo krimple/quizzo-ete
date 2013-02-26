@@ -18,7 +18,7 @@ public class CORSFilter implements Filter {
             FilterChain chain) throws IOException, ServletException {
 
         ((HttpServletResponse)response).addHeader(
-                "Access-Control-Allow-Origin", "*"
+                "Access-Control-Allow-Origin", "quizzo-ete.com:9000"
         );
         chain.doFilter(request, response);
     }

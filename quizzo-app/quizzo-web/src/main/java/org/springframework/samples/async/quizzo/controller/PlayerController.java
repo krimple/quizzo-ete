@@ -3,6 +3,7 @@ package org.springframework.samples.async.quizzo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.examples.quizzo.PlayerService;
 import org.springframework.data.examples.quizzo.domain.Player;
+import org.springframework.data.examples.quizzo.exception.PlayerAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.async.quizzo.engine.PlayerGameSession;
@@ -33,18 +34,6 @@ public class PlayerController extends AbstractQuizController {
         this.playerService = playerService;
     }
 
-    @RequestMapping(method= RequestMethod.GET, value="searchFor/{nickName}")
-    public ResponseEntity<Integer> searchForNickName(String nickName) {
-        /*
-        TODO - add repository impl and map/reduce or other mechanism to count in mongo
-        this is horribly inefficient and in the wrong place.
-        Also see https://jira.springsource.org/browse/DATACMNS-195.
-        */
-        int count = playerService.countPlayersByNamePattern(nickName);
-        return new ResponseEntity<Integer>(count, HttpStatus.OK);
-
-    }
-
     @RequestMapping(method = RequestMethod.GET, value="{nickName}")
     public @ResponseBody Player getUserByNickName(String nickName) {
         // TODO - fix when more than one returned or not any returned
@@ -52,10 +41,22 @@ public class PlayerController extends AbstractQuizController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value="register/{nickName}")
-    public @ResponseBody Player registerUserByNickName(HttpSession session, @PathVariable String nickName) {
-        Player player = playerService.registerPlayer(nickName);
+    public @ResponseBody ResponseEntity<Player>
+        registerUserByNickName(HttpSession session, @PathVariable String nickName) {
+
+        final Player player;
+        final ResponseEntity<Player> responseEntity;
+
+        try {
+            player = playerService.registerPlayer(nickName);
+        } catch (PlayerAlreadyExistsException p) {
+            responseEntity = new ResponseEntity<Player>(HttpStatus.NO_CONTENT);
+            return responseEntity;
+        }
+
         PlayerGameSession playerGameSession = getOrCreatePlayerGameSession(session);
         playerGameSession.setPlayerId(player.getName());
-        return player;
+        responseEntity = new ResponseEntity<Player>(player, HttpStatus.CREATED);
+        return responseEntity;
     }
 }
