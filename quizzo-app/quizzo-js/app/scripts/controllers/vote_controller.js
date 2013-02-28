@@ -7,8 +7,6 @@ angular.module('quizzoApp').controller('VoteCtrl', function($scope, $location, Q
     $scope.answer_choices = QuizManagerService.getCurrentQuestion().choices;
   });
 
-
-  // this would actually call the service that communicated the vote
   $scope.castVote = function () {
     var selectedChoice = voteForm.choices.item().value;
     if (selectedChoice) {

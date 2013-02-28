@@ -16,36 +16,40 @@ import java.math.BigInteger;
 
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.util.Assert;
 
 /**
  * @author David Turanski
  *
  */
+
+@CompoundIndexes({
+        @CompoundIndex(name = "player_answer_key_idx",
+                       def = "{'quizId' : 1, 'gameId' : 1, 'playerId' : 1, 'questionNumber' : 1}",
+                       unique = true)
+})
 public class PlayerAnswer {
 	private BigInteger id;
-	private final String playerId;
+	private String playerId;
 	private String quizId;
 	private final int questionNumber;
 	private String gameId;
-	private final char choice;
-    private final int score;
+	private char choice;
+    private int score;
 
     /**
 	 * Constructor for submitted responses
-	 * @param playerId
 	 * @param questionNumber
 	 * @param choice
 	 */
 	@JsonCreator
 	public PlayerAnswer(
-			@JsonProperty("playerId") String playerId, 
 			@JsonProperty("questionNumber") Integer questionNumber,
-			@JsonProperty("choice") char choice,
-            @JsonProperty("score") Integer score) {
-		this(playerId, null, null, questionNumber, choice, score);
+			@JsonProperty("choice") char choice) {
+		this(null, null, null, questionNumber, choice, null);
 	}
 	
 	@PersistenceConstructor
@@ -122,5 +126,17 @@ public class PlayerAnswer {
 
     public int getScore() {
         return score;
+    }
+
+    public void setPlayerId(String playerId) {
+        this.playerId = playerId;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public void setChoice(char choice) {
+        this.choice = choice;
     }
 }

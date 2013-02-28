@@ -3,6 +3,7 @@ package org.springframework.samples.async.quizzo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.examples.quizzo.domain.MultipleChoiceQuestion;
 import org.springframework.data.examples.quizzo.domain.PlayerAnswer;
+import org.springframework.data.examples.quizzo.repository.PlayerAnswerRepository;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +26,14 @@ public class GamePlayController extends AbstractQuizController {
 
     private GameRunEngine quizRunEngine;
 
+    private PlayerAnswerRepository playerAnswerRepository;
+
 
     @Autowired
-    public GamePlayController(GameRunEngine quizRunEngine) {
+    public GamePlayController(GameRunEngine quizRunEngine,
+                              PlayerAnswerRepository playerAnswerRepository) {
         this.quizRunEngine = quizRunEngine;
+        this.playerAnswerRepository = playerAnswerRepository;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "games")
@@ -68,9 +73,17 @@ public class GamePlayController extends AbstractQuizController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "submitAnswer")
-    public @ResponseBody QuizPollResponse submitPlayerAnswer(@RequestBody PlayerAnswer playerAnswer) {
-        char choice = playerAnswer.getChoice();
-        int questionNumber = playerAnswer.getQuestionNumber();
+    public @ResponseBody QuizPollResponse submitPlayerAnswer(
+            @RequestBody PlayerAnswer playerAnswer,
+            HttpSession session) {
+
+        PlayerGameSession gameSession = getOrCreatePlayerGameSession(session);
+        playerAnswer.setGameId(gameSession.getGameId());
+        playerAnswer.setPlayerId(gameSession.getPlayerId());
+
+
+        // record quiz answer
+        playerAnswerRepository.save(playerAnswer);
         return new AnswerSubmittedResponse();
     }
 
