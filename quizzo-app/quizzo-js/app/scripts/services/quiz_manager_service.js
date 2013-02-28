@@ -23,8 +23,19 @@ angular.module('quizzoApp').factory('QuizManagerService', function($http, $rootS
           }
         }).
       error(function(data, status, headers, config) {
+        // todo - show an error page in this case
+        $rootScope.$broadcast('ErrorJoining');
+      });
+  }
 
-        });
+  implementation.getStatus = function(gameId) {
+    $http.get(serverPrefix + "status").
+      success(function(data, status, headers, config) {
+
+      }).
+      error(function(data, status, headers, config) {
+
+      });
   }
 
   // stubbed state
