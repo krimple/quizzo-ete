@@ -1,7 +1,7 @@
 .idea
 *.class
 target
-.iml
+*.iml
 rest-shell.log
 
 # Package Files #
