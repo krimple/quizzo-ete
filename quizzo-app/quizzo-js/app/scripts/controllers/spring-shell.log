@@ -1,0 +1,45 @@
+// rest-shell 1.0.1.BUILD-SNAPSHOT log opened at 2013-02-26 18:45:07
+post 
+baseUri http://quizzo-ete.com:8080/resources/quizzo
+baseUri http://quizzo-ete.com:8080/quizzo
+baseUri http://quizzo-ete.com:8080/quizzo/moderator/game/startGame/JavaScriptQuiz/moderator/foobar
+post
+baseUri http://quizzo-ete.com:8080/quizzo/moderator/game/startGame/JavascriptQuiz/moderator/foobar
+post
+baseUri http://quizzo-ete.com:8080/quizzo/moderator/game/startGame/JavascriptQuiz/moderator/foobar
+post
+post
+post
+baseUri http://quizzo-ete.com:8080/quizzo/player/register/salthehal
+post
+baseUri http://quizzo-ete.com:8080/quizzo/quizRun/games
+get
+baseUri http://quizzo-ete.com:8080/quizzo/moderator/game/startGame/JavascriptQuiz/moderator/foobar
+post
+baseUri http://quizzo-ete.com:8080/quizzo/quizRun/games
+get
+baseUri http://quizzo-ete.com:8080/quizzo/moderator/game/startGame/JavascriptQuiz/moderator/foobar
+post
+baseUri http://quizzo-ete.com:8080/quizzo/quizRun/games
+get
+baseUri http://quizzo-ete.com:8080/quizzo/moderator/game/startGame/JavascriptQuiz/moderator/foobar
+post
+baseUri http://quizzo-ete.com:8080/quizzo/quizRun/games
+get
+baseUri http://quizzo-ete.com:8080/quizzo/moderator/game/startGame/JavascriptQuiz/moderator/foobar
+post
+post
+baseUri http://quizzo-ete.com:8080/quizzo/quizRun/games
+get
+baseUri http://quizzo-ete.com:8080/quizzo/moderator/game/startGame/JavascriptQuiz/moderator/foobar
+post
+post
+post
+baseUri http://quizzo-ete.com:8080/quizzo/quizRun/games
+get
+baseUri http://quizzo-ete.com:8080/quizzo/player/register/suggabugga
+get
+post
+baseUri http://quizzo-ete.com:8080/quizzo/quizRun/game/8d7d5eee-2fe0-4aac-91f3-cd0b940e4def/joinGame
+post
+help

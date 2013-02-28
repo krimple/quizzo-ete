@@ -9,6 +9,7 @@ import org.springframework.samples.async.quizzo.engine.GameRunEngine;
 import org.springframework.samples.async.quizzo.engine.GameState;
 import org.springframework.util.Assert;
 
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class GameRunEngineInMemoryImpl implements GameRunEngine {
@@ -49,13 +50,15 @@ public class GameRunEngineInMemoryImpl implements GameRunEngine {
 
     // run by an admin - returns the game id
     @Override
-    public String startQuizRunAndBeginTakingPlayers(String quizId, String gameId) {
+    public String startQuizRunAndBeginTakingPlayers(String quizId, String gameName) {
         Quiz quiz = quizRepository.findOne(quizId);
         if (quiz == null) {
             return null;
         } else {
-            QuizGameInstance quizGameInstance = new QuizGameInstance(quiz, gameId);
+            QuizGameInstance quizGameInstance = new QuizGameInstance(quiz, gameName);
             quizGameInstance.beginTakingPlayers();
+            // the system refers to the game based on a UUID
+            String gameId = quizGameInstance.getGameId();
             gameInstances.put(gameId, quizGameInstance);
             return gameId;
         }
@@ -165,6 +168,23 @@ public class GameRunEngineInMemoryImpl implements GameRunEngine {
         return quizGameInstance.getGameState();
     }
 
+    @Override
+    public List<HashMap> getGamesAwaitingPlayers() {
+        // TODO - more formal types this is a kludge
+        List<HashMap> results = new ArrayList<HashMap>();
+        Iterator<Map.Entry<String, QuizGameInstance>> entryIterator = gameInstances.entrySet().iterator();
+        while (entryIterator.hasNext()) {
+            Map.Entry<String, QuizGameInstance> entry = entryIterator.next();
+            if (entry.getValue().getGameState().equals(GameState.AWAITING_PLAYERS)) {
+                HashMap result = new HashMap();
+                result.put("gameId", entry.getKey());
+                // note - leaky abstraction - should expose this as an interface method perhaps
+                result.put("title", entry.getValue().getQuizTitle());
+                results.add(result);
+            }
+        }
+        return results;
+    }
 
 
 }

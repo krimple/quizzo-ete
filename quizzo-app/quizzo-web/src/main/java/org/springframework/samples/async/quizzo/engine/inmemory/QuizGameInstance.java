@@ -160,4 +160,8 @@ public class QuizGameInstance {
         return this.game.getId();
     }
 
+    public String getQuizTitle() {
+        return this.quiz.getTitle();
+    }
+
 }

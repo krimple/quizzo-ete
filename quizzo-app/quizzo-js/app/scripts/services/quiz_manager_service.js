@@ -1,21 +1,45 @@
 'use strict';
 
-angular.module('quizzoApp').factory('QuizManagerService', function($rootScope) {
+angular.module('quizzoApp').factory('QuizManagerService', function($http, $rootScope, serverPrefix) {
 
-  var quizManagerServiceImpl = {};
+  var stubImplementation = {};
+
+  var implementation = {};
+
+  implementation.checkReadyToPlay = function(gameId) {
+    $http.get(serverPrefix + "status").
+      success(function(data, status, headers, config) {
+          if (data.status == 'WaitingToPlay') {
+            // we just wait... do nothing and return
+            return;
+          }
+          if (data.status == 'WaitingForNextQuestion') {
+            $rootScope.$broadcast('WaitingForNextQuestion');
+            $rootScope.question.delete();
+          }
+          if (data.status == 'WaitingForAnswer') {
+            $rootScope.question = data.question;
+            $rootScope.$broadcast('AnswerQuestion');
+          }
+        }).
+      error(function(data, status, headers, config) {
+
+        });
+  }
+
   // stubbed state
-  quizManagerServiceImpl.currentQuestionIndex = -1;
-  quizManagerServiceImpl.currentQuestion = {};
-  quizManagerServiceImpl.score = 0;
+  stubImplementation.currentQuestionIndex = -1;
+  stubImplementation.currentQuestion = {};
+  stubImplementation.score = 0;
 
   // this will stay - browser state - any initialized or non-answered question has a -1 value...
   // this code line smells worse than an old donkey walking through a bucket of pig swill...
-  quizManagerServiceImpl.selectedAnswer = -1;
+  stubImplementation.selectedAnswer = -1;
 
   // this information is all for stubbing.
 
-  quizManagerServiceImpl.currentQuizState = 'NOT_STARTED';
-  quizManagerServiceImpl.questions = [
+  stubImplementation.currentQuizState = 'NOT_STARTED';
+  stubImplementation.questions = [
     {
     question: 'Who are you?',
     choices: [

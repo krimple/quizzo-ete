@@ -57,15 +57,6 @@ public class QuizModeratorController extends AbstractQuizController {
         }
     }
 
-    // begin play
-    @RequestMapping(method = RequestMethod.POST, value="beginPlay")
-    public void beginPlay(HttpSession session) {
-        QuizModeratorSession quizModeratorSession = getOrCreateQuizModeratorSession(session);
-        Assert.notNull(quizModeratorSession.getNickName());
-        Assert.notNull(quizModeratorSession.getGameId());
-        gameRunEngine.stopTakingPlayersAndStartGamePlay(quizModeratorSession.getGameId());
-    }
-
     // move to next question
     @RequestMapping(method = RequestMethod.POST, value = "nextQuestion")
     public void moveToNextQuestion(HttpSession session) {
@@ -73,6 +64,16 @@ public class QuizModeratorController extends AbstractQuizController {
         Assert.notNull(quizModeratorSession.getNickName());
         Assert.notNull(quizModeratorSession.getGameId());
         gameRunEngine.moveToNextQuestion(quizModeratorSession.getGameId());
+    }
+
+    // begin play
+    @RequestMapping(method = RequestMethod.POST, value="beginPlay")
+    @ResponseStatus(HttpStatus.OK)
+    public void beginPlay(HttpSession session) {
+        QuizModeratorSession quizModeratorSession = getOrCreateQuizModeratorSession(session);
+        Assert.notNull(quizModeratorSession.getNickName());
+        Assert.notNull(quizModeratorSession.getGameId());
+        gameRunEngine.stopTakingPlayersAndStartGamePlay(quizModeratorSession.getGameId());
     }
 
     // end current question

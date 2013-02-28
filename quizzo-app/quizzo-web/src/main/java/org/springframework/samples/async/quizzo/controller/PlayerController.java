@@ -56,6 +56,8 @@ public class PlayerController extends AbstractQuizController {
 
         PlayerGameSession playerGameSession = getOrCreatePlayerGameSession(session);
         playerGameSession.setPlayerId(player.getName());
+        //updatePlayerGameSession(session, playerGameSession);
+
         responseEntity = new ResponseEntity<Player>(player, HttpStatus.CREATED);
         return responseEntity;
     }

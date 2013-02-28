@@ -1,7 +1,9 @@
 'use strict';
 
 angular.module('quizzoApp').
- controller('QuestionCtrl', function($scope, QuizManagerService) {
+ controller('QuestionCtrl', function($scope, $routeParams, QuizManagerService) {
+
+  QuizManagerService.selectGamebyId($routeParams.gameId);
 
   $scope.question = QuizManagerService.getCurrentQuestion().question;
 

@@ -11,6 +11,7 @@ public class WaitingToPlay extends GameStatus {
 
     public WaitingToPlay(String message) {
         super(0);
+        this.setStatus("WaitingToPlay");
         this.message = message;
     }
     private String message;

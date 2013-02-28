@@ -49,14 +49,8 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/resources/**").addResourceLocations("resources/");
+		registry.addResourceHandler("/resources/**").addResourceLocations("resources/").setCachePeriod(-1);
 	}
-
-//    @Override
-//    protected void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(new CORSInterceptor());
-//        super.addInterceptors(registry);
-//    }
 
     @Bean
 	public ViewResolver viewResolver() {

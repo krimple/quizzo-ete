@@ -5,6 +5,7 @@ public class WaitingForNextQuestion extends GameStatus {
 
     public WaitingForNextQuestion(int currentScore, String message) {
         super(currentScore);
+        this.setStatus("WaitingForNextQuestion");
         this.message = message;
     }
 

@@ -3,6 +3,10 @@ package org.springframework.samples.async.quizzo.engine;
 import org.springframework.data.examples.quizzo.domain.MultipleChoiceQuestion;
 import org.springframework.data.examples.quizzo.domain.PlayerAnswer;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created with IntelliJ IDEA.
  * User: kenrimple
@@ -36,4 +40,6 @@ public interface GameRunEngine {
     void stopTakingPlayersAndStartGamePlay(String gameId);
 
     GameState getGameState(String gameId);
+
+    List<HashMap> getGamesAwaitingPlayers();
 }

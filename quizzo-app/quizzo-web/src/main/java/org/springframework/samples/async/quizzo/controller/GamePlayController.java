@@ -3,6 +3,9 @@ package org.springframework.samples.async.quizzo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.examples.quizzo.domain.MultipleChoiceQuestion;
 import org.springframework.data.examples.quizzo.domain.PlayerAnswer;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.samples.async.quizzo.engine.GameRunEngine;
 import org.springframework.samples.async.quizzo.engine.PlayerGameSession;
 import org.springframework.samples.async.quizzo.engine.PlayerGameSessionImpl;
@@ -13,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.List;
 
 @Controller
 @RequestMapping("/quizRun")
@@ -24,6 +29,17 @@ public class GamePlayController extends AbstractQuizController {
     @Autowired
     public GamePlayController(GameRunEngine quizRunEngine) {
         this.quizRunEngine = quizRunEngine;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "games")
+    public @ResponseBody
+    ResponseEntity<List> getGamesAwaitingPlayers () {
+        List<HashMap> results = quizRunEngine.getGamesAwaitingPlayers();
+        if (results.size() == 0) {
+            return new ResponseEntity<List>(HttpStatus.NO_CONTENT);     // 204
+        } else {
+            return new ResponseEntity<List>(results, HttpStatus.OK);    // 200
+        }
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "game/{gameId}/joinGame")

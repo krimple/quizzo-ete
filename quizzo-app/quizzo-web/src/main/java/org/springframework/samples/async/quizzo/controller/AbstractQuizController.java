@@ -35,6 +35,10 @@ public class AbstractQuizController {
         return playerGameSession;
     }
 
+    protected void updatePlayerGameSession(HttpSession session, PlayerGameSession gameSession) {
+        session.setAttribute("playerGameSession", gameSession);
+    }
+
     protected QuizModeratorSession getOrCreateQuizModeratorSession(HttpSession session) {
         QuizModeratorSession quizModeratorSession = (QuizModeratorSession) session.getAttribute("quizModeratorSession");
         if (quizModeratorSession == null) {
@@ -43,4 +47,6 @@ public class AbstractQuizController {
         }
         return quizModeratorSession;
     }
+
+
 }

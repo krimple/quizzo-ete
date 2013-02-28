@@ -1,0 +1,25 @@
+18:45:06.858 [main] DEBUG o.s.d.r.s.commands.ContextCommands - Cleared context variables...
+18:45:16.676 [Spring Shell] INFO  o.s.d.r.shell.commands.HttpCommands - Sending POST to http://localhost:8080/ using null
+18:46:22.894 [Spring Shell] INFO  o.s.d.r.shell.commands.HttpCommands - Sending POST to http://quizzo-ete.com:8080/quizzo/moderator/game/startGame/JavaScriptQuiz/moderator/foobar/ using null
+18:46:54.862 [Spring Shell] INFO  o.s.d.r.shell.commands.HttpCommands - Sending POST to http://quizzo-ete.com:8080/quizzo/moderator/game/startGame/JavascriptQuiz/moderator/foobar/ using null
+19:57:18.377 [Spring Shell] INFO  o.s.d.r.shell.commands.HttpCommands - Sending POST to http://quizzo-ete.com:8080/quizzo/moderator/game/startGame/JavascriptQuiz/moderator/foobar/ using null
+09:44:48.170 [Spring Shell] INFO  o.s.d.r.shell.commands.HttpCommands - Sending POST to http://quizzo-ete.com:8080/quizzo/moderator/game/startGame/JavascriptQuiz/moderator/foobar/ using null
+09:46:40.168 [Spring Shell] INFO  o.s.d.r.shell.commands.HttpCommands - Sending POST to http://quizzo-ete.com:8080/quizzo/moderator/game/startGame/JavascriptQuiz/moderator/foobar/ using null
+09:48:04.892 [Spring Shell] INFO  o.s.d.r.shell.commands.HttpCommands - Sending POST to http://quizzo-ete.com:8080/quizzo/player/register/salthehal/ using null
+09:48:34.892 [Spring Shell] INFO  o.s.d.r.shell.commands.HttpCommands - Sending GET to http://quizzo-ete.com:8080/quizzo/quizRun/games/ using null
+09:54:33.256 [Spring Shell] INFO  o.s.d.r.shell.commands.HttpCommands - Sending POST to http://quizzo-ete.com:8080/quizzo/moderator/game/startGame/JavascriptQuiz/moderator/foobar/ using null
+09:54:44.189 [Spring Shell] INFO  o.s.d.r.shell.commands.HttpCommands - Sending GET to http://quizzo-ete.com:8080/quizzo/quizRun/games/ using null
+09:56:27.748 [Spring Shell] INFO  o.s.d.r.shell.commands.HttpCommands - Sending POST to http://quizzo-ete.com:8080/quizzo/moderator/game/startGame/JavascriptQuiz/moderator/foobar/ using null
+09:56:35.668 [Spring Shell] INFO  o.s.d.r.shell.commands.HttpCommands - Sending GET to http://quizzo-ete.com:8080/quizzo/quizRun/games/ using null
+09:58:02.474 [Spring Shell] INFO  o.s.d.r.shell.commands.HttpCommands - Sending POST to http://quizzo-ete.com:8080/quizzo/moderator/game/startGame/JavascriptQuiz/moderator/foobar/ using null
+09:58:07.971 [Spring Shell] INFO  o.s.d.r.shell.commands.HttpCommands - Sending GET to http://quizzo-ete.com:8080/quizzo/quizRun/games/ using null
+10:05:51.518 [Spring Shell] INFO  o.s.d.r.shell.commands.HttpCommands - Sending POST to http://quizzo-ete.com:8080/quizzo/moderator/game/startGame/JavascriptQuiz/moderator/foobar/ using null
+10:12:59.428 [Spring Shell] INFO  o.s.d.r.shell.commands.HttpCommands - Sending POST to http://quizzo-ete.com:8080/quizzo/moderator/game/startGame/JavascriptQuiz/moderator/foobar/ using null
+10:13:29.343 [Spring Shell] INFO  o.s.d.r.shell.commands.HttpCommands - Sending GET to http://quizzo-ete.com:8080/quizzo/quizRun/games/ using null
+13:20:37.860 [Spring Shell] INFO  o.s.d.r.shell.commands.HttpCommands - Sending POST to http://quizzo-ete.com:8080/quizzo/moderator/game/startGame/JavascriptQuiz/moderator/foobar/ using null
+13:33:11.784 [Spring Shell] INFO  o.s.d.r.shell.commands.HttpCommands - Sending POST to http://quizzo-ete.com:8080/quizzo/moderator/game/startGame/JavascriptQuiz/moderator/foobar/ using null
+13:39:03.799 [Spring Shell] INFO  o.s.d.r.shell.commands.HttpCommands - Sending POST to http://quizzo-ete.com:8080/quizzo/moderator/game/startGame/JavascriptQuiz/moderator/foobar/ using null
+14:18:08.292 [Spring Shell] INFO  o.s.d.r.shell.commands.HttpCommands - Sending GET to http://quizzo-ete.com:8080/quizzo/quizRun/games/ using null
+14:18:43.650 [Spring Shell] INFO  o.s.d.r.shell.commands.HttpCommands - Sending GET to http://quizzo-ete.com:8080/quizzo/player/register/suggabugga/ using null
+14:18:49.568 [Spring Shell] INFO  o.s.d.r.shell.commands.HttpCommands - Sending POST to http://quizzo-ete.com:8080/quizzo/player/register/suggabugga/ using null
+14:19:34.362 [Spring Shell] INFO  o.s.d.r.shell.commands.HttpCommands - Sending POST to http://quizzo-ete.com:8080/quizzo/quizRun/game/8d7d5eee-2fe0-4aac-91f3-cd0b940e4def/joinGame/ using null
