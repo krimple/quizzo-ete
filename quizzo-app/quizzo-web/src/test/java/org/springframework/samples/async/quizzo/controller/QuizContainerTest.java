@@ -113,15 +113,16 @@ public class QuizContainerTest {
       command.setGameId(gameId);
       quizModeratorController.moderate(command, mockSession, mockResponse);
 
-      // check for the first question!
-      QuizPollResponse response = gamePlayController.getCurrentQuestion(mockSession, mockResponse);
-      Assert.assertTrue(response.getCategory().equals("QuestionPending"));
-
       while (true) {
-        QuestionPendingResponse questionPendingResponse = (QuestionPendingResponse) gamePlayController.getCurrentQuestion(mockSession, mockResponse);
+        GameStatus pollStatus = (GameStatus) gameStatusController.getGameStatus(mockSession);
+        if (pollStatus.getStatus().equals("GameComplete")) break;
+
+        QuestionPendingResponse questionPendingResponse =
+                (QuestionPendingResponse) gamePlayController.getCurrentQuestion(mockSession, mockResponse);
         MultipleChoiceQuestion question = questionPendingResponse.getQuestion();
         // always safe choosing the first one ;)
         PlayerAnswer answer = new PlayerAnswer(question.getQuestionNumber(), 'a');
+
         gamePlayController.submitPlayerAnswer(answer, mockSession);
 
         // moderator - end question play
@@ -129,7 +130,7 @@ public class QuizContainerTest {
         quizModeratorController.moderate(command, mockSession, mockResponse);
 
         // user-land - poll for next step and make sure we're awaiting the next score OR done
-        GameStatus pollStatus = (GameStatus) gameStatusController.getGameStatus(mockSession);
+        pollStatus = (GameStatus) gameStatusController.getGameStatus(mockSession);
         if (pollStatus.getClass().equals(WaitingForNextQuestion.class)) {
           command.setCommand(ModeratorCommands.NEXT_QUESTION);
           quizModeratorController.moderate(command, mockSession, mockResponse);
@@ -138,11 +139,6 @@ public class QuizContainerTest {
         }
       }
 
-      // now, end and destroy the game  NO, it is done automatically after the last question is answered and closed.
-      //command = new ModeratorCommand();
-      //command.setCommand(ModeratorCommands.END_GAME);
-      //command.setGameId(gameId);
-      quizModeratorController.moderate(command, mockSession, mockResponse);
       command.setCommand(ModeratorCommands.DESTROY_GAME);
       quizModeratorController.moderate(command, mockSession, mockResponse);
     } catch (Exception e) {

@@ -1,0 +1,3 @@
+02:43:48.463 [main] DEBUG o.s.d.r.s.commands.ContextCommands - Cleared context variables...
+02:44:51.077 [Spring Shell] INFO  o.s.d.r.shell.commands.HttpCommands - Sending POST to http://localhost:8080/quizzo/moderator/game/startGame/JavascriptQuiz/moderator/goober/ using null
+02:56:19.064 [Spring Shell] INFO  o.s.d.r.shell.commands.HttpCommands - Sending POST to http://localhost:8080/quizzo/moderator/game/startGame/JavascriptQuiz/moderator/goober/ using null

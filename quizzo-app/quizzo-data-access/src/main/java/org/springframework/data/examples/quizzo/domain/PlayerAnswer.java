@@ -35,7 +35,7 @@ public class PlayerAnswer {
 	private BigInteger id;
 	private String playerId;
 	private String quizId;
-	private final int questionNumber;
+        private final int questionNumber;
 	private String gameId;
 	private char choice;
   private Integer score;

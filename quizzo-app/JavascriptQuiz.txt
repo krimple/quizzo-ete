@@ -50,10 +50,10 @@ Javascript Quiz
  	 
 9.	How do you write a conditional statement for executing some code if "i" is equal to 5?
 
-	if (i==5) | 10
-	if i=5 then |0
-	if i==5 then |0
-	if i=5 |0
+	a. if (i==5) | 10
+	b. if i=5 then |0
+	c. if i==5 then |0
+	d. if i=5 |0
 
 10.	How do you write a conditional statement for executing some code if "i" is NOT equal to 5?
 

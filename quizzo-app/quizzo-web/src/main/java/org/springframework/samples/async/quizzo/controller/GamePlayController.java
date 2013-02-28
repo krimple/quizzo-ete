@@ -82,11 +82,17 @@ public class GamePlayController extends AbstractQuizController {
         playerAnswer.setGameId(gameSession.getGameId());
         playerAnswer.setPlayerId(gameSession.getPlayerId());
 
-        // score the entry
-        MultipleChoiceQuestion question = quizRunEngine.getQuestionByIndex(gameSession.getGameId(), playerAnswer.getQuestionNumber());
+        // make sure we're answering the right question
+        MultipleChoiceQuestion question =
+                quizRunEngine.getCurrentQuizQuestion(gameSession.getGameId());
+
+        if (playerAnswer.getQuestionNumber() != question.getQuestionNumber()) {
+            return new IncorrectQuestionAnsweredResponse();
+        }
+
+        // score it
         Choice choice = question.getChoice(playerAnswer.getChoice());
         playerAnswer.setScore(choice.getScore());
-
 
         // record quiz answer
         playerAnswerRepository.save(playerAnswer);
