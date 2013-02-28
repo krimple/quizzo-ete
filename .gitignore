@@ -2,7 +2,7 @@
 *.class
 target
 .iml
-.rest-shell.log
+rest-shell.log
 
 # Package Files #
 *.jar
