@@ -10,9 +10,9 @@ angular.module('quizzoApp').factory('RegisterPlayerService',
       success(function (data, status, headers, config) {
         if (status == 201) {
           $rootScope.badNick = false;
-          $location.path('/join_game');
+          $location.path('/show_games');
         } else if (status == 204) {
-          $rootScope.$broadcast("badNick", nickName);
+          $rootScope.$broadcast('badNick', nickName);
         }
       });
   };

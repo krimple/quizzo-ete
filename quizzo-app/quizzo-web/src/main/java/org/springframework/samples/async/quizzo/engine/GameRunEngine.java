@@ -33,6 +33,8 @@ public interface GameRunEngine {
 
     MultipleChoiceQuestion getCurrentQuizQuestion(String gameId);
 
+    MultipleChoiceQuestion getQuestionByIndex(String gameId, int index);
+
     AnswerStatus submitPlayerAnswer(PlayerAnswer answer);
 
     void addPlayer(String gameId, String playerId);

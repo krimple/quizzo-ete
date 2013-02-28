@@ -2,111 +2,107 @@ package org.springframework.samples.async.quizzo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.samples.async.quizzo.engine.QuizModeratorSession;
+import org.springframework.samples.async.quizzo.controller.moderator.*;
 import org.springframework.samples.async.quizzo.engine.GameRunEngine;
-import org.springframework.samples.async.quizzo.responses.GameNotStartedResponse;
-import org.springframework.samples.async.quizzo.responses.QuizPollResponse;
-import org.springframework.samples.async.quizzo.responses.QuizStartedResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 
 @Controller
-@RequestMapping("/moderator/game")
+@RequestMapping("/game/")
 public class QuizModeratorController extends AbstractQuizController {
 
-    private GameRunEngine gameRunEngine;
+  private GameRunEngine gameRunEngine;
 
-    @Autowired
-    public QuizModeratorController(GameRunEngine gameRunEngine) {
-        this.gameRunEngine = gameRunEngine;
+  @Autowired
+  public QuizModeratorController(GameRunEngine gameRunEngine) {
+    this.gameRunEngine = gameRunEngine;
 
+  }
+
+  @RequestMapping(method = RequestMethod.POST, value="startGame/{quizId}")
+  public QuizModeratorResponse startQuiz(@RequestBody ModeratorCommand command) {
+
+      Assert.notNull(command.getQuizId());
+      return startQuiz(command.getGameTitle(), command.getQuizId());
+  }
+
+  @RequestMapping(method = RequestMethod.POST, value = "moderate")
+  public
+  @ResponseBody
+  QuizModeratorResponse moderate(@RequestBody ModeratorCommand command,
+                                 HttpSession session,
+                                 HttpServletResponse response) {
+    // extremely lame-o command-lite pattern
+    ModeratorCommands commandValue = command.getCommand();
+    Assert.notNull(command.getGameId());
+
+    QuizModeratorResponse commandResponse = new OkModeratorResponse();
+    switch (commandValue) {
+      case BEGIN_PLAY:
+        beginPlay(command.getGameId());
+        break;
+      case NEXT_QUESTION:
+        // todo - when no more questions?
+        moveToNextQuestion(command.getGameId());
+        break;
+      case END_QUESTION:
+        endQuestion(command.getGameId());
+        break;
+      case END_GAME:
+        endGame(command.getGameId());
+        break;
+      case DESTROY_GAME:
+        destroyGame(command.getGameId());
+        break;
+      default:
+        response.setStatus(HttpStatus.BAD_REQUEST.value());
+        return null;
     }
+    return commandResponse;
+  }
 
-    @RequestMapping(method = RequestMethod.POST, value = "startGame/{quizId}/moderator/{moderatorNickName}")
-    public @ResponseBody QuizPollResponse startGame(@PathVariable String quizId,
-                                                    @PathVariable String moderatorNickName,
-                                                    @RequestParam(required = false) String gameName,
-                                                    HttpSession session,
-                                                    HttpServletResponse response) {
+  private QuizModeratorResponse startQuiz(String title, String quizId) {
+    String runName = title == null ?
+        "new game for " + quizId + " at " + new Date().toString() : title;
 
-        QuizModeratorSession quizModeratorSession = getOrCreateQuizModeratorSession(session);
-        // TODO this feels like it needs to go into a quiz moderator service... Too fine grained here.
-        Assert.notNull(moderatorNickName, "Must contain a moderator nick");
-        String runName = gameName == null ?
-                "new game for " + quizId + " at " + new Date().toString() : gameName;
+    // TODO - verify there is no existing quiz run with this quizRunName...  mongo unique index?
+    String gameId = gameRunEngine.startQuizRunAndBeginTakingPlayers(quizId, runName);
 
-        // TODO - srp violated - move this to another method and guard
-        quizModeratorSession.setNickName(moderatorNickName);
-
-        // TODO - verify there is no existing quiz run with this quizRunName...
-        String gameId = gameRunEngine.startQuizRunAndBeginTakingPlayers(quizId, runName);
-
-        if (gameId != null) {
-            // never leak this - it is kept at the user session level
-            // so that it cannot be spoofed
-            quizModeratorSession.setGameId(gameId);
-            sendHttpStatusResponse(HttpStatus.OK.value(), "created.", response);
-            return new QuizStartedResponse();
-        } else {
-            return new GameNotStartedResponse();
-        }
+    if (gameId != null) {
+      return new GameStartedResponse(gameId);
+    } else {
+      return new GameNotStartedResponse();
     }
+  }
 
-    // move to next question
-    @RequestMapping(method = RequestMethod.POST, value = "nextQuestion")
-    public void moveToNextQuestion(HttpSession session) {
-        QuizModeratorSession quizModeratorSession = getOrCreateQuizModeratorSession(session);
-        Assert.notNull(quizModeratorSession.getNickName());
-        Assert.notNull(quizModeratorSession.getGameId());
-        gameRunEngine.moveToNextQuestion(quizModeratorSession.getGameId());
-    }
+  private void beginPlay(String gameId) {
+    Assert.notNull(gameId);
+    gameRunEngine.stopTakingPlayersAndStartGamePlay(gameId);
+  }
 
-    // begin play
-    @RequestMapping(method = RequestMethod.POST, value="beginPlay")
-    @ResponseStatus(HttpStatus.OK)
-    public void beginPlay(HttpSession session) {
-        QuizModeratorSession quizModeratorSession = getOrCreateQuizModeratorSession(session);
-        Assert.notNull(quizModeratorSession.getNickName());
-        Assert.notNull(quizModeratorSession.getGameId());
-        gameRunEngine.stopTakingPlayersAndStartGamePlay(quizModeratorSession.getGameId());
-    }
+  private void moveToNextQuestion(String gameId) {
+    Assert.notNull(gameId);
+    gameRunEngine.moveToNextQuestion(gameId);
+  }
 
-    // end current question
-    @RequestMapping(method = RequestMethod.POST, value="endAnswers")
-    public void endAnswers(HttpSession session) {
-        QuizModeratorSession quizModeratorSession = getOrCreateQuizModeratorSession(session);
-
-        Assert.notNull(quizModeratorSession.getNickName());
-        Assert.notNull(quizModeratorSession.getGameId());
-        gameRunEngine.endQuestion(quizModeratorSession.getGameId());
-    }
-
-    // todo
-    // get statistics
+  private void endQuestion(String gameId) {
+    gameRunEngine.endQuestion(gameId);
+  }
 
 
-    // end game - you can still review your score
-    @RequestMapping(method = RequestMethod.POST, value="endGame")
-    public void endGame(HttpSession session) {
-        QuizModeratorSession quizModeratorSession = getOrCreateQuizModeratorSession(session);
-        Assert.notNull(quizModeratorSession.getNickName());
-        Assert.notNull(quizModeratorSession.getGameId());
-        gameRunEngine.endQuiz(quizModeratorSession.getGameId());
-    }
+  private void endGame(String gameId) {
+    gameRunEngine.endQuiz(gameId);
+  }
 
-    // todo
-    // remove game from quiz run engine - it's gone and nobody else can run it
-    @RequestMapping(method = RequestMethod.POST, value="endQuizRun")
-    public void destroyQuizRun(HttpSession session) {
-        QuizModeratorSession quizModeratorSession = getOrCreateQuizModeratorSession(session);
-        Assert.notNull(quizModeratorSession.getNickName());
-        Assert.notNull(quizModeratorSession.getGameId());
-        gameRunEngine.destroyQuizRun(quizModeratorSession.getGameId());
-        quizModeratorSession.setGameId(null); // fly, be free!
-    }
+  private void destroyGame(String gameId) {
+    gameRunEngine.destroyQuizRun(gameId);
+  }
 }

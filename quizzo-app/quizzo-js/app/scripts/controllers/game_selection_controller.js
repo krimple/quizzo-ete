@@ -1,15 +1,11 @@
 angular.module('quizzoApp').
-  controller('GameSelectionCtrl', function ($rootScope, $scope, GameSelectionService) {
+  controller('GameSelectionCtrl', function ($scope, GameSelectionService) {
 
     $scope.findGamesReadyToPlay = function() {
       return GameSelectionService.findGamesReadyToPlay();
     };
 
-    $rootScope.$on('gamesAvailable', function(event, message) {
-
-    });
-
-    // run 'em
+     // run 'em
     $scope.findGamesReadyToPlay();
 
   });

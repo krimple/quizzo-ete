@@ -164,4 +164,8 @@ public class QuizGameInstance {
         return this.quiz.getTitle();
     }
 
+    // for admins only
+    public MultipleChoiceQuestion getQuestionByIndex(int index) {
+        return quiz.getQuestions().get(index);
+    }
 }

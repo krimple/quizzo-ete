@@ -103,8 +103,14 @@ public class GameRunEngineInMemoryImpl implements GameRunEngine {
         return quizGameInstance.getCurrentQuestion();
     }
 
+  @Override
+  public MultipleChoiceQuestion getQuestionByIndex(String gameId, int index) {
+    MultipleChoiceQuestion question = gameInstances.get(gameId).getQuestionByIndex(index);
+    return question;
+  }
 
-    QuizGameInstance getQuizRun(String gameId) {
+
+  QuizGameInstance getQuizRun(String gameId) {
         if (!gameExists(gameId)) {
             throw new RuntimeException("No quiz run in progress with this title or quiz removed.");
         }

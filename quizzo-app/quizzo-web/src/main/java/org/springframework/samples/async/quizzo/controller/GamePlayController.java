@@ -1,6 +1,7 @@
 package org.springframework.samples.async.quizzo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.examples.quizzo.domain.Choice;
 import org.springframework.data.examples.quizzo.domain.MultipleChoiceQuestion;
 import org.springframework.data.examples.quizzo.domain.PlayerAnswer;
 import org.springframework.data.examples.quizzo.repository.PlayerAnswerRepository;
@@ -80,6 +81,11 @@ public class GamePlayController extends AbstractQuizController {
         PlayerGameSession gameSession = getOrCreatePlayerGameSession(session);
         playerAnswer.setGameId(gameSession.getGameId());
         playerAnswer.setPlayerId(gameSession.getPlayerId());
+
+        // score the entry
+        MultipleChoiceQuestion question = quizRunEngine.getQuestionByIndex(gameSession.getGameId(), playerAnswer.getQuestionNumber());
+        Choice choice = question.getChoice(playerAnswer.getChoice());
+        playerAnswer.setScore(choice.getScore());
 
 
         // record quiz answer
