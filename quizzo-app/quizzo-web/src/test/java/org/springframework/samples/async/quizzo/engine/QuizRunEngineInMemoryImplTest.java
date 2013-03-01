@@ -47,8 +47,8 @@ public class QuizRunEngineInMemoryImplTest {
 
         List<MultipleChoiceQuestion> questions = new ArrayList<MultipleChoiceQuestion>();
         List<Game> gamesPlayed = new ArrayList<Game>();
-        gameRunEngine.startQuizRunAndBeginTakingPlayers(fakeQuiz.getId(), "demoGame");
-        assertTrue(gameRunEngine.gameExists("demoGame"));
+        String gameId = gameRunEngine.startQuizRunAndBeginTakingPlayers(fakeQuiz.getId(), "demoGame");
+        assertTrue(gameRunEngine.gameExists(gameId));
     }
 
     @Test
@@ -67,24 +67,23 @@ public class QuizRunEngineInMemoryImplTest {
         when(mockPlayerRepository.findOne(fakePlayer.getName()))
                 .thenReturn(fakePlayer);
 
-        gameRunEngine.startQuizRunAndBeginTakingPlayers(quiz.getId(), "test-run");
-
+        String gameId = gameRunEngine.startQuizRunAndBeginTakingPlayers(quiz.getId(), "test-run");
 
         when(mockPlayerRepository.findOneByName(
                 fakePlayer.getName())).thenReturn(fakePlayer);
 
-        gameRunEngine.addPlayer("test-run", fakePlayer.getName());
+        gameRunEngine.addPlayer(gameId, fakePlayer.getName());
 
         // admin move, assume one user
-        gameRunEngine.moveToNextQuestion("test-run");
+        gameRunEngine.moveToNextQuestion(gameId);
 
-        MultipleChoiceQuestion question = gameRunEngine.getCurrentQuizQuestion("test-run");
+        MultipleChoiceQuestion question = gameRunEngine.getCurrentQuizQuestion(gameId);
 
         assertNotNull(question);
 
         AnswerStatus status = gameRunEngine.submitPlayerAnswer(
                 new PlayerAnswer(fakePlayer.getName(),
-                        "test-run", "dumbid",
+                        gameId, "dumbid",
                         0, 'a', 10));
 
         assertEquals(AnswerStatus.ANSWER_SUBMITTED, status);

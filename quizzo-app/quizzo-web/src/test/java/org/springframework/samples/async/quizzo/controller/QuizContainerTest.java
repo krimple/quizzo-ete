@@ -19,8 +19,6 @@ import org.springframework.samples.async.quizzo.controller.gamestatus.GameComple
 import org.springframework.samples.async.quizzo.controller.gamestatus.GameStatus;
 import org.springframework.samples.async.quizzo.controller.gamestatus.WaitingForNextQuestion;
 import org.springframework.samples.async.quizzo.controller.moderator.GameStartedResponse;
-import org.springframework.samples.async.quizzo.controller.moderator.command.*;
-import org.springframework.samples.async.quizzo.controller.moderator.ModeratorCommands;
 import org.springframework.samples.async.quizzo.engine.GameRunEngine;
 import org.springframework.samples.async.quizzo.responses.GameJoinedResponse;
 import org.springframework.samples.async.quizzo.responses.QuestionPendingResponse;
@@ -32,7 +30,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.io.UnsupportedEncodingException;
 
-import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
@@ -87,11 +84,12 @@ public class QuizContainerTest {
 
         try {
             // initialize the game
-            StartGame startGameCommand = new StartGame();
-            startGameCommand.setGameTitle("JavascriptQuiz To Play");
-            startGameCommand.setQuizId("JavascriptQuiz");
+            String quizId = "JavascriptQuiz";
+            String title = "Play the Javascript Quiz!";
+
             // if this fails, we didn't get a successful return type - may need refactoring
-            GameStartedResponse startedResponse = (GameStartedResponse) quizModeratorController.startQuiz(startGameCommand);
+            GameStartedResponse startedResponse =
+                    (GameStartedResponse) quizModeratorController.startQuiz(quizId, title);
 
             assertTrue(startedResponse.getCategory().equals("GameStarted"));
             gameId = startedResponse.getGameId();
@@ -107,9 +105,7 @@ public class QuizContainerTest {
             assertTrue(joinGameResponse.getClass().isAssignableFrom(GameJoinedResponse.class));
 
             // start the game play!
-            BeginPlay playGameCommand = new BeginPlay();
-            playGameCommand.setGameId(gameId);
-            quizModeratorController.moderate(playGameCommand, mockSession, mockResponse);
+            quizModeratorController.beginPlay(gameId);
 
             while (true) {
                 GameStatus pollStatus = (GameStatus) gameStatusController.getGameStatus(mockSession);
@@ -124,25 +120,17 @@ public class QuizContainerTest {
                 gamePlayController.submitPlayerAnswer(answer, mockSession);
 
                 // moderator - end question play
-                EndQuestion endQuestionCommand = new EndQuestion();
-                endQuestionCommand.setGameId(gameId);
-                quizModeratorController.moderate(endQuestionCommand, mockSession, mockResponse);
+                quizModeratorController.endQuestion(gameId);
 
                 // user-land - poll for next step and make sure we're awaiting the next score OR done
                 pollStatus = (GameStatus) gameStatusController.getGameStatus(mockSession);
                 if (pollStatus.getClass().equals(WaitingForNextQuestion.class)) {
-                    NextQuestion nextQuestionCommand = new NextQuestion();
-                    nextQuestionCommand.setGameId(gameId);
-                    quizModeratorController.moderate(nextQuestionCommand, mockSession, mockResponse);
+                    quizModeratorController.nextQuestion(gameId);
                 } else if (pollStatus.getClass().equals(GameComplete.class)) {
                     break;  // get me outta here!
                 }
             }
-
-            DestroyGame destroyGameCommand = new DestroyGame();
-            destroyGameCommand.setGameId(gameId);
-
-            quizModeratorController.moderate(destroyGameCommand, mockSession, mockResponse);
+            quizModeratorController.destroyGame(gameId);
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());

@@ -84,7 +84,7 @@ public class GameRunEngineInMemoryImpl implements GameRunEngine {
     }
 
     @Override
-    public void endQuiz(String gameId) {
+    public void endGame(String gameId) {
         QuizGameInstance quizGameInstance = getQuizRun(gameId);
         quizGameInstance.endQuiz();
 

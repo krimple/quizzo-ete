@@ -27,7 +27,7 @@ public interface GameRunEngine {
 
     void endQuestion(String gameId);
 
-    void endQuiz(String gameId);
+    void endGame(String gameId);
 
     void destroyQuizRun(String gameId);
 
