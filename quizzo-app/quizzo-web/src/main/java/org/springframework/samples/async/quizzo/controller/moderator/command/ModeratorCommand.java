@@ -1,18 +1,16 @@
-package org.springframework.samples.async.quizzo.controller.moderator;
+package org.springframework.samples.async.quizzo.controller.moderator.command;
 
-// todo - subclass?
-public class ModeratorCommand {
-  private ModeratorCommands command;
+public abstract class ModeratorCommand {
+  private String command;
   private String quizId;
   private String gameTitle;
   private String nickName;
-  private String gameId;
 
-  public ModeratorCommands getCommand() {
+  public String getCommand() {
     return command;
   }
 
-  public void setCommand(ModeratorCommands command) {
+  public void setCommand(String command) {
     this.command = command;
   }
 
@@ -40,11 +38,5 @@ public class ModeratorCommand {
     this.nickName = nickName;
   }
 
-  public String getGameId() {
-    return gameId;
-  }
 
-  public void setGameId(String gameId) {
-    this.gameId = gameId;
-  }
 }

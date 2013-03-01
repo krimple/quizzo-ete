@@ -3,6 +3,8 @@ package org.springframework.samples.async.quizzo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.samples.async.quizzo.controller.moderator.*;
+import org.springframework.samples.async.quizzo.controller.moderator.command.GameCommand;
+import org.springframework.samples.async.quizzo.controller.moderator.command.ModeratorCommand;
 import org.springframework.samples.async.quizzo.engine.GameRunEngine;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -27,42 +29,38 @@ public class QuizModeratorController extends AbstractQuizController {
 
   }
 
-  @RequestMapping(method = RequestMethod.POST, value="startGame/{quizId}")
-  public QuizModeratorResponse startQuiz(@RequestBody ModeratorCommand command) {
+  @RequestMapping(method = RequestMethod.POST, value="startGame",
+                  consumes = "application/json",
+                  produces = "application/json")
+  public @ResponseBody QuizModeratorResponse startQuiz(@RequestBody ModeratorCommand command) {
 
       Assert.notNull(command.getQuizId());
       return startQuiz(command.getGameTitle(), command.getQuizId());
   }
 
-  @RequestMapping(method = RequestMethod.POST, value = "moderate")
-  public
-  @ResponseBody
-  QuizModeratorResponse moderate(@RequestBody ModeratorCommand command,
+  @RequestMapping(method = RequestMethod.POST, value = "moderate",
+          consumes = "application/json",
+          produces = "application/json")
+  public @ResponseBody QuizModeratorResponse moderate(@RequestBody GameCommand command,
                                  HttpSession session,
                                  HttpServletResponse response) {
     // extremely lame-o command-lite pattern
-    ModeratorCommands commandValue = command.getCommand();
+    String commandValue = command.getCommand();
+    Assert.notNull(commandValue);
     Assert.notNull(command.getGameId());
 
     QuizModeratorResponse commandResponse = new OkModeratorResponse();
-    switch (commandValue) {
-      case BEGIN_PLAY:
+    if (commandValue.equals("BeginPlay")) {
         beginPlay(command.getGameId());
-        break;
-      case NEXT_QUESTION:
-        // todo - when no more questions?
+    } else if (commandValue.equals("NextQuestion")) {
         moveToNextQuestion(command.getGameId());
-        break;
-      case END_QUESTION:
+    } else if (commandValue.equals("EndQuestion")) {
         endQuestion(command.getGameId());
-        break;
-      case END_GAME:
+    } else if (commandValue.equals("EndGame")) {
         endGame(command.getGameId());
-        break;
-      case DESTROY_GAME:
+    } else if (commandValue.equals("DestroyGame")) {
         destroyGame(command.getGameId());
-        break;
-      default:
+    } else {
         response.setStatus(HttpStatus.BAD_REQUEST.value());
         return null;
     }
