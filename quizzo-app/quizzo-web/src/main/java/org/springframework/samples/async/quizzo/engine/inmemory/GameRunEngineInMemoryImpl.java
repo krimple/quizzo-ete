@@ -185,7 +185,7 @@ public class GameRunEngineInMemoryImpl implements GameRunEngine {
                 HashMap result = new HashMap();
                 result.put("gameId", entry.getKey());
                 // note - leaky abstraction - should expose this as an interface method perhaps
-                result.put("title", entry.getValue().getQuizTitle());
+                result.put("title", entry.getValue().getQuizTitle() + " - " + entry.getValue().getGameTitle());
                 results.add(result);
             }
         }

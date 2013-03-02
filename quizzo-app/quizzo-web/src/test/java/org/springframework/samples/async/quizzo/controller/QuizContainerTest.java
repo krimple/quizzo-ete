@@ -87,9 +87,9 @@ public class QuizContainerTest {
             String quizId = "JavascriptQuiz";
             String title = "Play the Javascript Quiz!";
 
-            // if this fails, we didn't get a successful return type - may need refactoring
-            GameStartedResponse startedResponse =
-                    (GameStartedResponse) quizModeratorController.startQuiz(quizId, title);
+                // if this fails, we didn't get a successful return type - may need refactoring
+                GameStartedResponse startedResponse =
+                        (GameStartedResponse) quizModeratorController.startQuiz(quizId, title);
 
             assertTrue(startedResponse.getCategory().equals("GameStarted"));
             gameId = startedResponse.getGameId();

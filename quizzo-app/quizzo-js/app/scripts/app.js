@@ -10,6 +10,7 @@ angular.module('quizzoApp', []).
       when('/play', {templateUrl: 'views/playerpanel.html', controller: 'QuestionCtrl'}).
       when('/chat', {templateUrl: 'views/chat.html', controller: 'ChatCtrl'}).
       when('/bye', {templateUrl: 'views/bye.html', controller: 'ByeCtrl'}).
+      when('invalid_game_status', {templateUrl: 'views/invalid_game_status.html'}).
       otherwise({redirectTo: '/register'});
     // allow http headers for session cookie management
     $httpProvider.defaults.withCredentials = true;

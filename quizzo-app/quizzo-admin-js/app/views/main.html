@@ -1,0 +1,30 @@
+<div class="hero-unit">
+  <h1>Quizzo - Moderator Panel</h1>
+  <hr/>
+  <form style="width: 500px; padding: 20px; margin: 10px; border: 1px solid black;">
+    <p>Start a quiz...</p>
+  <p><label for="quizId">Quiz</label> <input name="quizId" ng-model="quizId" required /></p>
+  <p><label for="title">Title</label> <input name="title" ng-model="title" required /></p>
+  <button name="startGame" ng-click="startGame(quizId, title)">Start Game</button>
+  </form>
+  <form style="width: 500px; padding: 20px; margin: 10px; border: 1px solid black;">
+  Select Game: <select name="gameId" 
+          ng-model="gameId" 
+          ng-options="value.gameId as value.title for value in gamesAvailable"
+          required></select>
+          <button name="fetchGames" ng-click="fetchGames()">Refresh </button>
+  <br/>
+  
+  <p><button name="beginPlay" ng-click="beginPlay(gameId)">Begin GamePlay</button>
+  <button name="nextQuestion" ng-click="nextQuestion(gameId)">Next Question</button></p>
+  <p><button name="scoreQuestion" ng-click="scoreQuestion(gameId)">Score Question</button>
+  <button name="endGame" ng-click="endGame(gameId)">End Game</button></p>
+  <p><button name="destroyGame" ng-click="destroyGame(gameId)">Destroy Game</button></p>
+  </form>
+  <hr/>
+  <b>status</b>
+  <div id="statusPanel">{{status}}</div>
+  <ul>
+        <li ng-repeat="value.gameId as value.title for value in gamesAvailable">{{game.gameId}} - {{game.title}}</li>
+  </ul>
+</div>

@@ -164,6 +164,11 @@ public class QuizGameInstance {
         return this.quiz.getTitle();
     }
 
+    public String getGameTitle() {
+        // ugh, different
+        return this.game.getGameName();
+    }
+
     // for admins only
     public MultipleChoiceQuestion getQuestionByIndex(int index) {
         return quiz.getQuestions().get(index);

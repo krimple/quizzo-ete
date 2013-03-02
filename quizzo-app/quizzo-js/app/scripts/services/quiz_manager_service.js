@@ -3,8 +3,10 @@
 angular.module('quizzoApp').factory('QuizManagerService', function ($http, $rootScope, $location, serverPrefix) {
 
   var implementation = {};
+  implementation.question = {};
 
     implementation.getStatus = function () {
+      var that = this;
       $http.get(serverPrefix + "status").
         success(function (data, status, headers, config) {
           if (data.status == 'WaitingToPlay') {
@@ -12,12 +14,11 @@ angular.module('quizzoApp').factory('QuizManagerService', function ($http, $root
             return;
           }
           if (data.status == 'WaitingForAnswer') {
-            $rootScope.question = data.question;
+            that.question = data.question;
             $rootScope.$broadcast('WaitingForAnswer');
             return;
           }
           if (data.status == 'WaitingForNextQuestion') {
-            $rootScope.question.delete();
             $rootScope.$broadcast('WaitingForNextQuestion');
             return;
           }
@@ -35,11 +36,15 @@ angular.module('quizzoApp').factory('QuizManagerService', function ($http, $root
         error(function (data, status, headers, config) {
           $location.path('/invalid_game_status');
         });
-    }
+    };
 
-    implementation.vote = function (selectedAnswer) {
+    implementation.getCurrentQuestion = function () {
+      return this.question;
+    };
+
+    implementation.vote = function (selectedAnswer, sentQuestionNumber) {
       var answerPayload = {
-        questionNumber : $rootScope.question.questionNumber,
+        questionNumber : sentQuestionNumber,
         choice: selectedAnswer
       };
       $http.post(serverPrefix + 'quizRun/submitAnswer', answerPayload);

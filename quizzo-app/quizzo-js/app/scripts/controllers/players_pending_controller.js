@@ -4,7 +4,7 @@ angular.module('quizzoApp').controller('PlayersPendingCtrl', function ($scope, $
 
   var timeout;
   // our exit condition...
-  $scope.$on('ReadyToPlay', function() {
+  $scope.$on('WaitingForAnswer', function() {
     $timeout.cancel(timeout);
     $location.path('/play');
   });
