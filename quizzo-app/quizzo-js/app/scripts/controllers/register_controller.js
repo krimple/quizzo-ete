@@ -5,9 +5,9 @@ angular.module('quizzoApp').
     $rootScope.showJoinError = false;
     $rootScope.joinError = '';
 
-  $rootScope.$on("badNick", function(args) {
+  $rootScope.$on('BadNick', function(args) {
       $rootScope.showJoinError = true;
-      $rootScope.joinError = "bad nickname -" + args[0] + " - please try another";
+      $rootScope.joinError = 'bad nickname -' + args[0] + ' - please try another';
   })
   $rootScope.join_game = function (nickName) {
     RegisterPlayerService.createNickName(nickName);
@@ -15,6 +15,6 @@ angular.module('quizzoApp').
 
   $rootScope.clear_nick_bad = function() {
     $rootScope.showJoinError = false;
-    $rootScope.joinError = "";
+    $rootScope.joinError = '';
   };
 });

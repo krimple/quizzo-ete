@@ -41,5 +41,37 @@ angular.module('quizzoAdminJsApp').
           $rootScope.$apply();
         });
     };
+    
+    implementation.endQuestion = function(gameId) {
+      $http.post(ServerPrefix + "game/" + gameId + '/endQuestion').
+        success(function (data, status, headers, config) {
+          $rootScope.status = "game " + gameId + " ending current question.";
+          $rootScope.$apply();
+        });      
+    };
+    
+    implementation.nextQuestion = function(gameId) {
+      $http.post(ServerPrefix + "game/" + gameId + '/nextQuestion').
+        success(function (data, status, headers, config) {
+          $rootScope.status = "game " + gameId + " moving to next question.";
+          $rootScope.$apply();
+        });      
+    };
+
+    implementation.endGame = function(gameId) {
+      $http.post(ServerPrefix + "game/" + gameId + '/endGame').
+        success(function (data, status, headers, config) {
+          $rootScope.status = "game " + gameId + " ending game " + gameId;
+          $rootScope.$apply();
+        });      
+    };
+    
+    implementation.destroyGame = function(gameId) {
+      $http.post(ServerPrefix + "game/" + gameId + '/destroyGame').
+        success(function (data, status, headers, config) {
+          $rootScope.status = "game " + gameId + " destroying game " + gameId + ".";
+          $rootScope.$apply();
+        });      
+    };
     return implementation;
   });

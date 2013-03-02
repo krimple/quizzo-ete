@@ -11,10 +11,10 @@ angular.module('quizzoApp').
       $http.get(serverPrefix + 'quizRun/games').success(
         function (data, status, headers, config) {
           $rootScope.gamesAvailable = data;
-          $rootScope.$broadcast('gamesAvailable');
+          $rootScope.$broadcast('GamesAvailable');
         }).error(
         function (data, status, headers, config) {
-          console.error('no data found. ', status);
+          console.error('no data found.', status);
         });
     };
 
@@ -33,7 +33,6 @@ angular.module('quizzoApp').
           $rootScope.$broadcast('GameNotJoined');
         });
       implementation.gameId = gameId;
-
     };
 
     return implementation;
