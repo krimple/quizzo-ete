@@ -5,6 +5,9 @@ angular.module('quizzoApp').factory('QuizManagerService', function ($http, $root
   var implementation = {};
   implementation.question = {};
 
+  // used as a delta to indicate a state change between polls
+  implementation.previousStatus = 'NoStatus';
+
     implementation.getStatus = function () {
       var that = this;
       $http.get(serverPrefix + "status").
@@ -13,26 +16,30 @@ angular.module('quizzoApp').factory('QuizManagerService', function ($http, $root
             // we just wait... do nothing and return
             return;
           }
-          if (data.status == 'WaitingForAnswer') {
+          if (data.status == 'WaitingForAnswer' &&
+              that.previousStatus != 'WaitingForAnswer') {
+            // we just switched to getting a new question -
+            // tell the world
             that.question = data.question;
             $rootScope.$broadcast('WaitingForAnswer');
-            return;
-          }
-          if (data.status == 'WaitingForNextQuestion') {
+          } else if (data.status == 'WaitingForNextQuestion' &&
+                     that.previousStatus != 'WaitingForNextQuestion') {
             $rootScope.$broadcast('WaitingForNextQuestion');
             return;
           }
-          if (data.status == 'GameComplete') {
+          if (data.status == 'GameComplete' &&
+                     that.previousStatus != 'GameComplete') {
             delete $rootScope.question;
-            // todo
             $rootScope.$broadcast('GameComplete');
             return;
           }
           if (data.status == 'InvalidGameStatus') {
-            // todo
             $rootScope.$broadcast('InvalidGameStatus');
-            return;
-          }
+             return;
+          } else if (data.status == 'GameComplete') {             
+          }                        
+          // save off this status as the new previous status...
+          that.previousStatus = data.status;
         }).
         error(function (data, status, headers, config) {
             $rootScope.$broadcast('InvalidGameStatus');

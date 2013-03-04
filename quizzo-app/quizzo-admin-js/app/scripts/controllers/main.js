@@ -16,13 +16,29 @@ angular.module('quizzoAdminJsApp')
     
     $scope.fetchGames = function() {
       QuizzoAdminService.findGamesReadyToPlay();
-    }
+    };
     
     $scope.startGame = function(quizId, title) {
       QuizzoAdminService.startGame(quizId, title);      
-    }
+    };
     
     $scope.beginPlay = function(gameId) {
       QuizzoAdminService.beginPlay(gameId);
-    }
+    };
+    
+    $scope.endQuestion = function(gameId) {
+      QuizzoAdminService.endQuestion(gameId);
+    };
+    
+    $scope.nextQuestion = function(gameId) {
+      QuizzoAdminService.nextQuestion(gameId);
+    };
+    
+    $scope.endGame = function(gameId) {
+      QuizzoAdminService.endGame(gameId);
+    };
+    
+    $scope.destroyGame = function(gameId) {
+      QuizzoAdminService.destroyGame(gameId);
+    };
   });

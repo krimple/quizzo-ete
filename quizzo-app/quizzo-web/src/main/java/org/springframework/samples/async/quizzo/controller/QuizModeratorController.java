@@ -48,7 +48,6 @@ public class QuizModeratorController extends AbstractQuizController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "{gameId}/nextQuestion",
-            consumes = "application/json",
             produces = "application/json")
     public
     @ResponseBody
@@ -58,7 +57,6 @@ public class QuizModeratorController extends AbstractQuizController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "{gameId}/endQuestion",
-            consumes = "application/json",
             produces = "application/json")
     public
     @ResponseBody
@@ -68,7 +66,6 @@ public class QuizModeratorController extends AbstractQuizController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "{gameId}/endGame",
-            consumes = "application/json",
             produces = "application/json")
     public
     @ResponseBody
@@ -78,7 +75,6 @@ public class QuizModeratorController extends AbstractQuizController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "{gameId}/destroyGame",
-            consumes = "application/json",
             produces = "application/json")
     public
     @ResponseBody

@@ -7,7 +7,7 @@
 <div class='row center' ng-cloak>
     <span class='span4'></span>
     <span style="border: 1px solid yellow;" class='span4 hero-unit question'>
-      <div class='question-text'>{{question}}</div>
+      <div class='question-text'>{{question.text}}</div>
     </span>
     <span class='span4'></span>
 </div>
@@ -17,15 +17,15 @@
     </span>
 </div>
 <div class='row'>
-    <form name='voteForm' ng-controller='VoteCtrl'>
+    <form name='voteForm'>
     <span class='span4'></span>
     <span class='span4 choices hero-unit'>
       <ul class='quiz-list'>
-       <li ng-repeat='answer_choice in answer_choices'>
+       <li ng-repeat='answer_choice in question.choices'>
           <input type='radio'
            ng-model='selectedChoice'
            name='choices'
-           value='{{$index}}'>{{answer_choice.value}}
+           value='{{answer_choice.letter}}'>{{<answer_choice class="text"></answer_choice>}}
         </li>
       </ul>
        <button id='vote'
