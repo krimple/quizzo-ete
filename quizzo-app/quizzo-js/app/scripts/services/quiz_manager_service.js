@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('quizzoApp').factory('QuizManagerService', function ($http, $rootScope, $location, serverPrefix) {
+angular.module('quizzoApp').factory('QuizManagerService', function ($http, $rootScope, serverPrefix) {
 
   var implementation = {};
   implementation.question = {};
@@ -23,18 +23,19 @@ angular.module('quizzoApp').factory('QuizManagerService', function ($http, $root
             return;
           }
           if (data.status == 'GameComplete') {
-            $rootScope.question.delete();
+            delete $rootScope.question;
             // todo
-            $location.path('/game_over');
+            $rootScope.$broadcast('GameComplete');
             return;
           }
           if (data.status == 'InvalidGameStatus') {
             // todo
-            $location.path('/invalid_game_status');
+            $rootScope.$broadcast('InvalidGameStatus');
+            return;
           }
         }).
         error(function (data, status, headers, config) {
-          $location.path('/invalid_game_status');
+            $rootScope.$broadcast('InvalidGameStatus');
         });
     };
 

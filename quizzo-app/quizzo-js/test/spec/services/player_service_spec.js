@@ -1,6 +1,12 @@
 'use strict';
-describe('PlayerService', function() {
+describe('GameSelectionService', function() {
+  var $httpBackend;
   beforeEach(module('quizzoApp'));
+
+  // make sure we inject the fake backend
+  beforeEach(inject(function($injector) {
+    $httpBackend = $injector.get('$httpBackend');
+  }));
 
   it('should find an existing player for dave, chuck, sal', inject(function(PlayerService) {
     var names = ['dave', 'chuck', 'sal'];
