@@ -1,39 +1,39 @@
 'use strict';
 
-describe('QuizManagerService', function() {
-  var $httpBackend, QuizManagerService, scope;
+describe('quizManagerService', function() {
+  var $httpBackend, quizManagerService, scope;
 
   // inject the application
   beforeEach(module('quizzoApp'));
 
-  // inject the fake http backend and Quiz manager real service
+  // inject the fake http backend and quiz manager real service
   beforeEach(inject(function($injector) {
     $httpBackend = $injector.get('$httpBackend');
-    QuizManagerService = $injector.get('QuizManagerService');
+    quizManagerService = $injector.get('quizManagerService');
   }));
 
   describe('getStatus -Waiting to Play', function() {
     it('should return and make no changes to state', inject( function ($rootScope) {
       $httpBackend.when('GET', '/quizzo/status').
         respond({ status : 'WaitingToPlay' });
-      QuizManagerService.getStatus();
+      quizManagerService.getStatus();
       $httpBackend.flush();
     }));
   });
 
   describe('getStatus - Waiting for Answer', function() {
-    it('should broadcast WaitingForAnswer and load question payload when status is same', inject( function($rootScope, QuizManagerService) {
+    it('should broadcast WaitingForAnswer and load question payload when status is same', inject( function($rootScope, quizManagerService) {
       var success = false, question = '';
 
       $rootScope.$on('WaitingForAnswer', function() {
         success = true;
-        question = QuizManagerService.getCurrentQuestion();
+        question = quizManagerService.getCurrentQuestion();
       });
 
       runs(function() {
         $httpBackend.when('GET', '/quizzo/status').
           respond({ status : 'WaitingForAnswer', question : 'blah blah blah' });
-        QuizManagerService.getStatus();
+        quizManagerService.getStatus();
         $httpBackend.flush();
       }, 'call backend service and return result asynch.');
 
@@ -49,7 +49,7 @@ describe('QuizManagerService', function() {
   });
 
   describe('getStatus - Waiting for Next Question', function() {
-    it('should broadcast WaitingForNextQuestion when status is same', inject( function($rootScope, QuizManagerService) {
+    it('should broadcast WaitingForNextQuestion when status is same', inject( function($rootScope, quizManagerService) {
       var success = false;
 
       $rootScope.$on('WaitingForNextQuestion', function() {
@@ -59,7 +59,7 @@ describe('QuizManagerService', function() {
       runs(function() {
         $httpBackend.when('GET', '/quizzo/status').
           respond({ status : 'WaitingForNextQuestion' });
-        QuizManagerService.getStatus();
+        quizManagerService.getStatus();
         $httpBackend.flush();
       }, 'call backend service and return result asynch.');
 
@@ -75,18 +75,18 @@ describe('QuizManagerService', function() {
     });
   });
   describe('getStatus - Waiting for Answer', function() {
-    it('should broadcast WaitingForAnswer and load question payload when status is same', inject( function($rootScope, QuizManagerService) {
+    it('should broadcast WaitingForAnswer and load question payload when status is same', inject( function($rootScope, quizManagerService) {
       var success = false, question = '';
 
       $rootScope.$on('WaitingForAnswer', function() {
         success = true;
-        question = QuizManagerService.getCurrentQuestion();
+        question = quizManagerService.getCurrentQuestion();
       });
 
       runs(function() {
         $httpBackend.when('GET', '/quizzo/status').
           respond({ status : 'WaitingForAnswer', question : 'blah blah blah' });
-        QuizManagerService.getStatus();
+        quizManagerService.getStatus();
         $httpBackend.flush();
       }, 'call backend service and return result asynch.');
 
@@ -102,7 +102,7 @@ describe('QuizManagerService', function() {
   });
 
   describe('getStatus - GameComplete', function() {
-    it('should broadcast GameComplete status is same', inject( function($rootScope, QuizManagerService) {
+    it('should broadcast GameComplete status is same', inject( function($rootScope, quizManagerService) {
       var success = false;
 
       // precondition
@@ -114,7 +114,7 @@ describe('QuizManagerService', function() {
       runs(function() {
         $httpBackend.when('GET', '/quizzo/status').
           respond({ status : 'GameComplete' });
-        QuizManagerService.getStatus();
+        quizManagerService.getStatus();
         $httpBackend.flush();
       }, 'call backend service and return result asynch.');
 

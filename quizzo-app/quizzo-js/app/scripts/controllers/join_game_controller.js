@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('quizzoApp').controller('JoinGameCtrl', function ($scope, $routeParams, $location, GameSelectionService) {
+angular.module('quizzoApp').controller('JoinGameCtrl', function ($scope, $routeParams, $location, gameSelectionService) {
 
     var gameId = $routeParams.gameId;
 
@@ -8,6 +8,6 @@ angular.module('quizzoApp').controller('JoinGameCtrl', function ($scope, $routeP
       $location.path('/players_pending');
     });
 
-    GameSelectionService.joinGame(gameId);
+    gameSelectionService.joinGame(gameId);
 
   });

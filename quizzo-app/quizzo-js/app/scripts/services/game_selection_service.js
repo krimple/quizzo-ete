@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('quizzoApp').
-  factory('GameSelectionService', function ($http, $rootScope, serverPrefix) {
+  factory('gameSelectionService', function ($http, $rootScope, serverPrefix) {
     var implementation = {};
 
     // update this when we find data

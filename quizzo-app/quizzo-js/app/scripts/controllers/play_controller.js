@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('quizzoApp').controller('PlayCtrl',
-  function ($scope, $location, $timeout, QuizManagerService) {
+  function ($scope, $location, $timeout, quizManagerService) {
 
     var timeout;
     
@@ -21,21 +21,20 @@ angular.module('quizzoApp').controller('PlayCtrl',
         // we send along the current question # to make sure we are recording
         // the vote on the right question - if it doesn't match the one in
         // server state, throw it away
-        QuizManagerService.vote(selectedChoice, $scope.question.questionNumber);
+        quizManagerService.vote(selectedChoice, $scope.question.questionNumber);
       }
     };
 
     // our timer loop - check for question timeout or end of game
     $scope.onTimeout = function() {
-      QuizManagerService.getStatus();
+      quizManagerService.getStatus();
       timeout = $timeout($scope.onTimeout, 1000);
     };
 
     // fetch our question
-    $scope.question = QuizManagerService.getCurrentQuestion();
+    $scope.question = quizManagerService.getCurrentQuestion();
 
     // begin timer
     timeout = $timeout($scope.onTimeout, 1000);
-
 
   });

@@ -1,7 +1,7 @@
 'use strict';
 
-describe('GameSelectionService', function() {
-  var $httpBackend, GameSelectionService;
+describe('gameSelectionService', function() {
+  var $httpBackend, gameSelectionService;
 
   // inject the application
   beforeEach(module('quizzoApp'));
@@ -9,17 +9,17 @@ describe('GameSelectionService', function() {
   // inject the fake http backend and Quiz manager real service
   beforeEach(inject(function($injector) {
     $httpBackend = $injector.get('$httpBackend');
-    GameSelectionService = $injector.get('GameSelectionService');
+    gameSelectionService = $injector.get('gameSelectionService');
   }));
 
   describe('findGamesReadyToPlay units', function($rootScope) {
-    it('should return with data when games are ready to play', inject (function($rootScope, GameSelectionService) {
+    it('should return with data when games are ready to play', inject (function($rootScope, gameSelectionService) {
 
       var success = false, gamesAvailable = [];
 
       $rootScope.$on('GamesAvailable', function() {
         success = true;
-        gamesAvailable = GameSelectionService.getGames();
+        gamesAvailable = gameSelectionService.getGames();
 
       });
 
@@ -34,7 +34,7 @@ describe('GameSelectionService', function() {
           "gameId": "2341234123412341",
           "title": "Zowie Wowie!"
         }]);
-        GameSelectionService.findGamesReadyToPlay();
+        gameSelectionService.findGamesReadyToPlay();
         $httpBackend.flush();
       }, 'findGamesReadyToPlay returns data payload');
 
@@ -51,7 +51,7 @@ describe('GameSelectionService', function() {
 
   describe('choose game', function() {
 
-    it('should broadcast GameJoined with a valid game id', inject( function($rootScope, GameSelectionService) {
+    it('should broadcast GameJoined with a valid game id', inject( function($rootScope, gameSelectionService) {
       var success = false;
 
       $rootScope.$on('GameJoined', function() {
@@ -61,7 +61,7 @@ describe('GameSelectionService', function() {
       runs(function() {
         $httpBackend.when('POST', '/quizzo/quizRun/game/1234/joinGame').
           respond( { category: 'GameJoined' });
-        GameSelectionService.joinGame('1234');
+        gameSelectionService.joinGame('1234');
         $httpBackend.flush();
       }, 'call to join game 1234 succeeds');
 

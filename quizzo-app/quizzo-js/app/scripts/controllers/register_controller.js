@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('quizzoApp').
-  controller('RegisterCtrl', function ($rootScope, $location, RegisterPlayerService) {
+  controller('RegisterCtrl', function ($rootScope, $location, registerPlayerService) {
     $rootScope.showJoinError = false;
     $rootScope.joinError = '';
 
@@ -10,7 +10,7 @@ angular.module('quizzoApp').
       $rootScope.joinError = 'bad nickname -' + args[0] + ' - please try another';
   })
   $rootScope.join_game = function (nickName) {
-    RegisterPlayerService.createNickName(nickName);
+    registerPlayerService.createNickName(nickName);
   };
 
   $rootScope.clear_nick_bad = function() {

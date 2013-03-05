@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('quizzoApp').controller('PlayersPendingCtrl', function ($scope, $timeout, $location, QuizManagerService) {
+angular.module('quizzoApp').controller('PlayersPendingCtrl', function ($scope, $timeout, $location, quizManagerService) {
 
   var timeout;
   // our exit condition...
@@ -10,7 +10,7 @@ angular.module('quizzoApp').controller('PlayersPendingCtrl', function ($scope, $
   });
 
   $scope.onTimeout = function() {
-    QuizManagerService.getStatus();
+    quizManagerService.getStatus();
     timeout = $timeout($scope.onTimeout, 1000);
   };
 

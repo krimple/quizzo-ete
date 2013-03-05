@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('quizzoApp').factory('QuizManagerService', function ($http, $rootScope, serverPrefix) {
+angular.module('quizzoApp').factory('quizManagerService', function ($http, $rootScope, serverPrefix) {
 
   var implementation = {};
   implementation.question = {};

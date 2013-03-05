@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('quizzoApp').
-  factory('LeaderBoardService', function() {
+  factory('leaderBoardService', function() {
   var leaderBoardServiceImpl = {},
   leaders = [
     {
