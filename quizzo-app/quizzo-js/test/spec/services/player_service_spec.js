@@ -1,30 +1,24 @@
 'use strict';
-describe('GameSelectionService', function() {
-  var $httpBackend;
+describe('RegisterPlayerService', function(serverPrefix, $rootScope, $http) {
+  var $httpBackend, registerPlayerService;
   beforeEach(module('quizzoApp'));
 
   // make sure we inject the fake backend
   beforeEach(inject(function($injector) {
     $httpBackend = $injector.get('$httpBackend');
+     registerPlayerService = $injector.get('registerPlayerService');
   }));
 
-  it('should find an existing player for dave, chuck, sal', inject(function(PlayerService) {
-    var names = ['dave', 'chuck', 'sal'];
-    names.forEach(function(val) {
-      expect(PlayerService.searchNickName(val)).toEqual(true);
+  describe('create nickname - success', function() {
+    it('should create a nickname if not already extant', function() {
+      var success = false;
+
+      $httpBackend.when('POST', '/quizzo/player/register/foo').
+        respond(201, '');
+      registerPlayerService.createNickName('foo');
+      $httpBackend.flush();
+      expect(registerPlayerService.getPlayer()).toBe('foo');
     });
-  }));
 
-  it('should not find an existing player for phil', inject(function(PlayerService) {
-    expect(PlayerService.searchNickName('phil')).toEqual(false);
-  }));
-
-  it('should return false when using an existing nickname', inject(function(PlayerService) {
-    expect(PlayerService.getPlayer()).toBeUndefined();
-  }));
-
-  it('should set player info when adding unused player information', inject(function(PlayerService) {
-    PlayerService.setNickName('Joe');
-    expect(PlayerService.getPlayer()).toEqual('Joe');
-  }));
+  });
 });

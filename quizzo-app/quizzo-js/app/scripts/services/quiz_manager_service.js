@@ -36,8 +36,8 @@ angular.module('quizzoApp').factory('QuizManagerService', function ($http, $root
           if (data.status == 'InvalidGameStatus') {
             $rootScope.$broadcast('InvalidGameStatus');
              return;
-          } else if (data.status == 'GameComplete') {             
-          }                        
+          } else if (data.status == 'GameComplete') {
+          }
           // save off this status as the new previous status...
           that.previousStatus = data.status;
         }).
