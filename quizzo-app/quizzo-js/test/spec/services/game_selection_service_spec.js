@@ -23,29 +23,20 @@ describe('gameSelectionService', function() {
 
       });
 
-      runs(function() {
-        $httpBackend.when('GET', '/quizzo/quizRun/games').
-          respond( [ 
-                  { 
-          "gameId": "1234123412341234",
-          "title": "Zowie!"
-        },
-        {
-          "gameId": "2341234123412341",
-          "title": "Zowie Wowie!"
-        }]);
-        gameSelectionService.findGamesReadyToPlay();
-        $httpBackend.flush();
-      }, 'findGamesReadyToPlay returns data payload');
-
-      waitsFor(function() {
-        if (success === true) {
-          expect(gamesAvailable.length).toBe(2);
-          return true;
-        } else {
-          return false;
-        }
-      }, "message received", 10000);
+      $httpBackend.when('GET', '/quizzo/quizRun/games').
+        respond( [ 
+                { 
+        "gameId": "1234123412341234",
+        "title": "Zowie!"
+      },
+      {
+        "gameId": "2341234123412341",
+        "title": "Zowie Wowie!"
+      }]);
+      gameSelectionService.findGamesReadyToPlay();
+      $httpBackend.flush();
+      expect(success).toBe(true);
+      expect(gamesAvailable.length).toBe(2);
     }));
   });
 
@@ -58,16 +49,12 @@ describe('gameSelectionService', function() {
         success = true;
       });
 
-      runs(function() {
-        $httpBackend.when('POST', '/quizzo/quizRun/game/1234/joinGame').
-          respond( { category: 'GameJoined' });
-        gameSelectionService.joinGame('1234');
-        $httpBackend.flush();
-      }, 'call to join game 1234 succeeds');
-
-      waitsFor(function() {
-        return success === true;
-      });
+      $httpBackend.when('POST', '/quizzo/quizRun/game/1234/joinGame').
+        respond( { category: 'GameJoined' });
+      gameSelectionService.joinGame('1234');
+      $httpBackend.flush();
+      expect(success).toBe(true);
+      return success === true;
     }));
     afterEach(function() {
       $httpBackend.verifyNoOutstandingExpectation();

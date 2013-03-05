@@ -30,102 +30,88 @@ describe('quizManagerService', function() {
         question = quizManagerService.getCurrentQuestion();
       });
 
-      runs(function() {
-        $httpBackend.when('GET', '/quizzo/status').
-          respond({ status : 'WaitingForAnswer', question : 'blah blah blah' });
-        quizManagerService.getStatus();
-        $httpBackend.flush();
-      }, 'call backend service and return result asynch.');
+      $httpBackend.when('GET', '/quizzo/status').
+        respond({ status : 'WaitingForAnswer', question : 'blah blah blah' });
+      quizManagerService.getStatus();
+      $httpBackend.flush();
 
-      waitsFor(function() {
-        return success === true && question === 'blah blah blah';
-      }, "message received", 10000);
+      expect(success).toBe(true);
+      expect(question).toBe('blah blah blah');
+
+      afterEach(function() {
+        $httpBackend.verifyNoOutstandingExpectation();
+        $httpBackend.verifyNoOutstandingRequest();
+      });
     }));
 
-    afterEach(function() {
-      $httpBackend.verifyNoOutstandingExpectation();
-      $httpBackend.verifyNoOutstandingRequest();
-    });
-  });
+    describe('getStatus - Waiting for Next Question', function() {
+      it('should broadcast WaitingForNextQuestion when status is same', inject( function($rootScope, quizManagerService) {
+        var success = false;
 
-  describe('getStatus - Waiting for Next Question', function() {
-    it('should broadcast WaitingForNextQuestion when status is same', inject( function($rootScope, quizManagerService) {
-      var success = false;
+        $rootScope.$on('WaitingForNextQuestion', function() {
+          success = true;
+        });
 
-      $rootScope.$on('WaitingForNextQuestion', function() {
-        success = true;
-      });
-
-      runs(function() {
         $httpBackend.when('GET', '/quizzo/status').
           respond({ status : 'WaitingForNextQuestion' });
+
         quizManagerService.getStatus();
         $httpBackend.flush();
-      }, 'call backend service and return result asynch.');
 
-      waitsFor(function() {
-        return success === true;
-      }, "message received", 10000);
+        expect(success).toBe(true);
 
-    }));
-
-    afterEach(function() {
-      $httpBackend.verifyNoOutstandingExpectation();
-      $httpBackend.verifyNoOutstandingRequest();
+        afterEach(function() {
+          $httpBackend.verifyNoOutstandingExpectation();
+          $httpBackend.verifyNoOutstandingRequest();
+        });
+      }));
     });
-  });
-  describe('getStatus - Waiting for Answer', function() {
-    it('should broadcast WaitingForAnswer and load question payload when status is same', inject( function($rootScope, quizManagerService) {
-      var success = false, question = '';
+    describe('getStatus - Waiting for Answer', function() {
+      it('should broadcast WaitingForAnswer and load question payload when status is same', inject( function($rootScope, quizManagerService) {
+        var success = false, question = '';
 
-      $rootScope.$on('WaitingForAnswer', function() {
-        success = true;
-        question = quizManagerService.getCurrentQuestion();
-      });
+        $rootScope.$on('WaitingForAnswer', function() {
+          success = true;
+          question = quizManagerService.getCurrentQuestion();
+        });
 
-      runs(function() {
         $httpBackend.when('GET', '/quizzo/status').
           respond({ status : 'WaitingForAnswer', question : 'blah blah blah' });
+
         quizManagerService.getStatus();
         $httpBackend.flush();
-      }, 'call backend service and return result asynch.');
+        expect(success).toBe(true);
+        expect(question).toBe('blah blah blah');
 
-      waitsFor(function() {
-        return success === true && question === 'blah blah blah';
-      }, "message received", 10000);
-    }));
+        afterEach(function() {
+          $httpBackend.verifyNoOutstandingExpectation();
+          $httpBackend.verifyNoOutstandingRequest();
+        });
+      }));
 
-    afterEach(function() {
-      $httpBackend.verifyNoOutstandingExpectation();
-      $httpBackend.verifyNoOutstandingRequest();
-    });
-  });
+      describe('getStatus - GameComplete', function() {
+        it('should broadcast GameComplete status is same', inject( function($rootScope, quizManagerService) {
+          var success = false;
 
-  describe('getStatus - GameComplete', function() {
-    it('should broadcast GameComplete status is same', inject( function($rootScope, quizManagerService) {
-      var success = false;
+          // precondition
+          $rootScope.question = { foo : "bar" };
+          $rootScope.$on('GameComplete', function() {
+            success = true;
+          });
 
-      // precondition
-      $rootScope.question = { foo : "bar" };
-      $rootScope.$on('GameComplete', function() {
-        success = true;
+          $httpBackend.when('GET', '/quizzo/status').
+            respond({ status : 'GameComplete' });
+          quizManagerService.getStatus();
+          $httpBackend.flush();
+
+          expect(success).toBe(true);
+
+          afterEach(function() {
+            $httpBackend.verifyNoOutstandingExpectation();
+            $httpBackend.verifyNoOutstandingRequest();
+          });
+        }));
       });
-
-      runs(function() {
-        $httpBackend.when('GET', '/quizzo/status').
-          respond({ status : 'GameComplete' });
-        quizManagerService.getStatus();
-        $httpBackend.flush();
-      }, 'call backend service and return result asynch.');
-
-      waitsFor(function() {
-        return success === true;
-      }, "message received", 10000);
-    }));
-
-    afterEach(function() {
-      $httpBackend.verifyNoOutstandingExpectation();
-      $httpBackend.verifyNoOutstandingRequest();
     });
   });
 });
