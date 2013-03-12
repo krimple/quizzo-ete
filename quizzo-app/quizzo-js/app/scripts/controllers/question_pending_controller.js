@@ -1,19 +1,10 @@
 'use strict';
 
-angular.module('quizzoApp').controller('QuestionPendingCtrl', function ($scope, $timeout, $location, quizManagerService) {
+angular.module('quizzoApp').controller('QuestionPendingCtrl', function ($scope, $location) {
 
-  var timeout;
   // our exit condition...
-  $scope.$on('WaitingForAnswer', function() {
-    $timeout.cancel(timeout);
+  $scope.$on('WaitingForAnswer', function () {
     $location.path('/play');
   });
-
-  $scope.onTimeout = function() {
-    quizManagerService.getStatus();
-    timeout = $timeout($scope.onTimeout, 1000);
-  };
-
-  timeout = $timeout($scope.onTimeout, 1000);
 
 });

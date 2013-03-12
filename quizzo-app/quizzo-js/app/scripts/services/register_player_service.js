@@ -9,19 +9,20 @@ angular.module('quizzoApp').factory('registerPlayerService', function (serverPre
   implementation.currentPlayer = '';
 
   implementation.createNickName = function (nickName) {
+    var that = this;
     this.createPending = true;
     $http.defaults.withCredentials = true;
-    var that = this;
     $http.post(serverPrefix + 'player/register/' + nickName).
       success(function (data, status, headers, config) {
-        if (status == 201) {
+        if (status === 201) {
           $rootScope.badNick = false;
           that.currentPlayer = nickName;
           that.createPending = false;
-        } else if (status == 204) {
+          $rootScope.$broadcast('GoodNick', { nickName: nickName });
+        } else if (status === 204) {
           that.createPending = false;
           that.currentPlayer = '';
-          $rootScope.$broadcast('BadNick', nickName);
+          $rootScope.$broadcast('BadNick', { nickName : nickName });
         }
       });
   };

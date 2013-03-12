@@ -4,16 +4,16 @@
     </span>
 
     <span class="span4">
-    <div id="joinpanel">
-        <h3>Join a Game</h3>
-        <em>Select a game to play... The following games are awaiting players...</em>
-        <ul>
-            <li ng-repeat="game in gamesAvailable">
-                <a ng-href='#/join_game/{{game.gameId}}'>{{game.title}}</a></li>
-        </ul>
-    </div>
+        <div id="joinpanel">
+            <h3>Join a Game</h3>
+            <em>Select a game to play... The following games are awaiting players...</em>
+            <ul>
+                <li ng-repeat='game in gamesAvailable'>
+                    <a ng-href='#/join_game/{{game.gameId}}'>{{game.title}}</a></li>
+                </ul>
+            </div>
 
-    </span>
-    <span class="span4"></span>
-</div>
+        </span>
+        <span class="span4"></span>
+    </div>
 

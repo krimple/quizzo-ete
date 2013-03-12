@@ -20,16 +20,15 @@
     <form name='voteForm'>
     <span class='span4'></span>
     <span class='span4 choices hero-unit'>
-      <ul class='quiz-list'>
-       <li ng-repeat='answer_choice in question.choices'>
-          <input type='radio'
-           ng-model='selectedChoice'
+      <div ng-repeat='answer_choice in question.choices'>
+          <input type='radio' group="choicesGroup"
+           ng-model='selectedChoice.value'
            name='choices'
-           value='{{answer_choice.letter}}'>{{<answer_choice class="text"></answer_choice>}}
-        </li>
-      </ul>
+           value='{{answer_choice.letter}}'><label>{{answer_choice.text}}</label>
+      </div>
        <button id='vote'
-         ng-show='voteForm.$valid' ng-click='castVote()'>Vote</button>
+         ng-show='voteForm.$valid' 
+         ng-click='castVote()'>Vote</button>
     </span>
     <span class='span4'></span>
   </form>
