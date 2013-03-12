@@ -11,8 +11,8 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.static(__dirname + '/'));
   app.use(express.errorHandler({
-    dumpExceptions: true, 
-    showStack: true
+    dumpExceptions : true, 
+    showStack : true
   }));
   app.use(app.router);
 });
