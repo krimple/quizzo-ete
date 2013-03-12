@@ -10,7 +10,7 @@
   <form style="width: 500px; padding: 20px; margin: 10px; border: 1px solid black;">
   Select Game: <select name="gameId" 
           ng-model="gameId" 
-          ng-options="value.gameId as value.title for value in gamesAvailable"
+          ng-options="game for game in gamesAvailable"
           required></select>
           <button name="fetchGames" ng-click="fetchGames()">Refresh </button>
   <br/>
