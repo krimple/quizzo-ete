@@ -6,7 +6,7 @@ angular.module('quizzoApp').controller('StatusUpdateCtrl', function ($timeout, $
 
   $rootScope.onTimeout = function () {
     // only call poller if enabled
-    if ($rootScope.enablePolling === true) {
+    if ($rootScope.pollEnabled === true) {
       console.log('polling enabled - checking status');
       quizManagerService.getStatus();
     }
@@ -20,7 +20,7 @@ angular.module('quizzoApp').controller('StatusUpdateCtrl', function ($timeout, $
   };
 
   $rootScope.disablePolling = function () {
-    $rootScope.pollEnabled = true;
+    $rootScope.pollEnabled = false;
   };
 
   // begin timing process 
