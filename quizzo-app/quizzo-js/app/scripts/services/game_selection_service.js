@@ -9,18 +9,17 @@ angular.module('quizzoApp').
 
     implementation.findGamesReadyToPlay = function () {
       var that = this;
-      $http.get(serverPrefix + 'quizRun/games').success(
-        function (data, status, headers, config) {
+      $http.get(serverPrefix + 'quizRun/games').
+        success(function (data, status, headers, config) {
           that.games_ready_to_play = data;
           $rootScope.$broadcast('GamesAvailable');
-        }).error(
-        function (data, status, headers, config) {
+        }).error(function (data, status, headers, config) {
           delete that.games_ready_to_play;
           console.error('no data found.', status);
         });
     };
 
-    implementation.getGames = function() {
+    implementation.getGames = function () {
       return this.games_ready_to_play;
     };
 
@@ -29,10 +28,8 @@ angular.module('quizzoApp').
       $http.post(serverPrefix + 'quizRun/game/' + gameId + '/joinGame').
         success(function (data, status, headers, config) {
           // response includes category : 'GameJoined' - we're in
-          if (data.category == 'GameJoined') {
+          if (data.category === 'GameJoined') {
             $rootScope.$broadcast('GameJoined');
-          } else {
-            // todo - not sure what to do here... Need a generic error view/controller
           }
         }).
         error(function (data, status, headers, config) {

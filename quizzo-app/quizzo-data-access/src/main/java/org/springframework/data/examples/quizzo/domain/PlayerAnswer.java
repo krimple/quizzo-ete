@@ -48,8 +48,8 @@ public class PlayerAnswer {
 	@JsonCreator
 	public PlayerAnswer(
 			@JsonProperty("questionNumber") Integer questionNumber,
-			@JsonProperty("choice") char choice) {
-		this(null, null, null, questionNumber, choice, null);
+			@JsonProperty("choice") String choice) {
+		this(null, null, null, questionNumber, choice.charAt(0), null);
 	}
 
 	@PersistenceConstructor

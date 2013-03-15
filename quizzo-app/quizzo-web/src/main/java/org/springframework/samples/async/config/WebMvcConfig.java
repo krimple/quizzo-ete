@@ -22,6 +22,7 @@ import org.thymeleaf.templateresolver.TemplateResolver;
 
 @Configuration
 @EnableScheduling
+//@ImportResource(value = { "/WEB-INF/spring/applicationContext-security.xml" })
 @ComponentScan(basePackages = { "org.springframework.samples.async" })
 public class WebMvcConfig extends WebMvcConfigurationSupport {
 

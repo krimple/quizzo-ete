@@ -8,4 +8,7 @@ angular.module('quizzoApp').
      // run 'em
     $scope.findGamesReadyToPlay();
 
+    $scope.$on('GamesAvailable', function(event, values) {    	
+    	$scope.gamesAvailable = gameSelectionService.getGames();
+    });
   });

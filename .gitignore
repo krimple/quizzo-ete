@@ -8,3 +8,4 @@ rest-shell.log
 *.jar
 *.war
 *.ear
+.DS_Store

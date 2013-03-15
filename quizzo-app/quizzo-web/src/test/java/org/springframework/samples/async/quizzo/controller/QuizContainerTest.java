@@ -115,7 +115,7 @@ public class QuizContainerTest {
                         (QuestionPendingResponse) gamePlayController.getCurrentQuestion(mockSession, mockResponse);
                 MultipleChoiceQuestion question = questionPendingResponse.getQuestion();
                 // always safe choosing the first one ;)
-                PlayerAnswer answer = new PlayerAnswer(question.getQuestionNumber(), 'a');
+                PlayerAnswer answer = new PlayerAnswer(question.getQuestionNumber(), "a");
 
                 gamePlayController.submitPlayerAnswer(answer, mockSession);
 
