@@ -2170,7 +2170,7 @@ table .span24 {
   *margin-right: .3em;
   line-height: 14px;
   vertical-align: text-top;
-  background-image: url('/images/glyphicons-halflings.png?1362101162');
+  background-image: url('/quizzo-web/images/glyphicons-halflings.png?1362101162');
   background-position: 14px 14px;
   background-repeat: no-repeat;
   margin-top: 1px;
@@ -2185,7 +2185,7 @@ table .span24 {
 .dropdown-menu > li > a:hover > [class*=" icon-"],
 .dropdown-menu > .active > a > [class^="icon-"],
 .dropdown-menu > .active > a > [class*=" icon-"] {
-  background-image: url('/images/glyphicons-halflings-white.png?1362101162');
+  background-image: url('/quizzo-web/images/glyphicons-halflings-white.png?1362101162');
 }
 
 /* line 42, compass_twitter_bootstrap/_sprites.scss */

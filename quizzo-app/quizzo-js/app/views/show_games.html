@@ -1,19 +1,41 @@
-<div class="row center" ng-cloak>
-    <span class="span4">
-
-    </span>
-
-    <span class="span4">
-        <div id="joinpanel">
-            <h3>Join a Game</h3>
-            <em>Select a game to play... The following games are awaiting players...</em>
-            <ul>
-                <li ng-repeat='game in gamesAvailable'>
-                    <a ng-href='#/join_game/{{game.gameId}}'>{{game.title}}</a></li>
-                </ul>
-            </div>
-
-        </span>
-        <span class="span4"></span>
+<div class="row-fluid" ng-cloak>
+    <div class="span10">
+        <h3>Join a Game</h3>
+        <p><em>Select a game to play... The following games are awaiting players...</em></p>
     </div>
+    <div class="span2"></div>
+</div>
+<div ng-repeat='game in gamesAvailable'>
+    <div class="row-fluid">
+        <div class="span2"></div>
+        <div class="span8">
+           <a class="btn btn-primary span12" 
+           ng-href='#/join_game/{{game.gameId}}'> {{game.title}} </a>
+       </div>
+       <div class="span2"></div>
+   </div>
+   <div class="row-fluid">
+    <br/>
+   </div>
+</div>
+
+<div ng-controller="DialogDemoCtrl">
+    <div class="row-fluid">
+        <div class="span6">
+            <label class="checkbox"><input type=checkbox ng-model="opts.backdrop">Show backdrop</label>
+            <label class="checkbox"><input type=checkbox ng-model="opts.dialogFade">Fade modal dialog </label>
+            <label class="checkbox"><input type=checkbox ng-disabled="!opts.backdrop" ng-model="opts.backdropFade">Fade Backdrop</label>
+            <hr>
+            <label class="checkbox"><input type=checkbox ng-model="opts.keyboard">Close on Escape</label>
+            <label class="checkbox"><input type=checkbox ng-disabled="!opts.backdrop" ng-model="opts.backdropClick">Close on backdrop click</label>
+        </div>
+        <div class="span6">
+            <p>Change options at will and press the open dialog button below!</p>
+            <p><button class="btn btn-primary" ng-click="openDialog()">Open Dialog</button></p>
+
+            <p>Alternatively open a simple message box:</p>
+            <p><button class="btn btn-primary" ng-click="openMessageBox()">Open Message Box</button></p>
+        </div>
+    </div>
+</div>
 
