@@ -19,14 +19,19 @@
 <div class='row-fluid'>
     <div class='span1'></div>
     <div class='span9'>
-      <form class="form-horizontal">
+      <form name="voteForm" class="form-horizontal">
 
       <span class='span8'>
         <div ng-repeat='answer_choice in question.choices'>
-            <span class="lead"><strong>{{answer_choice.letter}})</strong></span>&nbsp;<input type='radio' group="choicesGroup"
+            <span class="lead">
+              <strong>{{answer_choice.letter}})</strong>
+            </span>
+            &nbsp;
+            <input type='radio' group="choicesGroup"
              ng-model='selectedChoice.value'
              name='choices'
-             value='{{answer_choice.letter}}'><label class='lead'>{{answer_choice.text}}</label>
+             value='{{answer_choice.letter}}'>
+             <label class='lead'>{{answer_choice.text}}</label>
         </div>
          <button id='vote'
            ng-show='voteForm.$valid' 
