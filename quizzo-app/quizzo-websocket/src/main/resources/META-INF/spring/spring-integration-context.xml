@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:int-ip="http://www.springframework.org/schema/integration/ip"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/integration/ip http://www.springframework.org/schema/integration/ip/spring-integration-ip-2.2.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<context:component-scan base-package="quizzo.ete"/>
+	<int-ip:tcp-connection-factory id="ws"
+		type="server" port="8081"
+		using-nio="true"
+		so-timeout="600000"
+		interceptor-factory-chain="interceptors"
+		serializer="wsSerializer"
+		deserializer="wsSerializer" />
+
+	<bean id="wsSerializer" class="org.springframework.integration.x.ip.websocket.WebSocketSerializer">
+		<property name="server" value="true" />
+	</bean>
+
+	<bean id="interceptors" class="org.springframework.integration.ip.tcp.connection.TcpConnectionInterceptorFactoryChain">
+		<property name="interceptors">
+			<bean class="org.springframework.integration.x.ip.websocket.WebSocketTcpConnectionInterceptorFactory" />
+		</property>
+	</bean>
+
+	<int-ip:tcp-inbound-channel-adapter id="tcpInbound"  connection-factory="ws" channel="loggit"/>
+	
+	<int:inbound-channel-adapter ref="playerAnswerService" method="getNewAnswers" channel="brokerChannel">
+		<int:poller fixed-rate="500" task-executor="executor"/>
+	</int:inbound-channel-adapter>
+	<task:executor id="executor" pool-size="1"/>
+
+	<int:channel id="toBrowser">
+		<int:interceptors>
+			<int:wire-tap channel="loggit"/>
+		</int:interceptors>
+	</int:channel>
+
+	<int:logging-channel-adapter id="loggit" log-full-message="true"/>
+	
+	<bean id="broker" class="quizzo.ete.ConnectionBroker"/>
+
+	<int:channel id="brokerChannel"/>
+
+	<int:splitter id="createBroadCastMessages" ref="broker" method="createBroadCastMessages"
+		input-channel="brokerChannel" output-channel="toBrowser"/>
+
+	<int-ip:tcp-outbound-channel-adapter id="tcpOutbound" connection-factory="ws" channel="toBrowser" />
+
+</beans>

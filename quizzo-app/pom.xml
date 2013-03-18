@@ -16,6 +16,7 @@
 		<module>quizzo-data-access</module>
 		<module>quizzo-service</module>
 		<module>quizzo-web</module>
+		<module>quizzo-websocket</module>
 	</modules>
 
 	<dependencyManagement>

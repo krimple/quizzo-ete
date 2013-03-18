@@ -1,0 +1,35 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.springframework.data.examples</groupId>
+    <artifactId>quizzo-app</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>quizzo-websocket</artifactId>
+  <dependencies>
+  		<dependency>
+			<groupId>org.springframework.data.examples</groupId>
+			<artifactId>quizzo-data-access</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springintegration.ip.extensions</groupId>
+			<artifactId>spring-integration-ip-extensions</artifactId>
+			<version>1.0.0.BUILD-SNAPSHOT</version>
+		</dependency>
+		<!-- 
+		compile('com.jayway.jsonpath:json-path:0.8.1')
+	compile('com.ning:async-http-client:1.7.10')
+	compile('org.eclipse.jetty.websocket:websocket-client:9.0.0.v20130308')
+	compile('org.springframework:spring-web:3.2.1.RELEASE')
+	compile('org.springintegration.ip.extensions:spring-integration-ip-extensions:1.0.0.BUILD-SNAPSHOT')
+		
+		 -->
+  </dependencies>
+  <repositories>
+	<repository>
+		<id>springsource-snapshot</id>
+		<url>http://repo.springsource.org/libs-snapshot</url>
+	</repository>
+  </repositories>
+</project>
