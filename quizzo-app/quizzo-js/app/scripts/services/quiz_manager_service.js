@@ -26,19 +26,23 @@ angular.module('quizzoApp').factory('quizManagerService', function ($http, $root
         }
         break;
         case 'GameComplete':
-        if (that.previousState !== 'GameComplete') {
-          delete $rootScope.question;
+        if (that.previousStatus !== 'GameComplete') {
           $rootScope.$broadcast('GameComplete');
+          $rootScope.disablePolling();
         }
         break;
         case 'InvalidGameStatus':
+        console.log('Game status invalid.', status, headers, config);
         $rootScope.$broadcast('InvalidGameStatus');
+        $rootScope.disablePolling();
         break;
       }
       that.previousStatus = data.status;
     }).error(function (data, status, headers, config) {
       console.log('error, not a proper status returned...', data);
+      console.log('other data', status, headers, config);
       $rootScope.$broadcast('InvalidGameStatus');
+      $rootScope.disablePolling();
     });
   };
 
@@ -51,7 +55,12 @@ angular.module('quizzoApp').factory('quizManagerService', function ($http, $root
       questionNumber : sentQuestionNumber,
       choice: selectedAnswer.value
     };
-    $http.put(serverPrefix + 'quizRun/submitAnswer', answerPayload);
+    $http.put(serverPrefix + 'quizRun/submitAnswer',
+              answerPayload).success(function(data, status, headers, config) {
+      $rootScope.$broadcast('VoteSent');
+    }).error(function(data, status, headers, config) {
+      $rootScope.$broadcast('VoteFailed');
+    });
   };
   return implementation;
 });
