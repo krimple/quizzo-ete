@@ -11,7 +11,7 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
-	<context:component-scan base-package="quizzo.ete"/>
+	<context:component-scan base-package="org.phillyete.quizzo.ws"/>
 	<int-ip:tcp-connection-factory id="ws"
 		type="server" port="8081"
 		using-nio="true"
@@ -45,7 +45,7 @@
 
 	<int:logging-channel-adapter id="loggit" log-full-message="true"/>
 	
-	<bean id="broker" class="quizzo.ete.ConnectionBroker"/>
+	<bean id="broker" class="org.phillyete.quizzo.ws.ConnectionBroker"/>
 
 	<int:channel id="brokerChannel"/>
 

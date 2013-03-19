@@ -2,7 +2,26 @@
 
 	var answers = [];
 	var players = [];
-	var data = new Array(20);
+	var data = new Array(120);
+	
+	var keepDrawing = true;
+	var chartElement;
+	var rect;
+	var margin = {top: 6, right: 0, bottom: 160, left: 40};
+	var width = 960 - margin.right;
+	var height = 400 - margin.top - margin.bottom;
+	
+	function redraw() {
+		if (!keepDrawing) {
+			return;
+		}
+		rect = chartElement.selectAll("rect")
+	   .data(data)
+	   .transition()
+	   .duration(1000)
+	   .attr("y", function(d,i){ return height - 2.5*d - 24; } )
+	   .attr("height", function(d,i) { return  2.5*d; });
+	}
 
 	function QuizzoWebSocket() {
 
@@ -21,18 +40,22 @@
 			if (players.indexOf(answer.playerId) < 0) {
 				players.push(answer.playerId);
 			}
-			if (data[answer.questionNumber] == undefined) {
-				console.log("initializing data for questionNumber " + answer.questionNumber);
-				data[answer.questionNumber] = {};
-				data[answer.questionNumber]['a'] = 0;
-				data[answer.questionNumber]['b'] = 0;
-				data[answer.questionNumber]['c'] = 0;
-				data[answer.questionNumber]['d'] = 0;
+			
+			var questionBase = (answer.questionNumber-1)*6;
+			
+			if (answer.choice == 'a') {
+				data[questionBase + 1]++;
 			}
-			data[answer.questionNumber][answer.choice] = data[answer.questionNumber][answer.choice] + 1;
-			
-			
-			answers.push(answer);
+			if (answer.choice == 'b') {
+				data[questionBase + 2]++;
+			}
+			if (answer.choice == 'c') {
+				data[questionBase + 3]++;
+			}
+			if (answer.choice == 'd') {
+				data[questionBase + 4]++;
+			}
+			redraw();
 		};
 
 		socket.onerror = function(event) {
@@ -59,112 +82,64 @@
 
 	var wsSocket = QuizzoWebSocket();
 
-
 	function QuizzoChart() {
-
-		var refreshFrequency = 750,
-			timespan = 5 * 60 * 1000;
-
-		var chartElement, questionScale, xAxis, playerScale,yAxis;
-
-		var keepDrawing = true;
+	
+		function fill(d,i) {
+			if (i % 6 == 1) {
+				return "green";
+			}
+			if (i % 6 == 2) {
+				return "red";
+			}
+			if (i % 6 == 3) {
+				return "blue";
+			}
+			if (i % 6 == 4) {
+				return "orange";
+			}
+			return "white";
+		}
 
 		function init() {
-			var margin = {top: 6, right: 0, bottom: 20, left: 40},
-					width = 960 - margin.right,
-					height = 200 - margin.top - margin.bottom;
-
-			questionScale = d3.scale.linear().range([0, width]).domain([1,200]);
-			xAxis = d3.svg.axis().scale(questionScale).orient("bottom");
+			var rectWidth = 8;
+			var maxQuestions = 20;
+			var maxChoices = 4;
+			var chartWidth = maxQuestions*(rectWidth)*(maxChoices + 2); // + 2 spaces for each question
+			
+			var questionWidth = chartWidth/(maxQuestions -1);
+			
+			var xScale = d3.scale.linear().range([0, chartWidth]).domain([1,maxQuestions]);
+			var xAxis = d3.svg.axis().scale(xScale).ticks(20).orient("bottom");
+			
+			for (i=0; i< data.length; i++) {
+				data[i] = 0;
+			}
 		
-			playerScale = d3.scale.linear().domain([0, 100]).range([height, 0]);
-
+			
 			chartElement = d3.select("div#chart")
 						.append("svg")
-						.attr("width", 1020)
-						.attr("height", 200)
-						.append("g")
-						.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-			timeline = chartElement.append("g")
-						.attr("class", "x axis")
-						.attr("transform", "translate(0," + height + ")")
-						.call(xAxis);
-
+						.attr("width", chartWidth + 40) // some margin included
+						.attr("height", height);
+			
+			var rect = chartElement.selectAll("rect")
+			   .data(data)
+			   .enter()
+			   .append("rect")
+			   .attr("x", function(d, i) { return (questionWidth/(maxChoices+2))*i + 9; //Bar width + offset
+			    })
+			   .attr("y", function(d,i){ return height - d - 20 ; } )
+			   .attr("width", rectWidth)
+			   .attr("height", function(d,i) { return  d; })
+			   .attr("fill",function(d,i) {return fill(d,i);});
+		
+	
 			chartElement.append("g")
-					.attr("class", "y axis")
-					.call(d3.svg.axis().scale(playerScale).orient("left"));
+			.attr("class", "x axis")
+			.attr("transform", "translate(18,"+ (height-25) +")")
+			.call(xAxis);
 		}
 		
-		function xcoord(d) {
-			var val = d.questionNumber*10;
-			if (d.choice == 'a') {
-				val = val+1;
-			}
-			if (d.choice == 'b') {
-				val = val+2;
-			}
-			if (d.choice == 'c') {
-				val = val+3;
-			}
-			if (d.choice == 'd') {
-				val = val+4;
-			}
-			return questionScale(val);
-		}
 
-		function redraw() {
-			//ping();
-
-			if (!keepDrawing) {
-				return;
-			}
-			// join quiz data to points on the graph
-			// see http://bost.ocks.org/mike/join
-			var circle = chartElement.selectAll("circle")
-					.data(answers, function(d, i) { return d._id });
-			
-			circle.enter().append("circle")
-					.style("stroke", "gray")
-					.style("fill", function(d,i) {
-						if (d.choice == 'a') {
-							return "red";
-						}
-						if (d.choice == 'b') {
-							return "blue";
-						}
-						if (d.choice == 'c') {
-							return "green";
-						}
-						if (d.choice == 'd') {
-							return "black";
-						}
-					})
-					.attr("cx", function(d, i) {return xcoord(d);})
-					.attr("cy", function(d, i) {return playerScale(data[d.questionNumber][d.choice]) })
-					.attr("r", 0)
-					.transition().duration(refreshFrequency)
-					.attr("r", 5);
-
-			circle.transition()
-					.duration(refreshFrequency)
-					.ease("linear")
-					.attr("cx", function(d){return xcoord(d);});
-
-			circle.exit().transition()
-					.duration(refreshFrequency)
-					.attr("r", 0)
-					.ease("linear")
-					.attr("cx", function(d){return xcoord(d);})
-					.remove();
-
-			// slide the time-axis left
-			timeline.transition()
-						.duration(refreshFrequency)
-						.ease("linear")
-						.call(xAxis)
-						.each("end", redraw);
-		}
 
 		function ping() {
 			console.log("PING33");

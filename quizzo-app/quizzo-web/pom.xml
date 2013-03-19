@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	
 	<parent>
-		<groupId>org.springframework.data.examples</groupId>
+		<groupId>org.phillyete.quizzo</groupId>
 		<artifactId>quizzo-app</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
@@ -17,12 +17,12 @@
 	<name>Quizzo demo using the Spring MVC 3.2 Servlet-based async support</name>
 	<dependencies>
 		<dependency>
-			<groupId>org.springframework.data.examples</groupId>
+			<groupId>org.phillyete.quizzo</groupId>
 			<artifactId>quizzo-data-access</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.data.examples</groupId>
+			<groupId>org.phillyete.quizzo</groupId>
 			<artifactId>quizzo-service</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
@@ -86,7 +86,6 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
-			
 		</dependency>
 		
 		<dependency>
