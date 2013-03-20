@@ -31,6 +31,7 @@ import org.springframework.web.context.WebApplicationContext;
  */
 @Configuration
 @Import({ ServiceConfig.class, DataAccessConfig.class })
+@ImportResource(value = { "/WEB-INF/spring/applicationContext-security.xml" })
 public class AppConfig {
 
      @Bean

@@ -7,8 +7,8 @@
                     http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
     <http use-expressions="true">
+        <intercept-url pattern="/resources/quizzo-admin/**" access="hasRole('admin')" />
         <intercept-url pattern="/**" access="permitAll" />
-        <intercept-url pattern="/resources/quizzo-admin-js/**" access="hasRole('admin')" />
         <form-login />
     </http>
 

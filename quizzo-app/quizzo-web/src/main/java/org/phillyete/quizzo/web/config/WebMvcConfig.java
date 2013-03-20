@@ -9,6 +9,7 @@ import org.phillyete.quizzo.engine.QuizModeratorSessionImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -27,7 +28,6 @@ import org.thymeleaf.templateresolver.TemplateResolver;
 
 @Configuration
 @EnableScheduling
-//@ImportResource(value = { "/WEB-INF/spring/applicationContext-security.xml" })
 @ComponentScan(basePackages = { "org.phillyete.quizzo" })
 public class WebMvcConfig extends WebMvcConfigurationSupport {
 
