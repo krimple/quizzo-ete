@@ -138,4 +138,16 @@ public class PlayerAnswer {
     public void setChoice(char choice) {
         this.choice = choice;
     }
+    @Override
+    public boolean equals(Object other) {
+    	if (other instanceof PlayerAnswer) {
+    		return ((PlayerAnswer)other).id.equals(id);
+    	}
+    	return false;
+    }
+    @Override 
+    public int hashCode() {
+    	return id.hashCode();
+    }
 }
+

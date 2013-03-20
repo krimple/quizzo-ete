@@ -22,4 +22,5 @@ import org.phillyete.quizzo.domain.PlayerAnswer;
  */
 public interface PlayerAnswerService {
 	public List<PlayerAnswer> getNewAnswers();
+	public void setGameId(String gameId);
 }

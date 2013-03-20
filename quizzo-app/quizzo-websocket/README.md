@@ -7,12 +7,26 @@ A Demo using WebSockets and [Spring Integration Websocket extensions for TCP ada
 
 ### Instructions
 
-Compile and run WebSocketServer
+Compile and run WebSocketServer with command line args <spring-profile> <game-id>
 
-open your browser to ()
+with no args, will generate random player answers ('test' profile)
 
-file:///.../quizzo-websocket/src/main/webapp/index.html
+The 'test-mongo' profile uses mongo to store and retrieve randomly generated player answers
 
-### Usage
+the 'default' profile requires a real game id (UUID), typically the current game in progress.
 
-The WebSocketServer 'test' profile is configured to generate semi-random quiz answers to simulate a game with 100 players and 10 questions.  The web page will display a bar chart recording the responses to each question in near real time 
+
+Run the program. This will start listening on port 8081. 
+
+open your browser to file:///.../quizzo-websocket/src/main/webapp/index.html
+
+Hit <Enter> to start polling for data. 
+
+*Note, you can chart answers submitted for a complete game or a game in progress*
+
+If monitoring a game in progress. You need to provide the game id (instance id) of the current game.
+
+Hit <Enter> to stop the server
+
+
+ 

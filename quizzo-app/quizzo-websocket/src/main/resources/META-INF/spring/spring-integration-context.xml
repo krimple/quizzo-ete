@@ -32,7 +32,7 @@
 
 	<int-ip:tcp-inbound-channel-adapter id="tcpInbound"  connection-factory="ws" channel="loggit"/>
 	
-	<int:inbound-channel-adapter ref="playerAnswerService" method="getNewAnswers" channel="brokerChannel">
+	<int:inbound-channel-adapter id="inboundPoller" ref="playerAnswerService" method="getNewAnswers" channel="brokerChannel" auto-startup="false">
 		<int:poller fixed-rate="500" task-executor="executor"/>
 	</int:inbound-channel-adapter>
 	<task:executor id="executor" pool-size="1"/>

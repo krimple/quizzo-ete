@@ -1,4 +1,5 @@
 package org.phillyete.quizzo.ws;
+
 import java.io.IOException;
 
 import org.phillyete.quizzo.config.DataAccessConfig;
@@ -6,6 +7,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.integration.endpoint.SourcePollingChannelAdapter;
 
 /*
  * Copyright 2002-2013 the original author or authors.
@@ -24,28 +26,55 @@ import org.springframework.context.annotation.ImportResource;
  * @author David Turanski
  *
  */
- 
+
 public class WebSocketServer {
 	public static void main(String... args) {
+		String springProfile = "test";
+		String gameId = "game";
+
+		if (args.length > 0 && args.length != 2) {
+			System.out.println("Usage: WebSocketServer <spring-profile>(default,test,test-mongo), <gameId>");
+			System.exit(1);
+		} else if (args.length == 2) {
+			springProfile = args[0];
+			gameId = args[1];
+		}
+
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-		 context.getEnvironment().addActiveProfile("test");
-		 context.register(Config.class);
-		 context.refresh();
-		 context.registerShutdownHook();
-		 System.out.println("Hit <Enter> to Quit");
-		 try {
+		context.getEnvironment().addActiveProfile(springProfile);
+		context.getEnvironment().addActiveProfile(springProfile);
+		context.register(Config.class);
+		context.refresh();
+
+		PlayerAnswerService pas = context.getBean(PlayerAnswerService.class);
+		pas.setGameId(gameId);
+
+		SourcePollingChannelAdapter adapter = context.getBean("inboundPoller", SourcePollingChannelAdapter.class);
+		context.registerShutdownHook();
+		System.out.println("Hit <Enter> to Start polling for data");
+		try {
+			System.in.read();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		adapter.start();
+
+		System.out.println("Hit <Enter> to Quit");
+		try {
 			System.in.read();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		context.close();
+		System.exit(0);
 	}
-	
+
 	@Configuration
 	@Import(DataAccessConfig.class)
 	@ImportResource("/META-INF/spring/spring-integration-context.xml")
 	public static class Config {
-		
+
 	}
 }

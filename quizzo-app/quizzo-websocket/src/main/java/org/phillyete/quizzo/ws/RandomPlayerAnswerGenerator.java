@@ -29,8 +29,8 @@ import org.springframework.stereotype.Component;
 @Component("playerAnswerService")
 @Profile("test")
 public class RandomPlayerAnswerGenerator implements PlayerAnswerService, Runnable {
-	private static final int NUMBER_QUESTIONS = 10;
-	private static final int NUMBER_PLAYERS = 100;
+	protected static final int NUMBER_QUESTIONS = 10;
+	protected static final int NUMBER_PLAYERS = 100;
 
 	private Random rand = new Random();
 	private List<String> players = new ArrayList<String>();
@@ -38,9 +38,11 @@ public class RandomPlayerAnswerGenerator implements PlayerAnswerService, Runnabl
 	private long id;
 	private List<PlayerAnswer> playerAnswers;
 	private boolean done;
+	private String gameId;
 
 	public RandomPlayerAnswerGenerator() {
 		questionNumber = 1;
+		gameId="game";
 		playerAnswers = new ArrayList<PlayerAnswer>();
 		new Thread(this).start();
 	}
@@ -75,7 +77,7 @@ public class RandomPlayerAnswerGenerator implements PlayerAnswerService, Runnabl
 			PlayerAnswer answer = new PlayerAnswer(questionNumber, randomChoice(correctResponse));
 			answer.setPlayerId(player);
 			answer.setId(BigInteger.valueOf(id++));
-			answer.setGameId("game");
+			answer.setGameId(getGameId());
 			answer.setQuizId("quiz");
 			answer.setScore(10); // Doesn't matter for this
 			try {
@@ -84,10 +86,23 @@ public class RandomPlayerAnswerGenerator implements PlayerAnswerService, Runnabl
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			playerAnswers.add(answer);
+			savePlayerAnswer(answer);
 		}
 		done = true;
 	}
+	
+	protected void savePlayerAnswer(PlayerAnswer answer) {
+		playerAnswers.add(answer);
+	}
+	
+	public String getGameId() {
+		return this.gameId;
+	}
+	
+	public void setGameId(String gameId) {
+		this.gameId = gameId;
+	}
+	
 
 	public boolean isDone() {
 		return done;
