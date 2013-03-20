@@ -4,9 +4,9 @@
 <div class="hero-unit">
     <div ng-controller='ChatCtrl'>
         <div class="hero-unit">
-            <h1>
-                Chat!
-            </h1>
+            <h2>
+                Chat!!
+            </h2>
             <p>
                 <label for="userName">User:</label>
                 <input id="userName" name="userName"
@@ -21,7 +21,6 @@
             You're chatting as {{userName}} <button id="leave" type="submit" ng-click="leaveChat()">Leave Chat</button>
         </p>
         <p>Message Index: {{messageIndex}}.</p>
-        <p>Poll now: <button id='poll' name='poll' ng-click="pollForMessages()">Poll</button></p>
         <div>
             <textarea rows="15" cols="60"
                       readonly="readonly" ng-model='chatContent'>

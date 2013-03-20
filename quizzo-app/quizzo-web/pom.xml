@@ -168,10 +168,8 @@
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<version>2.0</version>
 				<configuration>
-					<server>local_tomcat</server>  
-					<warFile>target/quizzo.war</warFile>
-					<url>http://localhost:8080/manager/text</url>  
-          <path>/quizzo-web</path>
+          			<path>/quizzo</path>
+          			<url>http://localhost:8080/manager/text</url>
 				</configuration>
 				
 				<dependencies>
