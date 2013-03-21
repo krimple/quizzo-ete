@@ -51,7 +51,7 @@ public class WebSocketServer {
 
 		SourcePollingChannelAdapter adapter = context.getBean("inboundPoller", SourcePollingChannelAdapter.class);
 		context.registerShutdownHook();
-		System.out.println("Hit <Enter> to Start polling for data");
+		System.out.println("Hit <Enter> to Start polling for game [" + gameId + "] answers");
 		try {
 			System.in.read();
 		} catch (IOException e) {
