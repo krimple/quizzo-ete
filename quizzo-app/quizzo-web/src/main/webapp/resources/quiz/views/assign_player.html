@@ -1,0 +1,25 @@
+<div class="row-fluid" ng-cloak>
+    <span class="span12">
+    <div class='row'>
+        <div class='span2'></div>
+        <div class='span8'>
+        <form class="span12 form-horizontal box">
+        <p>Please join our quiz by entering a nickname and an email address. The game will begin shortly.</p>
+            <div class='control-group'>
+                <label class='control-label' for="nickname"><b>Nickname</b></label>
+                <div class='controls'>
+                    <input type="text" 
+                           ng-model="nickName"
+                           id="nickname"
+                           ng-change="clear_nick_bad()"
+                            /> <span class="error" ng-show="showJoinError">{{joinError}}</span>
+                </div>
+            </div>
+                <div class='form-actions'>
+                    <button id="join" class="btn btn-large btn-block btn-primary btn-large"
+                            ng-click="join_game(nickName)">Join Quizzo</button>
+                </div>
+        </form>
+    <div class='span2'></div>
+    
+</div>
