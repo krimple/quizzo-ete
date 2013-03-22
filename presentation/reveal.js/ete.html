@@ -102,7 +102,21 @@
 				<section>
 					 <span style="position:absolute; TOP:-250px; LEFT:-150px; WIDTH:1200px">
 					 	 <p>Spring Data CRUD Repository - You get this out of the box.</p>
-						<img src="img/repository-if.png"/>
+					     <pre><code>
+public interface CrudRepository&lt;T, ID extends Serializable&gt; extends Repository&lt;T, ID&gt; {
+	&lt;S extends T&gt; S save(S entity);
+	&lt;S extends T&gt; Iterable&lt;S&gt; save(Iterable&lt;S&gt; entities);
+	T findOne(ID id);
+	boolean exists(ID id);
+	Iterable&lt;T&gt; findAll();
+	Iterable&lt;T&gt; findAll(Iterable&lt;ID&gt; ids);
+	long count();
+	void delete(ID id);
+	void delete(T entity);
+	void delete(Iterable&lt;? extends T&gt; entities);
+	void deleteAll();
+}
+					     </code></pre>
 					 </span>
 				</section>
 				<section>
@@ -113,10 +127,17 @@
 					 </span>
 				</section>
 				<section>
-				 <span style="position:absolute; TOP:-150px; LEFT:-700px; WIDTH:2500px">
+				
 					 	 <p>PlayerAnswerRepository</p>
-						<img src="img/player-answer-repository.png"/>
-					</span>
+					 	 <pre><code>
+public interface PlayerAnswerRepository extends MongoRepository&lt;PlayerAnswer,BigInteger&gt;, PlayerAnswerRepositoryCustom {
+	public List&lt;PlayerAnswer&gt; findByQuizId(String quizId);
+	public List&lt;PlayerAnswer&gt; findByGameId(String gameId);
+	public List&lt;PlayerAnswer&gt; findByGameIdAndPlayerId(String gameId, String playerId);
+	public PlayerAnswer findByGameIdAndPlayerIdAndQuestionNumber(String gameId, String playerId, int questionNumber);
+	public List&lt;PlayerAnswer&gt; findByGameIdAndQuestionNumber(String gameId, int questionNumber);
+}
+					 	 </pre></code>
 				</section>
 
 				<section data-state="mapping">
@@ -131,7 +152,7 @@
 					<img src="img/questions.png"/>
 				</section>
 				<section>
-					<h3>More Information</h3>
+					<p>More Information</p>
 					<span style="font-size:0.75em;">
 					<table width="100%">
 						<tr>
@@ -155,6 +176,10 @@
 						</tr>
 					</table>
 				</span>
+				</section>
+				<section>
+					<p>Spring Integration Flow for WebSockets</p>
+					<img src="img/websocket-si-flow.png" width="1500"/>
 				</section>
 
 			</div>

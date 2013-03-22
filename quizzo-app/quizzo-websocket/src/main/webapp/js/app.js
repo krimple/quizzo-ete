@@ -12,9 +12,13 @@
 	var height = 400 - margin.top - margin.bottom;
 	
 	function redraw() {
+		// Workaround for Tomcat not having a separate timeout value for WebSockets
+		// See http://comments.gmane.org/gmane.comp.jakarta.tomcat.user/221280
+		ping();
 		if (!keepDrawing) {
 			return;
 		}
+		
 		rect = chartElement.selectAll("rect")
 	   .data(data)
 	   .transition()
@@ -139,13 +143,6 @@
 			.call(xAxis);
 		}
 		
-
-
-		function ping() {
-			console.log("PING33");
-			wsSocket.send("ping");
-		}
-
 		init();
 
 		return {
@@ -162,6 +159,10 @@
 			},
 		}
 
+	}
+	function ping() {
+		console.log("PING33");
+		wsSocket.send("ping");
 	}
 
 	var quizzoChart = QuizzoChart();
