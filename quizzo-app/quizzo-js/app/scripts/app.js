@@ -11,7 +11,7 @@ angular.module('quizzoApp', ['ui.bootstrap']).
       when('/play', {templateUrl: 'views/playerpanel.html', controller: 'PlayCtrl'}).
       when('/chat', {templateUrl: 'views/chat.html', controller: 'ChatCtrl'}).
       when('/bye', {templateUrl: 'views/bye.html', controller: 'ByeCtrl'}).
-      when('invalid_game_status', {templateUrl: 'views/invalid_game_status.html'}).
+      when('/invalid_game_status', {templateUrl: 'views/invalid_game_status.html'}).
       when('/determine_current_session_state', {controller: 'DetermineCurrentSessionState'}).
       otherwise({redirectTo: '/determine_current_session_state'});
     // allow http headers for session cookie management
