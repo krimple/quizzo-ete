@@ -53,7 +53,7 @@ angular.module('quizzoApp').factory('quizManagerService', function ($http, $root
   implementation.vote = function (selectedAnswer, sentQuestionNumber) {
     var answerPayload = {
       questionNumber : sentQuestionNumber,
-      choice: selectedAnswer.value
+      choice: selectedAnswer
     };
     $http.put(serverPrefix + 'quizRun/submitAnswer',
               answerPayload).success(function(data, status, headers, config) {

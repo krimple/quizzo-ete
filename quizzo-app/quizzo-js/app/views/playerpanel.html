@@ -1,20 +1,17 @@
-<div class='row center' ng-cloak>
+<div class='row-fluid' ng-cloak>
     <span class='span12'>
-        <h2>Your question...</h2>
     </span>
 </div>
 
 <div class='row-fluid' ng-cloak>
     <div class='span1'></div>
-    <div class='span9'>  
-      <p class="lead">{{question.text}}</p>
+    <div class='span9 hero-unit'>
+        <h2 class='centered-content'>Your question...</h2>
+        <h1 class='centered-content'>{{question.text}}</h1>
     </div>
     <div class='span2'></div>
 </div>
-<div class='row center' ng-cloak>
-    <span class='span12'>
-      <h3>Choose an answer...</h3>
-    </span>
+<div class='row-fluid' ng-cloak>
 </div>
 <div class='row-fluid'>
     <div class='span1'></div>
@@ -22,19 +19,26 @@
       <form name="voteForm" class="form-horizontal">
 
       <span class='span8'>
+
+
         <div ng-repeat='answer_choice in question.choices'>
-            <span class="lead">
-              <strong>{{answer_choice.letter}})</strong>
-            </span>
-            &nbsp;
-            <input type='radio' group="choicesGroup"
-             ng-model='selectedChoice.value'
-             name='choices'
-             value='{{answer_choice.letter}}'>
-             <label class='lead'>{{answer_choice.text}}</label>
+            <div class='row-fluid'>
+                <span class='span2'>
+                        <h1 class='centered-content'>
+
+                        <button id='vote-{{answer_choice.letter}}'
+                           class="btn btn-large btn-block btn-primary"
+                            ng-click='castVote(answer_choice.letter)'>
+                            {{answer_choice.letter}}
+                        </button>
+                        </h1>
+                </span>
+                <span class='span1'></span>
+                <span class='span8'>
+                    <h2>{{answer_choice.text}}</h2>
+                </span>
+            </div>
         </div>
-         <button id='vote'             
-           ng-click='castVote()'>Vote</button>
       </span>
       <span class='span4'></span>
     </form>
