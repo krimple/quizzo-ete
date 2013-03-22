@@ -1,8 +1,6 @@
 'use strict';
 
-angular.module('quizzoApp').controller('PlayCtrl', function ($scope, $location, quizManagerService) {
-
-  $scope.selectedChoice = { value : '' };
+angular.module('quizzoApp').controller('PlayCtrl', function ($scope, $rootScope, $location, quizManagerService) {
 
   $scope.$on('WaitingForAnswer', function () {
     console.log('New question arrived.');
@@ -25,18 +23,20 @@ angular.module('quizzoApp').controller('PlayCtrl', function ($scope, $location, 
     $location.path('/question_pending');
   });
 
-  $scope.castVote = function (value) {
-    var choice = $scope.selectedChoice;
-    console.log("selected choice is", choice);
-    if (choice) {
+  $rootScope.castVote = function (selectedChoice) {
+    console.log("selected choice is", selectedChoice);
+    $scope.enableVoting = false;
+    if (selectedChoice) {
       // we send along the current question # to make sure we are recording
       // the vote on the right question - if it doesn't match the one in
       // server state, throw it away
-      quizManagerService.vote(choice, $scope.question.questionNumber);
+      quizManagerService.vote(selectedChoice, $scope.question.questionNumber);
     }
   };
 
-    // fetch our question
+  // fetch our question from the cached copy in our service
   $scope.question = quizManagerService.getCurrentQuestion();
+  $scope.enableVoting = true;
+
 
 });

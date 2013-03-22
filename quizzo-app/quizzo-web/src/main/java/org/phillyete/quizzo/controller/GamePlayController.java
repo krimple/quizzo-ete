@@ -12,12 +12,7 @@ import org.phillyete.quizzo.domain.PlayerAnswer;
 import org.phillyete.quizzo.engine.GameRunEngine;
 import org.phillyete.quizzo.engine.PlayerGameSession;
 import org.phillyete.quizzo.repository.PlayerAnswerRepository;
-import org.phillyete.quizzo.responses.AnswerSubmittedResponse;
-import org.phillyete.quizzo.responses.AwaitingNextQuestionResponse;
-import org.phillyete.quizzo.responses.GameJoinedResponse;
-import org.phillyete.quizzo.responses.IncorrectQuestionAnsweredResponse;
-import org.phillyete.quizzo.responses.QuestionPendingResponse;
-import org.phillyete.quizzo.responses.QuizPollResponse;
+import org.phillyete.quizzo.responses.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -107,4 +102,9 @@ public class GamePlayController extends AbstractQuizController {
         return new AnswerSubmittedResponse();
     }
 
+    @RequestMapping(method = RequestMethod.GET, value="whoami")
+    public @ResponseBody WhoAmIResponse tellMeWhoIamAndWhatImDoingHereDude(HttpSession session) {
+        PlayerGameSession playerGameSession = this.getOrCreatePlayerGameSession(session);
+        return new WhoAmIResponse(playerGameSession);
+    }
 }

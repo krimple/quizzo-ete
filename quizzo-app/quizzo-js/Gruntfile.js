@@ -11,7 +11,7 @@ module.exports = function (grunt) {
   // configurable paths
   var yeomanConfig = {
     app: 'app',
-    dist: '../quizzo-web/src/main/webapp/resources/app'
+    dist: '../quizzo-web/src/main/webapp/resources/quiz'
   };
 
   grunt.initConfig({
