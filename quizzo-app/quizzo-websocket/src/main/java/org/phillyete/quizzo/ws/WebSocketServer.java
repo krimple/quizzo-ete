@@ -2,11 +2,12 @@ package org.phillyete.quizzo.ws;
 
 import java.io.IOException;
 
-import org.phillyete.quizzo.config.DataAccessConfig;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.integration.endpoint.SourcePollingChannelAdapter;
 import org.springframework.util.StringUtils;
 
@@ -41,10 +42,15 @@ public class WebSocketServer {
 			gameId = args[1];
 		}
 
-		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext();
+        context.setConfigLocations(
+                new String[] {
+                        "classpath*:META-INF/spring/*.xml"
+                }
+        );
 		context.getEnvironment().addActiveProfile(springProfile);
 		context.getEnvironment().addActiveProfile(springProfile);
-		context.register(Config.class);
+
 		context.refresh();
 
 		PlayerAnswerService pas = context.getBean(PlayerAnswerService.class);
@@ -70,12 +76,5 @@ public class WebSocketServer {
 		}
 		context.close();
 		System.exit(0);
-	}
-
-	@Configuration
-	@Import(DataAccessConfig.class)
-	@ImportResource("/META-INF/spring/spring-integration-context.xml")
-	public static class Config {
-
 	}
 }
