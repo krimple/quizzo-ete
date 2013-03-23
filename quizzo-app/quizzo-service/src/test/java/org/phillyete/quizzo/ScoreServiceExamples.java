@@ -23,9 +23,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
  
-import org.phillyete.quizzo.ScoreDetail;
-import org.phillyete.quizzo.ScoreService;
-import org.phillyete.quizzo.ScoreSummary;
+import org.phillyete.quizzo.service.ScoreDetail;
+import org.phillyete.quizzo.service.ScoreService;
+import org.phillyete.quizzo.service.ScoreSummary;
 import org.phillyete.quizzo.config.ServiceConfig;
 import org.phillyete.quizzo.domain.MultipleChoiceQuestion;
 import org.phillyete.quizzo.domain.PlayerAnswer;

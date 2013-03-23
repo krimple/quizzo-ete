@@ -1,6 +1,6 @@
 package org.phillyete.quizzo.responses;
 
-import org.phillyete.quizzo.engine.PlayerGameSession;
+import org.phillyete.quizzo.web.engine.PlayerGameSession;
 
 /**
  * Created with IntelliJ IDEA.

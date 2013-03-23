@@ -21,6 +21,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.phillyete.quizzo.domain.*
 import org.phillyete.quizzo.repository.*
 import org.phillyete.quizzo.config.*
+import org.springframework.context.support.ClassPathXmlApplicationContext
 
 class QuizLoader {
 	static main(String... args) {
@@ -29,7 +30,7 @@ class QuizLoader {
 			println "usage Quizloader <fileName>"
 			System.exit(1)
 		}
-		ApplicationContext ctx = new AnnotationConfigApplicationContext(DataAccessConfig.class)
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("META-INF/spring/applicationContext-data-access.xml");
 		def quizRepository = ctx.getBean(QuizRepository.class)
 		
 		def quizfile = new File(args[0])

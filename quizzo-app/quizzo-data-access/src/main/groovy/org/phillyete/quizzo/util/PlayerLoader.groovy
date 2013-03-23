@@ -21,10 +21,11 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.phillyete.quizzo.domain.*
 import org.phillyete.quizzo.repository.*
 import org.phillyete.quizzo.config.*
+import org.springframework.context.support.ClassPathXmlApplicationContext
 
 class PlayerLoader {
 	static main(String... args) {
-		ApplicationContext ctx = new AnnotationConfigApplicationContext(DataAccessConfig.class)
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("/META-INF/spring/applicationContext-data-access.xml");
 		def playerRepository = ctx.getBean(PlayerRepository.class)
 		playerRepository.deleteAll()
 		['dave01','ken01'].each {

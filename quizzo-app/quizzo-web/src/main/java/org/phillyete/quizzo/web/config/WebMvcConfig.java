@@ -2,14 +2,13 @@ package org.phillyete.quizzo.web.config;
 
 import java.util.List;
 
-import org.phillyete.quizzo.engine.PlayerGameSession;
-import org.phillyete.quizzo.engine.PlayerGameSessionImpl;
-import org.phillyete.quizzo.engine.QuizModeratorSession;
-import org.phillyete.quizzo.engine.QuizModeratorSessionImpl;
+import org.phillyete.quizzo.web.engine.PlayerGameSession;
+import org.phillyete.quizzo.web.engine.PlayerGameSessionImpl;
+import org.phillyete.quizzo.web.engine.QuizModeratorSession;
+import org.phillyete.quizzo.web.engine.QuizModeratorSessionImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -26,9 +25,9 @@ import org.thymeleaf.spring3.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import org.thymeleaf.templateresolver.TemplateResolver;
 
-@Configuration
-@EnableScheduling
-@ComponentScan(basePackages = { "org.phillyete.quizzo" })
+//@Configuration
+//@EnableScheduling
+//@ComponentScan(basePackages = { "org.phillyete.quizzo" })
 public class WebMvcConfig extends WebMvcConfigurationSupport {
 
 
