@@ -1,0 +1,66 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                    http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                    http://www.springframework.org/schema/mvc
+                    http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+                    http://www.springframework.org/schema/context
+                    http://www.springframework.org/schema/context/spring-context-3.2.xsd
+                    http://www.springframework.org/schema/task
+                    http://www.springframework.org.schema/task/spring-task-3.2.xsd
+                    http://www.springframework.org/schema/aop
+                    http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+
+
+  <context:component-scan base-package="org.phillyete.quizzo" />
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+        </mvc:message-converters>
+        
+    </mvc:annotation-driven>
+    <mvc:resources location="resources" mapping="/resources/**" cache-period="-1" />
+    <mvc:view-controller path="/" view-name="chat" />
+
+    <bean class="org.thymeleaf.spring3.view.ThymeleafViewResolver">
+        <property name="templateEngine">
+            <bean class="org.thymeleaf.spring3.SpringTemplateEngine">
+                <property name="templateResolver">
+                    <bean class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
+                        <property name="prefix" value="/WEB-INF/templates/" />
+                        <property name="suffix" value=".html" />
+                        <property name="templateMode" value="HTML5" />
+                        <property name="cacheable" value="false" />
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean class="org.phillyete.quizzo.web.engine.QuizModeratorSessionImpl" name="quizModeratorSession">
+        <aop:scoped-proxy proxy-target-class="true" />
+    </bean>
+
+    <bean class="org.phillyete.quizzo.web.engine.PlayerGameSessionImpl" name="playerGameSession">
+        <aop:scoped-proxy proxy-target-class="true" />
+    </bean>
+
+    <!--
+
+@Configuration
+@EnableScheduling
+public class WebMvcConfig extends WebMvcConfigurationSupport {
+
+
+@Override
+public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
+configurer.setDefaultTimeout(30*1000L);
+}
+
+-->
+</beans>
+
