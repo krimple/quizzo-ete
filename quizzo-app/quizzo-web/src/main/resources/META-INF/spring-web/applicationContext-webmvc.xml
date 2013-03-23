@@ -17,15 +17,16 @@
 
 
   <context:component-scan base-package="org.phillyete.quizzo.web" />
+
     <mvc:annotation-driven>
         <mvc:message-converters>
             <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
         </mvc:message-converters>
-        
     </mvc:annotation-driven>
-    <mvc:resources location="resources" mapping="/resources/**" cache-period="-1" />
-    <mvc:view-controller path="/" view-name="chat" />
 
+    <mvc:view-controller path="/chat" view-name="chat" />
+
+    <mvc:default-servlet-handler />
     <bean class="org.thymeleaf.spring3.view.ThymeleafViewResolver">
         <property name="templateEngine">
             <bean class="org.thymeleaf.spring3.SpringTemplateEngine">
@@ -49,18 +50,5 @@
         <aop:scoped-proxy proxy-target-class="true" />
     </bean>
 
-    <!--
-
-@Configuration
-@EnableScheduling
-public class WebMvcConfig extends WebMvcConfigurationSupport {
-
-
-@Override
-public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
-configurer.setDefaultTimeout(30*1000L);
-}
-
--->
 </beans>
 

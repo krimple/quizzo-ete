@@ -28,65 +28,64 @@ import org.thymeleaf.templateresolver.TemplateResolver;
 //@Configuration
 //@EnableScheduling
 //@ComponentScan(basePackages = { "org.phillyete.quizzo" })
-public class WebMvcConfig extends WebMvcConfigurationSupport {
-
-
-    @Override
-	public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
-		configurer.setDefaultTimeout(30*1000L);
-	}
-
-	@Override
-	protected void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-		converters.add(new MappingJacksonHttpMessageConverter());
-	}
-
-	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController("/").setViewName("chat");
-	}
-
-	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/resources/**").addResourceLocations("resources/").setCachePeriod(-1);
-	}
-
-    @Bean
-	public ViewResolver viewResolver() {
-		ThymeleafViewResolver resolver = new ThymeleafViewResolver();
-		resolver.setTemplateEngine(templateEngine());
-		return resolver;
-	}
-
-	@Bean
-	public SpringTemplateEngine templateEngine() {
-		SpringTemplateEngine engine = new SpringTemplateEngine();
-		engine.setTemplateResolver(templateResolver());
-		return engine;
-	}
-
-	@Bean
-	public TemplateResolver templateResolver() {
-		ServletContextTemplateResolver resolver = new ServletContextTemplateResolver();
-		resolver.setPrefix("/WEB-INF/templates/");
-		resolver.setSuffix(".html");
-		resolver.setTemplateMode("HTML5");
-		resolver.setCacheable(false);
-		return resolver;
-	}
-
-    @Bean
-    @Scope(value = WebApplicationContext.SCOPE_SESSION,
-           proxyMode = ScopedProxyMode.TARGET_CLASS)
-    public QuizModeratorSession quizModeratorSession() {
-        return new QuizModeratorSessionImpl();
-    }
-
-    @Bean
-    @Scope(value = WebApplicationContext.SCOPE_SESSION,
-            proxyMode = ScopedProxyMode.TARGET_CLASS)
-    public PlayerGameSession playerGameSession() {
-        return new PlayerGameSessionImpl();
-    }
-
+public class WebMvcConfig {
+//
+//
+//	public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
+//		configurer.setDefaultTimeout(30*1000L);
+//	}
+//
+//	@Override
+//	protected void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+//		converters.add(new MappingJacksonHttpMessageConverter());
+//	}
+//
+//	public void addViewControllers(ViewControllerRegistry registry) {
+//		registry.addViewController("/").setViewName("chat");
+//	}
+//
+//	@Override
+//	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//		registry.addResourceHandler("/resources/**").addResourceLocations("resources/").setCachePeriod(-1);
+//	}
+//
+//    @Bean
+//	public ViewResolver viewResolver() {
+//		ThymeleafViewResolver resolver = new ThymeleafViewResolver();
+//		resolver.setTemplateEngine(templateEngine());
+//		return resolver;
+//	}
+//
+//	@Bean
+//	public SpringTemplateEngine templateEngine() {
+//		SpringTemplateEngine engine = new SpringTemplateEngine();
+//		engine.setTemplateResolver(templateResolver());
+//		return engine;
+//	}
+//
+//	@Bean
+//	public TemplateResolver templateResolver() {
+//		ServletContextTemplateResolver resolver = new ServletContextTemplateResolver();
+//		resolver.setPrefix("/WEB-INF/templates/");
+//		resolver.setSuffix(".html");
+//		resolver.setTemplateMode("HTML5");
+//		resolver.setCacheable(false);
+//		return resolver;
+//	}
+//
+//    @Bean
+//    @Scope(value = WebApplicationContext.SCOPE_SESSION,
+//           proxyMode = ScopedProxyMode.TARGET_CLASS)
+//    public QuizModeratorSession quizModeratorSession() {
+//        return new QuizModeratorSessionImpl();
+//    }
+//
+//    @Bean
+//    @Scope(value = WebApplicationContext.SCOPE_SESSION,
+//            proxyMode = ScopedProxyMode.TARGET_CLASS)
+//    public PlayerGameSession playerGameSession() {
+//        return new PlayerGameSessionImpl();
+//    }
+//
 
 }
