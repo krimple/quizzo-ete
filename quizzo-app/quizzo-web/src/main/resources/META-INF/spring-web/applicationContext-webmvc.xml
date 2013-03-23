@@ -16,7 +16,7 @@
                     http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
 
 
-  <context:component-scan base-package="org.phillyete.quizzo" />
+  <context:component-scan base-package="org.phillyete.quizzo.web" />
     <mvc:annotation-driven>
         <mvc:message-converters>
             <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />

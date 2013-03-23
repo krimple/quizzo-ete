@@ -39,7 +39,10 @@ import static junit.framework.Assert.assertTrue;
  */
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {WebMvcConfig.class,AppConfig.class})
+@ContextConfiguration( locations = {
+        "classpath*:/META-INF/spring/applicationContext*.xml",
+        "classpath:/META-INF/spring-web/applicationContext-webmvc.xml"
+})
 public class QuizContainerTest {
 
     @Autowired

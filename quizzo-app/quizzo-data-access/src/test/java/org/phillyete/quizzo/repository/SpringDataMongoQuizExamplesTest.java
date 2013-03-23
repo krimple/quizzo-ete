@@ -24,7 +24,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.phillyete.quizzo.config.DataAccessConfig;
 import org.phillyete.quizzo.domain.Choice;
 import org.phillyete.quizzo.domain.MultipleChoiceQuestion;
 import org.phillyete.quizzo.domain.Quiz;
@@ -39,7 +38,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes={DataAccessConfig.class})
+@ContextConfiguration(locations = { "classpath:/META-INF/spring/applicationContext-data-access.xml" })
 public class SpringDataMongoQuizExamplesTest {
 	@Autowired
 	public QuizRepository quizRepo;

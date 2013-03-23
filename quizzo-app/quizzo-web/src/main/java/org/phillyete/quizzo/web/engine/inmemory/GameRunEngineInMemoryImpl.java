@@ -7,11 +7,14 @@ import org.phillyete.quizzo.web.engine.GameState;
 import org.phillyete.quizzo.repository.PlayerAnswerRepository;
 import org.phillyete.quizzo.repository.PlayerRepository;
 import org.phillyete.quizzo.repository.QuizRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Component
 public class GameRunEngineInMemoryImpl implements GameRunEngine {
 
     private final QuizRepository quizRepository;
@@ -23,6 +26,7 @@ public class GameRunEngineInMemoryImpl implements GameRunEngine {
     /** stores our quiz runs */
     final ConcurrentHashMap<String, QuizGameInstance> gameInstances;
 
+    @Autowired
     public GameRunEngineInMemoryImpl(QuizRepository quizRepository,
                                      PlayerRepository playerRepository,
                                      PlayerAnswerRepository playerAnswerRepository) {

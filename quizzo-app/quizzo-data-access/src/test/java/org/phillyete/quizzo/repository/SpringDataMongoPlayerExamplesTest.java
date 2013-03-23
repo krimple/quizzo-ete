@@ -19,7 +19,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.phillyete.quizzo.config.DataAccessConfig;
 import org.phillyete.quizzo.domain.Player;
 import org.phillyete.quizzo.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +32,7 @@ import java.util.List;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes={DataAccessConfig.class})
+@ContextConfiguration(locations = { "classpath:/META-INF/spring/applicationContext-data-access.xml" })
 public class SpringDataMongoPlayerExamplesTest {
 
 	@Autowired

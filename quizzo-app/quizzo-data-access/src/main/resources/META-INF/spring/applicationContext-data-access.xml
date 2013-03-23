@@ -15,4 +15,8 @@
 
     <mongo:db-factory id="mongo" dbname="quizzo" host="localhost" write-concern="safe" />
     <mongo:repositories base-package="org.phillyete.quizzo.repository" repository-impl-postfix="CustomImpl" />
+    <bean class="org.springframework.data.mongodb.core.MongoTemplate" id="mongoTemplate">
+        <constructor-arg ref="mongo" />
+    </bean>
+
 </beans>
