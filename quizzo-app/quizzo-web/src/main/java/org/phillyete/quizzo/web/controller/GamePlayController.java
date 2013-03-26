@@ -105,6 +105,6 @@ public class GamePlayController extends AbstractQuizController {
     @RequestMapping(method = RequestMethod.GET, value="whoami")
     public @ResponseBody WhoAmIResponse tellMeWhoIamAndWhatImDoingHereDude(HttpSession session) {
         PlayerGameSession playerGameSession = this.getOrCreatePlayerGameSession(session);
-        return new WhoAmIResponse(playerGameSession);
+        return new WhoAmIResponse(playerGameSession.getPlayerId(), playerGameSession.getGameId());
     }
 }

@@ -18,6 +18,12 @@
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
 
+    <!-- to avoid a memory leak by shutting down threads
+         properly in the mongo connection manager -->
+    <listener>
+        <listener-class>org.phillyete.quizzo.web.config.MongoCleanupListener</listener-class>
+    </listener>
+
     <!--<filter>-->
         <!--<filter-name>CORS</filter-name>-->
         <!--<filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>-->

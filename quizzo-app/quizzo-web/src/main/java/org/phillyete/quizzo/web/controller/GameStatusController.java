@@ -43,6 +43,7 @@ public class GameStatusController extends AbstractQuizController {
         int score = 0; // TODO - need to aggregate score entries
         GameState gameState = gameRunEngine.getGameState(playerGameSession.getGameId());
 
+
         // adapt potentially finer-grained state list to set of GameStatus subclasses. Each status
         // will then be translated to JSON.
         final GameStatus gameStatus;

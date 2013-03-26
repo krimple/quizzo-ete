@@ -1,12 +1,14 @@
 angular.module('quizzoApp').
-  controller('GameSelectionCtrl', function ($scope, gameSelectionService) {
+  controller('GameSelectionCtrl', function ($scope, $rootScope, gameSelectionService) {
 
-    $scope.findGamesReadyToPlay = function() {
+  
+    // putting this in rootScope b/c we are calling from status poller during waiting for game loop
+    $rootScope.findGamesReadyToPlay = function() {
       return gameSelectionService.findGamesReadyToPlay();
     };
 
      // run 'em
-    $scope.findGamesReadyToPlay();
+    $rootScope.findGamesReadyToPlay();
 
     $scope.$on('GamesAvailable', function(event, values) {    	
     	$scope.gamesAvailable = gameSelectionService.getGames();
