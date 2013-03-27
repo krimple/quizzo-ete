@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('quizzoApp').factory('quizManagerService', function ($http, $rootScope, serverPrefix) {
+angular.module('quizzoApp').factory('quizManagerService', function ($log, $http, $rootScope, serverPrefix) {
 
   // TODO - move playerAndGameInformation into shared resource so invalid_game_status can check whether 
   // we have a valid nickname on the server...
@@ -33,8 +33,8 @@ angular.module('quizzoApp').factory('quizManagerService', function ($http, $root
 
     // now we check to see if we have a nickname, but don't 
     // have a game - go to the game join view if so 
-    if ($rootScope.playerAndGameInformation.playerNickName != null  &&
-        $rootScope.playerAndGameInformation.gameId == null) {
+    if ($rootScope.playerAndGameInformation.playerNickName !== null  &&
+        $rootScope.playerAndGameInformation.gameId === null) {
       $rootScope.$broadcast('JoinGame');
       // reset register pending condition
       registerPending = false;
@@ -68,14 +68,14 @@ angular.module('quizzoApp').factory('quizManagerService', function ($http, $root
         }
         break;
         case 'InvalidGameStatus':
-        console.log('Game status invalid.', status, headers, config);
+        $log.error('Game status invalid.', status, headers, config);
         $rootScope.$broadcast('InvalidGameStatus');
         break;
       }
       that.previousStatus = data.status;
     }).error(function (data, status, headers, config) {
-      console.log('error, not a proper status returned...', data);
-      console.log('other data', status, headers, config);
+      $log.error('error, not a proper status returned...', data);
+      $log.error('other data', status, headers, config);
       $rootScope.$broadcast('InvalidGameStatus');
     });
   };
@@ -85,7 +85,7 @@ angular.module('quizzoApp').factory('quizManagerService', function ($http, $root
   };
 
   implementation.getPlayerAndGameInformation = function() {
-    return this.playerAndGameInformation;
+    return $rootScope.playerAndGameInformation;
   };
 
   implementation.whoAmI = function() {
@@ -93,7 +93,7 @@ angular.module('quizzoApp').factory('quizManagerService', function ($http, $root
           // data contains playerNickName and gameId
           $rootScope.playerAndGameInformation = data;
       }).error(function(data, status, headers, config) {
-          console.error('failed to get information on player and game');
+          $log.error('failed to get information on player and game');
           $rootScope.$broadcast('WhoAmIFailed');
       });
   };
@@ -107,7 +107,7 @@ angular.module('quizzoApp').factory('quizManagerService', function ($http, $root
               answerPayload).success(function(data, status, headers, config) {
       $rootScope.$broadcast('VoteSent');
     }).error(function(data, status, headers, config) {
-      console.error('failed to submit vote.', status);
+      $log.error('failed to submit vote.', status);
       $rootScope.$broadcast('VoteFailed');
     });
   };
