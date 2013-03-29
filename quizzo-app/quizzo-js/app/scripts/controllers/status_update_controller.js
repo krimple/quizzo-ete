@@ -9,7 +9,7 @@
 // and can be replaced with a WebSocket that is notified when events change 
 // once Spring supports WebSocket (or the server implementation uses a tool such
 // as Atmosphere directly to broadcast).
-angular.module('quizzoApp').controller('StatusUpdateCtrl', function ($timeout, $location, $rootScope, quizManagerService) {
+angular.module('quizzoApp').controller('StatusUpdateCtrl', function ($log, $timeout, $location, $rootScope, quizManagerService) {
 
   var timeout;
 
@@ -76,13 +76,13 @@ angular.module('quizzoApp').controller('StatusUpdateCtrl', function ($timeout, $
   // other terminal (currently) states
   $rootScope.$on('WhoAmIFailed', function () {
     $timeout.cancel();
-    console.log('failure in WhoAmI');
+    $log.error('failure in WhoAmI');
     $location.path('/invalid_game_status');
   });
 
   $rootScope.$on('InvalidGameStatus', function () {
     $timeout.cancel();
-    console.log('failure in game status...');
+    $log.error('failure in game status...');
     $location.path('/invalid_game_status');
   });
 
