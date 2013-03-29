@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	
 	<parent>
-		<groupId>org.springframework.data.examples</groupId>
+		<groupId>org.phillyete.quizzo</groupId>
 		<artifactId>quizzo-app</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
@@ -13,16 +13,14 @@
 		<tomcat.version>7.0.35</tomcat.version>
 		<cors.filter.version>1.3.2</cors.filter.version>
 	</properties>
-
-	<name>Quizzo demo using the Spring MVC 3.2 Servlet-based async support</name>
 	<dependencies>
 		<dependency>
-			<groupId>org.springframework.data.examples</groupId>
+			<groupId>org.phillyete.quizzo</groupId>
 			<artifactId>quizzo-data-access</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.data.examples</groupId>
+			<groupId>org.phillyete.quizzo</groupId>
 			<artifactId>quizzo-service</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
@@ -48,6 +46,11 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-tx</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>3.1.3.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.geronimo.specs</groupId>
@@ -86,7 +89,6 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
-			
 		</dependency>
 		
 		<dependency>
@@ -119,8 +121,20 @@
 			<artifactId>mockito-all</artifactId>
 			<version>1.9.5</version>
 		</dependency>
-	</dependencies>
-	
+
+    <!-- Spring Security -->
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-web</artifactId>
+      <version>3.1.3.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-config</artifactId>
+      <version>3.1.3.RELEASE</version>
+    </dependency>
+  </dependencies>
+
 	
 	<build>
 		<finalName>quizzo</finalName>
@@ -157,10 +171,9 @@
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<version>2.0</version>
 				<configuration>
-					<server>local_tomcat</server>  
-					<warFile>target/quizzo.war</warFile>
-					<url>http://localhost:8080/manager/text</url>  
-          <path>/quizzo-web</path>
+                <server>localhost</server>
+          			<path>/quizzo</path>
+          			<url>http://localhost:8080/manager/text</url>
 				</configuration>
 				
 				<dependencies>

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('quizzoApp', []).
+angular.module('quizzoApp', ['ui.bootstrap']).
   config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
     $routeProvider.
       when('/register', {templateUrl: 'views/assign_player.html', controller: 'RegisterCtrl'}).
@@ -11,8 +11,9 @@ angular.module('quizzoApp', []).
       when('/play', {templateUrl: 'views/playerpanel.html', controller: 'PlayCtrl'}).
       when('/chat', {templateUrl: 'views/chat.html', controller: 'ChatCtrl'}).
       when('/bye', {templateUrl: 'views/bye.html', controller: 'ByeCtrl'}).
-      when('invalid_game_status', {templateUrl: 'views/invalid_game_status.html'}).
-      otherwise({redirectTo: '/register'});
+      when('/invalid_game_status', {controller: 'InvalidGameStatusCtrl', templateUrl: 'views/invalid_game_status.html'}).
+      when('/please_wait', {templateUrl: 'views/pleasewait.html', controller: 'GamePlayRouterCtrl'}).
+      otherwise({redirectTo: '/please_wait'});
     // allow http headers for session cookie management
     $httpProvider.defaults.withCredentials = true;
   }]);

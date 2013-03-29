@@ -8,11 +8,14 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'/>
     <title></title>
     <meta name='description' content=''>
-    <meta name='viewport' content='width=device-width'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <link rel='stylesheet' href='styles/main.css'>
   </head>
   <body ng-app='quizzoApp'>
+    <div id="joinpanel" class="page-header">
+        <h2>Let's play Quizzo!</h2>
+    </div>
     <!--[if lt IE 7]>
       <p class='chromeframe'>You are using an outdated browser. <a href='http://browsehappy.com/'>Upgrade your browser today</a> or <a href='http://www.google.com/chromeframe/?redirect=true'>install Google Chrome Frame</a> to better experience this site.</p>
     <![endif]-->
@@ -22,7 +25,14 @@
       <script src='components/json3/lib/json3.min.js'></script>
     <![endif]-->
     <!-- Add your site or application content here -->
-    <div class='container' ng-view></div>
+    <div class='navbar'>
+      <div class='navbar-inner'>
+        <ul class='nav'>
+          <li><a ng-href='#/join'>Join</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class='container-fluid' ng-view></div>
 
     <!-- view-less controller to track status -->
     <div ng-controller="StatusUpdateCtrl"></div>
@@ -43,7 +53,8 @@
     <script src='scripts/controllers/players_pending_controller.js'></script>
     <script src='scripts/controllers/question_pending_controller.js'></script>
     <script src='scripts/controllers/register_controller.js'></script>
-
+    <script src='scripts/controllers/game_play_router_controller.js'></script>
+    <script src='scripts/controllers/invalid_game_status.js'></script>
     <script src='scripts/controllers/status_update_controller.js'></script>
     <script src='scripts/controllers/tally_controller.js'></script>
 
@@ -52,6 +63,7 @@
     <script src='scripts/services/quiz_manager_service.js'></script>
     <script src='scripts/services/register_player_service.js'></script>
     <script src='scripts/services/server_prefix_value_service.js'></script>
+    <script src='scripts/extensions/ui-bootstrap-tpls-0.2.0.js'></script>
     <!-- endbuild -->
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->

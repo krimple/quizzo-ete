@@ -1,0 +1,39 @@
+<style type="text/css">
+
+</style>
+
+<div class="row" >&nbsp;</div>
+<div class="row" >&nbsp;</div>
+<div class="row" >&nbsp;</div>
+<div class="hero-unit">
+
+    <h2 style="text-align: center;">Quiz Results</h2>
+
+        <table class="hero-form-table">
+
+            <tr>
+                <th span="2">Statistics</th>
+            </tr>
+            <tr>
+                <th>Score</th>
+                <td>{{statistics.score}}</td>
+            </tr>
+            <tr>
+                <th>Max Score</th>
+                <td>{{statistics.maxScore}}</td>
+            </tr>
+            <tr>
+                <th>% Correct</th>
+                <td>{{statistics.percentCorrect}}</td>
+            </tr>
+            <tr>
+                <th>High Scorers</th>
+                <td><div class="hero-form-box">
+                    <span
+                        ng-repeat="player in statistics.topScorers">
+                    <span ng-show="$index > 0">,</span>
+            {{$index + 1}} : {{player}}</li>
+        </span></td>
+            </tr>
+        </table>
+</div>

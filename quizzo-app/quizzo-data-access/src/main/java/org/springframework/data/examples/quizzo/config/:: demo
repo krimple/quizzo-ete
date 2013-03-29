@@ -1,0 +1,42 @@
+// demo 
+// register and play game
+
+// why 
+  Spring Web Developers - can 
+
+// what
+  Single-Page JS
+  Spring MVC with REST/JS
+  Polling techniques
+    - short poll (quick response) - game status poll
+    - long poll w/Worker thread - chat 
+    - web sockets - alternative - admin tool????? (S/I bitcoin-rt examples)
+  Spring Data
+  MongoDB as an example Spring Data platform
+  Development techniques
+    - provide an instant-deploy environment for javascript (jetty / tomcat w/symlinks)
+    - write tests in javascript as well as Java (even more important)
+    - run JSHint/JSLint 
+
+// how
+  REST style w/Spring MVC, JSON & JS front-end
+  Fast polling - status - // abuse of http / doesn't scale well 
+  Spring long poll option - Futures (chat) - thread handoff
+  // future push - Spring MVC 4 - direct support of WebSockets
+  // atmosphere - option
+
+// takeaway
+  git repo
+  info on websockets / atmosphere / spring 4 / long poll
+
+// pros
+  - data access layer - queries don't need to be a Mongo expert to get started
+  - 
+
+// projects to watch
+  - bitcoin-rt - involved websocket server and client examples
+  - s2js/rest - 
+  - s2js/integration
+  - s2js/probes
+  - s2js/clicks
+  - s2js/samples

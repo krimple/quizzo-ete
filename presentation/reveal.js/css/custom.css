@@ -1,0 +1,26 @@
+html.springdata body {
+	background:url("../img/springData.png");
+	background-position:center;
+	background-size: 100%;
+}
+
+html.springdata small {
+	color: black;
+}
+
+html.springdata blockquote {
+	font-size:1.5em;
+	color:rgba(0,0,0,0.6);
+}
+
+html.repositories body {
+	background:url("../img/repositories.png");
+	background-position:center;
+	background-size: 100%;
+}
+
+html.mapping body {
+	background:url("../img/mapping.png");
+	background-position:center;
+	background-size: 100%;
+}
