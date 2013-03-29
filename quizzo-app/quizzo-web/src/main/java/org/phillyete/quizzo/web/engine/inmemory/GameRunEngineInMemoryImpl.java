@@ -44,6 +44,19 @@ public class GameRunEngineInMemoryImpl implements GameRunEngine {
         return gameInstances.containsKey(gameId);
     }
 
+    @Override
+    public String getTitleForGameId(String gameId) {
+      if (gameExists(gameId)) {
+        return new StringBuilder().
+            append(gameInstances.get(gameId).getGameTitle()).
+            append(" - ").
+            append(gameInstances.get(gameId).getQuizTitle()).toString();
+      } else {
+        // TODO validate this is reasonable
+        return "No game - invalid...";
+      }
+    }
+
     // see if a particular quiz is complete
     @Override
     public boolean isQuizRunComplete(String title) {
@@ -179,13 +192,13 @@ public class GameRunEngineInMemoryImpl implements GameRunEngine {
     }
 
     @Override
-    public List<HashMap> getGamesAwaitingPlayers() {
+    public List<HashMap> getGamesForState(GameState state) {
         // TODO - more formal types this is a kludge
         List<HashMap> results = new ArrayList<HashMap>();
         Iterator<Map.Entry<String, QuizGameInstance>> entryIterator = gameInstances.entrySet().iterator();
         while (entryIterator.hasNext()) {
             Map.Entry<String, QuizGameInstance> entry = entryIterator.next();
-            if (entry.getValue().getGameState().equals(GameState.AWAITING_PLAYERS)) {
+            if (entry.getValue().getGameState().equals(state)) {
                 HashMap result = new HashMap();
                 result.put("gameId", entry.getKey());
                 // note - leaky abstraction - should expose this as an interface method perhaps

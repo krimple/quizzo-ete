@@ -6,15 +6,10 @@ import java.util.List;
 import org.phillyete.quizzo.domain.MultipleChoiceQuestion;
 import org.phillyete.quizzo.domain.PlayerAnswer;
 
-/**
- * Created with IntelliJ IDEA.
- * User: kenrimple
- * Date: 2/23/13
- * Time: 11:40 AM
- * To change this template use File | Settings | File Templates.
- */
 public interface GameRunEngine {
     boolean gameExists(String gameId);
+
+    String getTitleForGameId(String gameId);
 
     // see if a particular quiz is complete
     boolean isQuizRunComplete(String title);
@@ -42,5 +37,5 @@ public interface GameRunEngine {
 
     GameState getGameState(String gameId);
 
-    List<HashMap> getGamesAwaitingPlayers();
+    List<HashMap> getGamesForState(GameState state);
 }

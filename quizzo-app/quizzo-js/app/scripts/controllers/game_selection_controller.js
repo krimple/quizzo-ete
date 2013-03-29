@@ -4,7 +4,7 @@ angular.module('quizzoApp').
   
     // putting this in rootScope b/c we are calling from status poller during waiting for game loop
     $rootScope.findGamesReadyToPlay = function() {
-      return gameSelectionService.findGamesReadyToPlay();
+      gameSelectionService.findGamesReadyToPlay();
     };
 
      // run 'em

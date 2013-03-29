@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('quizzoApp', ['ui.bootstrap']).
+angular.module('quizzoApp', ['ui.bootstrap', 'angular-underscore']).
   config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
     $routeProvider.
       when('/register', {templateUrl: 'views/assign_player.html', controller: 'RegisterCtrl'}).

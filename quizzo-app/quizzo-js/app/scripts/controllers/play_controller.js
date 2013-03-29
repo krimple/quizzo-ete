@@ -1,10 +1,10 @@
 'use strict';
 
-angular.module('quizzoApp').controller('PlayCtrl', function ($scope, $rootScope, $location, quizManagerService) {
+angular.module('quizzoApp').controller('PlayCtrl', function ($scope, $rootScope, playerAndGameDetailsService, quizManagerService) {
 
 
   $rootScope.castVote = function (selectedChoice) {
-    console.log("selected choice is", selectedChoice);
+    console.log('selected choice is', selectedChoice);
     $scope.enableVoting = false;
     if (selectedChoice) {
       // we send along the current question # to make sure we are recording
@@ -15,8 +15,7 @@ angular.module('quizzoApp').controller('PlayCtrl', function ($scope, $rootScope,
   };
 
   // fetch our question from the cached copy in our service
-  $scope.question = quizManagerService.getCurrentQuestion();
+  $scope.question = playerAndGameDetailsService.getQuestion();
   $scope.enableVoting = true;
-
 
 });

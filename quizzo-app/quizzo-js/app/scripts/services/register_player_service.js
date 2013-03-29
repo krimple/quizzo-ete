@@ -17,6 +17,7 @@ angular.module('quizzoApp').factory('registerPlayerService', function (serverPre
         if (status === 201) {
           $rootScope.badNick = false;
           that.currentPlayer = nickName;
+          $rootScope.playerAndGameInformation
           that.createPending = false;
           $rootScope.$broadcast('GoodNick', { nickName: nickName });
         } else if (status === 204) {

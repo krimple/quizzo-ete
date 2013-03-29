@@ -1,27 +1,17 @@
 'use strict';
 
-angular.module('quizzoApp').factory('quizManagerService', function ($log, $http, $rootScope, serverPrefix) {
+angular.module('quizzoApp').factory('quizManagerService', function ($log, $http, playerAndGameDetailsService, $rootScope, serverPrefix) {
 
   // TODO - move playerAndGameInformation into shared resource so invalid_game_status can check whether 
   // we have a valid nickname on the server...
   var implementation = {}, registerPending = false;
 
-  implementation.question = {};
-
   // used as a delta to indicate a state change between polls
-  implementation.previousStatus = 'NoStatus';
-
   implementation.pollerLoop = function() {
     var that = this;
-    // watch for === with typeof - the type is not the same so == returns true but === doesn't...
-    // ah, the 'good' parts :) (kjr) - this will throw a typecheck error in jshint/jslint
-    if (typeof $rootScope.playerAndGameInformation == 'undefined') {
+    // do we have a player nickname? No, check the server!
+    if (!playerAndGameDetailsService.hasPlayerNickName()) {
       that.whoAmI();
-      return;
-    }
-    // now that we're in an object, all the subtypes if null return a type of object. 
-    // so you can't test for that. Instead, you check for null and you CAN use === again
-    if ($rootScope.playerAndGameInformation.playerNickName === null) {
       if (!registerPending) {
         // keep us from refreshing over and over again
         registerPending = true;
@@ -33,8 +23,8 @@ angular.module('quizzoApp').factory('quizManagerService', function ($log, $http,
 
     // now we check to see if we have a nickname, but don't 
     // have a game - go to the game join view if so 
-    if ($rootScope.playerAndGameInformation.playerNickName !== null  &&
-        $rootScope.playerAndGameInformation.gameId === null) {
+    if (playerAndGameDetailsService.hasPlayerNickName() &&
+        !playerAndGameDetailsService.hasGameInformation()) {
       $rootScope.$broadcast('JoinGame');
       // reset register pending condition
       registerPending = false;
@@ -46,53 +36,58 @@ angular.module('quizzoApp').factory('quizManagerService', function ($log, $http,
 
   implementation.getStatus = function () {
     var that = this;
-    $http.get(serverPrefix + 'status').success(function (data, status, headers, config) {
+    $http.get(serverPrefix + 'status').
+     success(function (data, status, headers, config) {
       switch (data.status) {
         case 'WaitingToPlay':
         $rootScope.$broadcast('WaitingToPlay');
         break;
         case 'WaitingForAnswer':
         if (that.previousStatus !== 'WaitingForAnswer') {
-          that.question = data.question;
-          $rootScope.$broadcast('WaitingForAnswer');
+          playerAndGameDetailsService.setQuestion(data.question);
         }
+        // always broadcast - we compare the question 
+        // id to see if we have it already on the other side
+        $rootScope.$broadcast('WaitingForAnswer');
+        
         break;
         case 'WaitingForNextQuestion':
         if (that.previousStatus !== 'WaitingForNextQuestion') {
+          // wipe out last question data so we can't accidentally submit it again
+          playerAndGameDetailsService.setQuestion(null);
           $rootScope.$broadcast('WaitingForNextQuestion');
         }
         break;
         case 'GameComplete':
         if (that.previousStatus !== 'GameComplete') {
+          playerAndGameDetailsService.clearGameData();
           $rootScope.$broadcast('GameComplete');
         }
         break;
         case 'InvalidGameStatus':
         $log.error('Game status invalid.', status, headers, config);
+        playerAndGameDetailsService.clearGameData();
+        playerAndGameDetailsService.clearUserData();
         $rootScope.$broadcast('InvalidGameStatus');
         break;
       }
       that.previousStatus = data.status;
     }).error(function (data, status, headers, config) {
+      playerAndGameDetailsService.clearGameData();
+      playerAndGameDetailsService.clearUserData();
       $log.error('error, not a proper status returned...', data);
       $log.error('other data', status, headers, config);
       $rootScope.$broadcast('InvalidGameStatus');
     });
   };
 
-  implementation.getCurrentQuestion = function () {
-    return this.question;
-  };
-
-  implementation.getPlayerAndGameInformation = function() {
-    return $rootScope.playerAndGameInformation;
-  };
-
   implementation.whoAmI = function() {
-      $http.get(serverPrefix + 'quizRun/whoami').success(function(data, status, headers, config) {
-          // data contains playerNickName and gameId
-          $rootScope.playerAndGameInformation = data;
+      $http.get(serverPrefix + 'quizRun/whoami').
+       success(function(data, status, headers, config) {
+          // data contains playerNickName and gameId (empty if not set yet)
+          playerAndGameDetailsService.adaptWhoAmIData(data);
       }).error(function(data, status, headers, config) {
+          playerAndGameDetailsService.clearUserData();
           $log.error('failed to get information on player and game');
           $rootScope.$broadcast('WhoAmIFailed');
       });

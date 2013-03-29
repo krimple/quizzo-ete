@@ -1,16 +1,22 @@
 package org.phillyete.quizzo.responses;
 
-/**
- * Created with IntelliJ IDEA.
- * User: kenrimple
- * Date: 2/23/13
- * Time: 12:16 AM
- * To change this template use File | Settings | File Templates.
- */
 public class GameJoinedResponse extends QuizPollResponse {
 
-    public GameJoinedResponse() {
-        super();
-        this.setCategory("GameJoined");
-    }
+  private String gameId;
+  private String title;
+
+  public GameJoinedResponse(String gameId, String title) {
+    super();
+    this.setCategory("GameJoined");
+    this.gameId = gameId;
+    this.title = title;
+  }
+
+  public String getGameId() {
+    return gameId;
+  }
+
+  public String getTitle() {
+    return title;
+  }
 }

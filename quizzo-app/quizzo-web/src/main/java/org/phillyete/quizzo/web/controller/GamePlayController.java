@@ -10,6 +10,7 @@ import org.phillyete.quizzo.domain.Choice;
 import org.phillyete.quizzo.domain.MultipleChoiceQuestion;
 import org.phillyete.quizzo.domain.PlayerAnswer;
 import org.phillyete.quizzo.web.engine.GameRunEngine;
+import org.phillyete.quizzo.web.engine.GameState;
 import org.phillyete.quizzo.web.engine.PlayerGameSession;
 import org.phillyete.quizzo.repository.PlayerAnswerRepository;
 import org.phillyete.quizzo.responses.*;
@@ -43,7 +44,7 @@ public class GamePlayController extends AbstractQuizController {
     @RequestMapping(method = RequestMethod.GET, value = "games")
     public @ResponseBody
     ResponseEntity<List> getGamesAwaitingPlayers () {
-        List<HashMap> results = quizRunEngine.getGamesAwaitingPlayers();
+        List<HashMap> results = quizRunEngine.getGamesForState(GameState.AWAITING_PLAYERS);
         if (results.size() == 0) {
             return new ResponseEntity<List>(HttpStatus.NO_CONTENT);     // 204
         } else {
@@ -58,8 +59,12 @@ public class GamePlayController extends AbstractQuizController {
         Assert.notNull(playerId);
         Assert.isTrue(quizRunEngine.gameExists(gameId));
         quizRunEngine.addPlayer(gameId, playerId);
+
         playerGameSession.setGameId(gameId);
-        return new GameJoinedResponse();
+        // TODO - this feels a bit janky, maybe we just should clone / get the quiz game instance, but that'd be
+        // an internal implementation detail... So maybe not so efficient.
+        String gameTitle = quizRunEngine.getTitleForGameId(gameId);
+        return new GameJoinedResponse(gameId, gameTitle);
     }
 
 
@@ -71,7 +76,7 @@ public class GamePlayController extends AbstractQuizController {
         if (question != null) {
             return new QuestionPendingResponse(question);
         } else {
-            // todo - need more fine level of error responses - what if we're done?
+            // TODO - need more fine level of error responses - what if we're done?
             return new AwaitingNextQuestionResponse();
         }
     }

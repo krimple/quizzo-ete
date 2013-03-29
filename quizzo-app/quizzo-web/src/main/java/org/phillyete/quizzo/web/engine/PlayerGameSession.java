@@ -6,4 +6,9 @@ public interface PlayerGameSession {
     void setGameId(String gameId);
     String getPlayerId();
     void setPlayerId(String playerId);
+
+  boolean hasPlayerAndGame();
+
+  boolean hasGame();
+  boolean hasPlayer();
 }

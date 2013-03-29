@@ -1,13 +1,5 @@
 package org.phillyete.quizzo.web.controller.gamestatus;
 
-/**
- * Created with IntelliJ IDEA.
- * User: kenrimple
- * Date: 2/24/13
- * Time: 12:19 PM
- * To change this template use File | Settings | File Templates.
- */
-
 public class GameStatus {
 
     private int currentScore;
@@ -15,10 +7,11 @@ public class GameStatus {
     private String status;
 
     public GameStatus() {
-
+      this.setStatus(this.getClass().getSimpleName());
     }
 
     public GameStatus(int currentScore) {
+        this();
         this.currentScore = currentScore;
     }
 

@@ -50,6 +50,12 @@ angular.module('quizzoApp').controller('StatusUpdateCtrl', function ($log, $time
     }
   });
 
+  $rootScope.$on('WaitingForAnswer', function() {
+    if ($location.path() !== '/play') {
+      $location.path('/play');      
+    }
+  });
+
   // submitted question
   $rootScope.$on('VoteSent', function() {
     $location.path('/question_pending');

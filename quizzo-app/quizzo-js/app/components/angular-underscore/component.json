@@ -1,0 +1,9 @@
+{
+  "name": "angular-underscore",
+  "version": "0.0.0",
+  "commit": "4a7b41066388829cfb3c0c4a361f233191a8c9d6",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/floydsoft/angular-underscore.git"
+  }
+}
