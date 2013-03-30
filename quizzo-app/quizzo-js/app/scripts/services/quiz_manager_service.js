@@ -1,9 +1,10 @@
 'use strict';
 
-angular.module('quizzoApp').factory('quizManagerService', function ($log, $http, playerAndGameDetailsService, $rootScope, serverPrefix) {
+angular.module('quizzoApp').factory('quizManagerService',
+  function ($log, $http, playerAndGameDetailsService, $rootScope, serverPrefix) {
 
-  // TODO - move playerAndGameInformation into shared resource so invalid_game_status can check whether 
-  // we have a valid nickname on the server...
+  // todo - separate re-hydrate of client state into separate method
+  // so that it is not tangled into our use cases here...
   var implementation = {}, registerPending = false;
 
   // used as a delta to indicate a state change between polls
@@ -21,8 +22,8 @@ angular.module('quizzoApp').factory('quizManagerService', function ($log, $http,
       return;
     }
 
-    // now we check to see if we have a nickname, but don't 
-    // have a game - go to the game join view if so 
+    // now we check to see if we have a nickname, but don't
+    // have a game - go to the game join view if so
     if (playerAndGameDetailsService.hasPlayerNickName() &&
         !playerAndGameDetailsService.hasGameInformation()) {
       $rootScope.$broadcast('JoinGame');
@@ -43,13 +44,26 @@ angular.module('quizzoApp').factory('quizManagerService', function ($log, $http,
         $rootScope.$broadcast('WaitingToPlay');
         break;
         case 'WaitingForAnswer':
-        if (that.previousStatus !== 'WaitingForAnswer') {
+        // only change the question data and send the event
+        // if the question id is new.
+        var ourQuestion = playerAndGameDetailsService.getQuestion();
+        // todo probably just null
+        if (ourQuestion === undefined || ourQuestion === null) {
           playerAndGameDetailsService.setQuestion(data.question);
         }
-        // always broadcast - we compare the question 
-        // id to see if we have it already on the other side
-        $rootScope.$broadcast('WaitingForAnswer');
-        
+
+        if (ourQuestion.questionNumber !== data.question.questionNumber) {
+          playerAndGameDetailsService.setQuestion(data.question);
+          $rootScope.$broadcast('WaitingForAnswer');
+        } else {
+          if (playerAndGameDetailsService.getQuestionAnswer() === '') {
+            // we've voted
+            $rootScope.$broadcast('WaitingForAnswer');
+          } else {
+            $rootScope.$broadcast('WaitingForNextQuestion');
+          }
+        }
+
         break;
         case 'WaitingForNextQuestion':
         if (that.previousStatus !== 'WaitingForNextQuestion') {
@@ -95,12 +109,14 @@ angular.module('quizzoApp').factory('quizManagerService', function ($log, $http,
 
   implementation.vote = function (selectedAnswer, sentQuestionNumber) {
     var answerPayload = {
-      questionNumber : sentQuestionNumber,
+      questionNumber: sentQuestionNumber,
       choice: selectedAnswer
     };
     $http.put(serverPrefix + 'quizRun/submitAnswer',
               answerPayload).success(function(data, status, headers, config) {
       $rootScope.$broadcast('VoteSent');
+      // wipe our current question
+      playerAndGameDetailsService.setQuestionAnswer(selectedAnswer);
     }).error(function(data, status, headers, config) {
       $log.error('failed to submit vote.', status);
       $rootScope.$broadcast('VoteFailed');

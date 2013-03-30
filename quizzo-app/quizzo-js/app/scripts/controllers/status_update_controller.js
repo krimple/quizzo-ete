@@ -1,12 +1,12 @@
 'use strict';
 
-// This controller is installed in a hidden div and checks for status updates. 
-// Specifically, it acts as a router - it calls a poller service method in the 
-// quiz manager, which polls for the current status of the application. 
+// This controller is installed in a hidden div and checks for status updates.
+// Specifically, it acts as a router - it calls a poller service method in the
+// quiz manager, which polls for the current status of the application.
 // This information is served up and then messages are sent to the $rootScope
 // which is our message hub. This controller recieves the messages from the
 // $rootScope and acts upon them. It is currently set to poll every two seconds,
-// and can be replaced with a WebSocket that is notified when events change 
+// and can be replaced with a WebSocket that is notified when events change
 // once Spring supports WebSocket (or the server implementation uses a tool such
 // as Atmosphere directly to broadcast).
 angular.module('quizzoApp').controller('StatusUpdateCtrl', function ($log, $timeout, $location, $rootScope, quizManagerService) {
@@ -44,7 +44,7 @@ angular.module('quizzoApp').controller('StatusUpdateCtrl', function ($log, $time
   });
 
   // waiting for question
-  $rootScope.$on('WaitingForQuestion', function() {
+  $rootScope.$on('WaitingForNextQuestion', function() {
     if ($location.path() !== '/question_pending') {
       $location.path('/question_pending');
     }
@@ -52,7 +52,7 @@ angular.module('quizzoApp').controller('StatusUpdateCtrl', function ($log, $time
 
   $rootScope.$on('WaitingForAnswer', function() {
     if ($location.path() !== '/play') {
-      $location.path('/play');      
+      $location.path('/play');
     }
   });
 

@@ -74,6 +74,18 @@ angular.module('quizzoApp').factory('playerAndGameDetailsService', function () {
 	implementation.getQuestion = function() {
 		return this.question;
 	};
-	
+
+	implementation.setQuestionAnswer = function(answer) {
+		this.question.answer = answer;
+	};
+
+	implementation.getQuestionAnswer = function() {
+		if (this.question.answer === undefined) {
+			return '';
+		} else {
+			return this.question.answer;
+		}
+	}
+
 	return implementation;
 });
