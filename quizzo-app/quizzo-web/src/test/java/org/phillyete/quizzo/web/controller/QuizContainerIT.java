@@ -43,7 +43,7 @@ import static junit.framework.Assert.assertTrue;
         "classpath*:/META-INF/spring/applicationContext*.xml",
         "classpath:/META-INF/spring-web/applicationContext-webmvc.xml"
 })
-public class QuizContainerTest {
+public class QuizContainerIT {
 
     @Autowired
     GamePlayController gamePlayController;
