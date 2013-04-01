@@ -17,41 +17,43 @@ import javax.servlet.ServletContextListener;
  */
 public class MongoCleanupListener implements ServletContextListener {
 
-    @Override
-    public void contextInitialized(ServletContextEvent sce) {
-        // noop
-    }
+	@Override
+	public void contextInitialized(ServletContextEvent sce) {
+		// noop
+	}
 
-    public void contextDestroyed(ServletContextEvent context) {
+	public void contextDestroyed(ServletContextEvent context) {
 
-        ServletContext sc = context.getServletContext();
-        WebApplicationContext springContext = WebApplicationContextUtils.getWebApplicationContext(sc);
-        if (springContext.containsBean("mongoTemplate")) {
-            MongoTemplate mt = (MongoTemplate) springContext.getBean("mongoTemplate");
-            if (mt != null) {
-                DB db = mt.getDb();
-                if (db != null) {
-                    Mongo mongo = db.getMongo();
-                    if (mongo != null) {
-                        mongo.close();
-                    }
-                }
-            }
-        }
+		ServletContext sc = context.getServletContext();
+		WebApplicationContext springContext = WebApplicationContextUtils.getWebApplicationContext(sc);
+		if (springContext != null) {
+			if (springContext.containsBean("mongoTemplate")) {
+				MongoTemplate mt = (MongoTemplate) springContext.getBean("mongoTemplate");
+				if (mt != null) {
+					DB db = mt.getDb();
+					if (db != null) {
+						Mongo mongo = db.getMongo();
+						if (mongo != null) {
+							mongo.close();
+						}
+					}
+				}
+			}
+		}
 
-        System.gc();
+		System.gc();
 
-        do {
-            try { // https://jira.mongodb.org/browse/JAVA-400
-                Thread.sleep(5000);
-                break;
-            } catch (InterruptedException e) {
-// e.printStackTrace();
-            }
-        }
+		do {
+			try { // https://jira.mongodb.org/browse/JAVA-400
+				Thread.sleep(5000);
+				break;
+			} catch (InterruptedException e) {
+				// e.printStackTrace();
+			}
+		}
 
-        while (true);
+		while (true);
 
-        java.beans.Introspector.flushCaches();
-    }
+		java.beans.Introspector.flushCaches();
+	}
 }

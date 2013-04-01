@@ -12,10 +12,6 @@ angular.module('quizzoApp').
 
   implementation.pollingEnabled = false;
 
-  implementation.resetChatMessageIndex = function () {
-    this.messageIndex = 0;
-  };
-
   implementation.getChatMessages = function() {
     return this.messages;
   };
@@ -40,17 +36,17 @@ angular.module('quizzoApp').
       method: 'GET',
       url: serverPrefix + 'mvc/chat',
       params: {
-        'messageIndex': this.messageIndex
+        'messageIndex': that.messageIndex
       }
     }).success(function (data, status, headers, config) {
       // Only bother if we actually get data back. Otherwise, just skip it.
       // We'll poll with the same index again later...
-      if (data.length > 0) {
-        for (i = 0; i < data.length; i++) {
+      if (data.messages != undefined) {
+        for (i = 0; i < data.messages.length; i++) {
           implementation.messages =
-            data[i] + implementation.messages + '\n';
+            data.messages[i] + implementation.messages;
         }
-        that.messageIndex = that.messageIndex + 1;
+        that.messageIndex = data.nextIndex;
       }
       $rootScope.$broadcast('ChatPollFinished');
     }).error(function (data, status, headers, config) {
@@ -63,7 +59,7 @@ angular.module('quizzoApp').
       method: 'POST',
       url: serverPrefix + 'mvc/chat',
       params: {
-        'message': '[' + playerAndGameDetailsService.getPlayerNickName() + ']\n' + message + '\n\n'
+        'message': '[' + playerAndGameDetailsService.getPlayerNickName() + '] ' + message + '\n'
       }
     }).success(function (data, status, headers, config) {
       // nothing to do

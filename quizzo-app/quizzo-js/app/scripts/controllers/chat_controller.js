@@ -27,7 +27,7 @@ angular.module('quizzoApp').
   });
 
   // in case we refreshed the browser
-  chatService.resetChatMessageIndex();
+  //chatService.resetChatMessageIndex();
 
   // start poll...
   chatService.messagePoll();
