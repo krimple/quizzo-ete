@@ -50,9 +50,7 @@ angular.module('quizzoApp').factory('quizManagerService',
         // todo probably just null
         if (ourQuestion === undefined || ourQuestion === null) {
           playerAndGameDetailsService.setQuestion(data.question);
-        }
-
-        if (ourQuestion.questionNumber !== data.question.questionNumber) {
+        } else if (ourQuestion.questionNumber !== data.question.questionNumber) {
           playerAndGameDetailsService.setQuestion(data.question);
           $rootScope.$broadcast('WaitingForAnswer');
         } else {

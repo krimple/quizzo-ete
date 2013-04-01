@@ -20,8 +20,8 @@ public class ChatController {
 
 	private final ChatRepository chatRepository;
 
-	private final Map<DeferredResult<List<String>>, Integer> chatRequests =
-			new ConcurrentHashMap<DeferredResult<List<String>>, Integer>();
+	private final Map<DeferredResult<ChatMessages>, Integer> chatRequests =
+			new ConcurrentHashMap<DeferredResult<ChatMessages>, Integer>();
 
 
 	@Autowired
@@ -31,8 +31,9 @@ public class ChatController {
 
 	@RequestMapping(method=RequestMethod.GET)
 	@ResponseBody
-	public DeferredResult<List<String>> getMessages(@RequestParam int messageIndex) {
-		final DeferredResult<List<String>> deferredResult = new DeferredResult<List<String>>(null, Collections.emptyList());
+	public DeferredResult<ChatMessages> getMessages(@RequestParam(required = false) Integer messageIndex) {
+		final DeferredResult<ChatMessages> deferredResult = new DeferredResult<ChatMessages>(null, Collections.emptyList());
+
 		this.chatRequests.put(deferredResult, messageIndex);
 
 		deferredResult.onCompletion(new Runnable() {
@@ -42,9 +43,9 @@ public class ChatController {
 			}
 		});
 
-		List<String> messages = this.chatRepository.getMessages(messageIndex);
-		if (!messages.isEmpty()) {
-			deferredResult.setResult(messages);
+	    ChatMessages chatMessages = this.chatRepository.getMessages(messageIndex);
+		if (!chatMessages.getMessages().isEmpty()) {
+			deferredResult.setResult(chatMessages);
 		}
 
 		return deferredResult;
@@ -59,8 +60,8 @@ public class ChatController {
 		// Update all chat requests as part of the POST request
 		// See Redis branch for a more sophisticated, non-blocking approach
 
-		for (Entry<DeferredResult<List<String>>, Integer> entry : this.chatRequests.entrySet()) {
-			List<String> messages = this.chatRepository.getMessages(entry.getValue());
+		for (Entry<DeferredResult<ChatMessages>, Integer> entry : this.chatRequests.entrySet()) {
+			ChatMessages  messages = this.chatRepository.getMessages(entry.getValue());
 			entry.getKey().setResult(messages);
 		}
 	}

@@ -23,6 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -45,21 +46,32 @@ public class ChatControllerTest {
 
 	@Test
 	public void getMessages() throws Exception {
-		List<String> messages = Arrays.asList("a", "b", "c");
-		expect(this.chatRepository.getMessages(9)).andReturn(messages);
+        List<String> dummyMessages = new ArrayList<String>();
+        for(int i = 0; i < 9; i++) {
+            dummyMessages.add("value " + i);
+        }
+        ChatMessages expected = new ChatMessages(9, dummyMessages);
+        expect(this.chatRepository.getMessages(9)).andReturn(expected);
 		replay(this.chatRepository);
 
 		this.mockMvc.perform(get("/mvc/chat").param("messageIndex", "9"))
 				.andExpect(status().isOk())
 				.andExpect(request().asyncStarted())
-				.andExpect(request().asyncResult(messages));
+				.andExpect(request().asyncResult(expected));
 
 		verify(this.chatRepository);
 	}
 
 	@Test
 	public void getMessagesStartAsync() throws Exception {
-		expect(this.chatRepository.getMessages(9)).andReturn(Arrays.<String>asList());
+        List<String> dummyMessages = new ArrayList<String>();
+        for(int i = 0; i < 9; i++) {
+            dummyMessages.add("value " + i);
+        }
+		expect(this.chatRepository.getMessages(9))
+                .andReturn(
+                        new ChatMessages(9, dummyMessages));
+
 		replay(this.chatRepository);
 
 		this.mockMvc.perform(get("/mvc/chat").param("messageIndex", "9"))

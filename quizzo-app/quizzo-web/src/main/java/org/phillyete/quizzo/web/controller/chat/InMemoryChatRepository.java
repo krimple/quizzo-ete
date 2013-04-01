@@ -28,16 +28,20 @@ public class InMemoryChatRepository implements ChatRepository {
 
 	private final List<String> messages = new CopyOnWriteArrayList<String>();
 
-	public List<String> getMessages(int index) {
+	public ChatMessages getMessages(Integer index) {
+        if (index == null) {
+            // get the whole shebang - good at the beginning to sync up
+            return new ChatMessages(this.messages.size(), this.messages);
+        }
 		if (this.messages.isEmpty()) {
-			return Collections.<String> emptyList();
+			return new ChatMessages(0, Collections.<String> emptyList());
 		}
-		Assert.isTrue((index >= 0) && (index <= this.messages.size()), "Invalid message index:" + index);
-		return this.messages.subList(index, this.messages.size());
+		Assert.isTrue(index <= this.messages.size(), "Invalid message index:" + index);
+        int size = this.messages.size();
+		return new ChatMessages(size, this.messages.subList(index, size));
 	}
 
 	public void addMessage(String message) {
 		this.messages.add(message);
 	}
-
 }

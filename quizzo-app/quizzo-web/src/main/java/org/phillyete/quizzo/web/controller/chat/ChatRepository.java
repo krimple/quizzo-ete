@@ -20,7 +20,7 @@ import java.util.List;
 
 public interface ChatRepository {
 
-	List<String> getMessages(int messageIndex);
+	ChatMessages getMessages(Integer messageIndex);
 
 	void addMessage(String message);
 

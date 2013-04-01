@@ -1,69 +1,35 @@
+'use strict';
+
 angular.module('quizzoApp').
-  controller('ChatCtrl', function ($scope, $http, $timeout) {
-    // for remote testing
-    //$scope.prefix = 'http://quizzo-ete.com:8080/quizzo/';
-    // for local testing
-    $scope.prefix = '../../';
-    $scope.userName = '';
-    $scope.chatContent = '';
-    $scope.messageIndex = 0;
-    $scope.message = '';
-    $scope.keepPolling = false;
+  controller('ChatCtrl',
+             function ($scope, chatService) {
 
+  // TODO - move primary data into service? Probably not.
+  $scope.chatContent = 'type something';
 
-    $scope.pollForMessages = function () {
-      if ($scope.keepPolling === true) {
-        $http({
-          method: 'GET',
-          url: $scope.prefix + 'mvc/chat',
-          cache:false,
-          params: {'messageIndex': $scope.messageIndex}
-        }).success(function (data, status, headers, config) {
-            for (var i = 0; i < data.length; i++) {
-              // prepend to top (history below, like twitter)
-              $scope.chatContent =  $scope.chatContent + data[i] + "\n";
-              $scope.messageIndex = $scope.messageIndex + 1;
+  // Whether or not to enable chat input box
+  $scope.isChatDisabled = function () {
+    chatService.isChatDisabled();
+  };
 
-            }
-              
-              $scope.pollForMessages();
-          }).error(function (data, status, headers, config) {
-            //$scope.resetUI();
-            console.error("Unable to retrieve chat messages. Chat ended.", status)
-          });
-      }
-      // this is a timer? complete : pollForMessages
-      // doubt this will work as is
-    };
+  $scope.sendChatMessage = function (message) {
+    chatService.sendMessage(message);
+    $scope.chatMessage = '';
+  };
 
-    $scope.joinChat = function () {
-      if ($scope.userName) {
-        $scope.keepPolling = true;
-        $scope.pollForMessages();
-      }
-    };
+  // async call loop - make sure we only send another chat call
+  // when we get notified of data recieved...
+  $scope.$on('ChatPollFinished', function() {
+    // todo - optimize this? Maybe only if new?
+    $scope.chatContent = chatService.getChatMessages();
+    chatService.messagePoll();
 
-    $scope.sendMessage = function () {
-      $http({
-        method: 'POST',
-        url: $scope.prefix + 'mvc/chat',
-        params: {'message': "["+ $scope.userName + "] " + $scope.message}
-      }).success(function (data, status, headers, config) {
-            
-      }).error(function (data, status, headers, config) {
-          console.log('failure', data, status, headers, config)
-      });
-    };
-
-   $scope.resetUI  = function() {
-      $scope.keepPolling = false;
-      //that.activePollingXhr(null);
-      $scope.message ='';
-      $scope.messageIndex=0;
-      $scope.chatContent='';
-    }
-    $scope.leaveChat = function () {
-      $scope.keepPolling = false;
-      $scope.userName = '';
-    }
   });
+
+  // in case we refreshed the browser
+  chatService.resetChatMessageIndex();
+
+  // start poll...
+  chatService.messagePoll();
+
+});

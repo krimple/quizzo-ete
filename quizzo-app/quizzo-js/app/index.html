@@ -3,47 +3,89 @@
 <!--[if IE 7]>         <html class='no-js lt-ie9 lt-ie8'> <![endif]-->
 <!--[if IE 8]>         <html class='no-js lt-ie9'> <![endif]-->
 <!--[if gt IE 8]><!--> <html class='no-js'> <!--<![endif]-->
-  <head>
-    <meta charset='utf-8'/>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'/>
-    <title></title>
-    <meta name='description' content=''>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <link rel='stylesheet' href='styles/main.css'>
-  </head>
-  <body ng-app='quizzoApp'>
-    <div id="joinpanel" class="page-header">
-        <h2>Let's play Quizzo!</h2>
-    </div>
-    <!--[if lt IE 7]>
+<head>
+<meta charset='utf-8'/>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'/>
+<title></title>
+<meta name='description' content=''>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+<link rel='stylesheet' href='styles/main.css'>
+</head>
+<body ng-app='quizzoApp'>
+<div id="joinpanel" class="page-header">
+  <h2>Let's play Quizzo!</h2>
+</div>
+<!--[if lt IE 7]>
       <p class='chromeframe'>You are using an outdated browser. <a href='http://browsehappy.com/'>Upgrade your browser today</a> or <a href='http://www.google.com/chromeframe/?redirect=true'>install Google Chrome Frame</a> to better experience this site.</p>
     <![endif]-->
 
-    <!--[if lt IE 9]>
+<!--[if lt IE 9]>
       <script src='components/es5-shim/es5-shim.js'></script>
       <script src='components/json3/lib/json3.min.js'></script>
     <![endif]-->
-    <!-- Add your site or application content here -->
-    <div class='navbar'>
-      <div class='navbar-inner'>
-        <ul class='nav'>
-          <li><a ng-href='#/join'>Join</a></li>
-        </ul>
+
+<div class='navbar'>
+  <div class='navbar-inner'>
+    <ul class='nav'>
+      <li><a ng-href='#/join'>Join</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class='container-fluid'>
+  <div class='row-fluid'>
+    <div class='span2' ng-controller="ChatCtrl">
+      <accordion close-others="true">
+        <accordion-group heading="Chat">
+          <textarea rows="8" cols="15"
+             style="width: 150px; height: 300px;"
+             readonly="readonly" ng-model="chatContent">
+          </textarea>
+          <br/>
+           <input type="text"
+             style="width: 150px;"
+             ng-model="chatMessage"
+             ng-disabled="isChatDisabled()"
+             ng-model-onblur
+           <br/>
+           <button
+            ng-disabled="isChatDisabled()"
+            ng-click="sendChatMessage(chatMessage)">
+            Send
+          </button>
+        </accordion-group>
+      </accordion>
+    </div>
+    <div class='span8'>
+      <div ng-view>
+        <!-- replaced with our views : 8 cols max -->
       </div>
     </div>
-    <div class='container-fluid' ng-view></div>
 
+    <div class='span2' ng-controller="TallyCtrl">
+
+      <h4>Player</h4>
+      {{playerNickName || 'No player yet'}}
+      <h4>Game</h4>
+      {{gameTitle || 'No game yet'}}
+      <h4>Score</h4>
+      {{playerScore || 'No score yet'}}
+    
+    </div>
+  </div>
+</div>
     <!-- view-less controller to track status -->
     <div ng-controller="StatusUpdateCtrl"></div>
-	<!-- build:js scripts/frameworks.js -->
+
+  <!-- build:js scripts/frameworks.js -->
     <script src='components/angular/angular.js'></script>
     <script src='components/underscore/underscore.js'></script>
     <script src='components/angular-resource/angular-resource.js'></script>
     <script src='components/angular-cookies/angular-cookies.js'></script>
     <script src='components/angular-sanitize/angular-sanitize.js'></script>
     <script src='components/angular-underscore/angular-underscore.js'></script>
-	<!-- endbuild -->
+  <!-- endbuild -->
 
     <!-- build:js scripts/scripts.js -->
     <script src='scripts/app.js'></script>
@@ -60,6 +102,7 @@
     <script src='scripts/controllers/status_update_controller.js'></script>
     <script src='scripts/controllers/tally_controller.js'></script>
 
+    <script src='scripts/services/chat_service.js'></script>
     <script src='scripts/services/game_selection_service.js'></script>
     <script src='scripts/services/leaderboard_service.js'></script>
     <script src='scripts/services/quiz_manager_service.js'></script>
@@ -69,12 +112,13 @@
     <script src='scripts/extensions/ui-bootstrap-tpls-0.2.0.js'></script>
     <!-- endbuild -->
 
+
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
-      var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-      (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-      g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-      s.parentNode.insertBefore(g,s)}(document,'script'));
+var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+ g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+ s.parentNode.insertBefore(g,s)}(document,'script'));
     </script>
   </body>
 </html>
