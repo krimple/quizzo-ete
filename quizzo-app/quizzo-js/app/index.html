@@ -25,17 +25,9 @@
       <script src='components/json3/lib/json3.min.js'></script>
     <![endif]-->
 
-<div class='navbar'>
-  <div class='navbar-inner'>
-    <ul class='nav'>
-      <li><a ng-href='#/join'>Join</a></li>
-    </ul>
-  </div>
-</div>
-
 <div class='container-fluid'>
   <div class='row-fluid'>
-    <div class='span2' ng-controller="ChatCtrl">
+    <div class='span2' ng-fooontroller="ChatCtrl">
       <accordion close-others="true">
         <accordion-group heading="Chat">
           <textarea rows="8" cols="15"
@@ -46,8 +38,7 @@
            <input type="text"
              style="width: 150px;"
              ng-model="chatMessage"
-             ng-disabled="isChatDisabled()"
-             ng-model-onblur
+             ng-disabled="isChatDisabled()">
            <br/>
            <button
             ng-disabled="isChatDisabled()"

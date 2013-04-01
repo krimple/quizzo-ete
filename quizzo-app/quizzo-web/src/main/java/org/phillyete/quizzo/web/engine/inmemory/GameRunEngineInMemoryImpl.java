@@ -40,8 +40,7 @@ public class GameRunEngineInMemoryImpl implements GameRunEngine {
     @Override
     public boolean gameExists(String gameId) {
         // probably needs to be more efficient than this...
-        // very expensive. We need an existence repo method...
-        return gameInstances.containsKey(gameId);
+        return gameId == null ? false : gameInstances.containsKey(gameId);
     }
 
     @Override

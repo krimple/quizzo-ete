@@ -1,17 +1,17 @@
 'use strict';
 
 angular.module('quizzoApp').
-  controller('TallyCtrl', function($scope, playerAndGameDetailsService) {
+  controller('TallyCtrl', function($scope, $rootScope, playerAndGameDetailsService) {
 
-  $scope.$on('PlayerChanged', function() {
+  $rootScope.$on('PlayerChanged', function() {
     $scope.playerNickName = playerAndGameDetailsService.getPlayerNickName();
   });
 
-  $scope.$on('GameChanged', function() {
+  $rootScope.$on('GameChanged', function() {
     $scope.gameTitle = playerAndGameDetailsService.getTitle();
   });
 
-  $scope.$on('ScoreChanged', function() {
+  $rootScope.$on('ScoreChanged', function() {
     $scope.playerScore = playerAndGameDetailsService.getScore();
   });
 });

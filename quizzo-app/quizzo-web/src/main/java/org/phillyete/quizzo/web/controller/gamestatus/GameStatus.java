@@ -2,6 +2,12 @@ package org.phillyete.quizzo.web.controller.gamestatus;
 
 public class GameStatus {
 
+    private String playerNickName;
+
+    private String gameId;
+
+    private String gameTitle;
+
     private int currentScore;
 
     private String status;
@@ -19,7 +25,7 @@ public class GameStatus {
         return currentScore;
     }
 
-    protected void setCurrentScore(int currentScore) {
+    public void setCurrentScore(int currentScore) {
         this.currentScore = currentScore;
     }
 
@@ -29,5 +35,29 @@ public class GameStatus {
 
     protected void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(String gameId) {
+        this.gameId = gameId;
+    }
+
+    public String getGameTitle() {
+        return gameTitle;
+    }
+
+    public void setGameTitle(String gameTitle) {
+        this.gameTitle = gameTitle;
+    }
+
+    public String getPlayerNickName() {
+        return playerNickName;
+    }
+
+    public void setPlayerNickName(String playerNickName) {
+        this.playerNickName = playerNickName;
     }
 }

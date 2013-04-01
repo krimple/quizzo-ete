@@ -12,6 +12,7 @@
  */
 package org.phillyete.quizzo.domain;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -80,6 +81,7 @@ public class Choice {
 	/**
 	 * @return the score
 	 */
+    @JsonIgnore
 	public int getScore() {
 		return score;
 	}

@@ -1,7 +1,8 @@
 <div class="row-fluid" ng-cloak>
-  <div class="span10">
-    <h3>Join a Game</h3>
-    <p><em>Select a game to play... The following games are awaiting players...</em></p>
+  <div class="span8">
+      <h1>Join a Game</h1>
+    <div class='hero-unit'>
+      <p><em>Select a game to play... The following games are awaiting players...</em></p></div>
   </div>
   <div class="span2"></div>
 </div>
@@ -9,9 +10,9 @@
   <div class="row-fluid">
     <div class="span8">
       <a class="btn btn-primary span2" 
-        ng-href='#/join_game/{{game.gameId}}'>Play!</a><div class="span6">{{game.title}}</div>
+        ng-href='#/join_game/{{game.gameId}}'>Play!</a>
+      <div class="span10"><p class='lead'>{{game.title}}</p></div>
     </div>
-    <div class="span2"></div>
   </div>
   <div class="row-fluid">
     <br/>

@@ -44,6 +44,10 @@ angular.module('quizzoApp').factory('quizManagerService',
         $rootScope.$broadcast('WaitingToPlay');
         break;
         case 'WaitingForAnswer':
+        // rip out current score and broadcast an update if changed...
+        var currentScore = data.currentScore;
+        playerAndGameDetailsService.setScore(currentScore);
+
         // only change the question data and send the event
         // if the question id is new.
         var ourQuestion = playerAndGameDetailsService.getQuestion();
@@ -110,8 +114,8 @@ angular.module('quizzoApp').factory('quizManagerService',
       questionNumber: sentQuestionNumber,
       choice: selectedAnswer
     };
-    $http.put(serverPrefix + 'quizRun/submitAnswer',
-              answerPayload).success(function(data, status, headers, config) {
+    $http.put(serverPrefix + 'quizRun/submitAnswer', answerPayload).
+     success(function(data, status, headers, config) {
       $rootScope.$broadcast('VoteSent');
       // wipe our current question
       playerAndGameDetailsService.setQuestionAnswer(selectedAnswer);

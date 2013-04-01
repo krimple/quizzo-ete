@@ -34,7 +34,7 @@ angular.module('quizzoApp').factory('playerAndGameDetailsService', function ($ro
 
 		this.authCheckMade = true;
     if (this.playerNickName !== data.playerNickName) {
-	    	this.playerNickName = data.playerNickName;
+        this.playerNickName = data.playerNickName;
         this.notifyPlayerChanged();
     }
 	};
@@ -92,8 +92,10 @@ angular.module('quizzoApp').factory('playerAndGameDetailsService', function ($ro
 	};
 
 	implementation.setScore = function(newScore) {
-		this.score = newScore;
-    this.notifyScoreChanged();
+    if (this.score !== newScore) {
+  		this.score = newScore;
+      this.notifyScoreChanged();
+    }
 	};
 
   implementation.getScore = function() {

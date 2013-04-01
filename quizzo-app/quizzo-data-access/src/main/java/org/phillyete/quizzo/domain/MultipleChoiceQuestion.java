@@ -15,6 +15,7 @@ package org.phillyete.quizzo.domain;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.phillyete.quizzo.domain.Choice.Letter;
 import org.springframework.util.Assert;
 
