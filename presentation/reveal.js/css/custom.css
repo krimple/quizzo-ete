@@ -13,6 +13,13 @@ html.springdata blockquote {
 	color:rgba(0,0,0,0.6);
 }
 
+html.springdata h1 {
+	color:rgba(0,200,70,0.6);
+}
+html.springdata h3 {
+	color:rgba(0,100,100,0.6);
+}
+
 html.repositories body {
 	background:url("../img/repositories.png");
 	background-position:center;
