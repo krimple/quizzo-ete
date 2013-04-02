@@ -40,6 +40,249 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 
+        <section data-state="springandjs">
+          <h1>Modern Spring Web Applications</h1>
+          <p>Why it is time to care...</p>
+        </section>
+
+        <section data-state="whatisit">
+          <h1>True 3-tier client/server</h1>
+          <p class="fragment">Javascript on the front-end</p>
+          <p class="fragment">Spring as a smart middleware engine</p>
+          <p class="fragment">Whatever we need on the backend</p>
+          <img class="fragment" src="img/overall-block-intro-diagram.png"/>
+        </section>
+
+        <section data-state="why">
+          <h1>Why should we care about SPA?</h1>
+          <p>This is where UI innovation is happening</p>
+        </section>
+
+        <section>
+          <h1>Javascript Renaissance</h1>
+          <p>Tons of new tools, APIs</p>
+          <p>See our JS Panel and talks for examples</p>
+          <p>AngularJS talk is in this room next session!</p>
+        </section>
+        
+        <section>
+          <h1>Javascript's Good Parts</h1>
+          <p>Turns out it's a functional programming language</p>
+          <p>And we've been using it WRONG!</p>
+        </section>
+
+        
+
+        <section>
+          <h1>First, a trivial example</h1>
+          <h3>The Game... - a "quizzo"-like application</h3>
+          <em>Let's play...</em>
+          <p> LINK </p>
+        </section>
+
+        <section>
+          <h1>Game architecture...</h1>
+        </section>
+
+        <section>
+          <h1>AngularJS</h1>
+          <img src="img/angular-stack-simplified.png" />
+        </section>
+        <section>
+          <h3>Key Components</h3>
+          <ul>
+            <li>Router - Routes requests in browser appropriately</li>
+            <li>Controller - Sets up shared data between view and page and handles events</li>
+            <li>Service - Provides stateful access to application resources, external data</li>
+            <li>Directive - Provides HTML componentry</li>
+            <li>Scope - shares data between view and model - is a ViewModel</li>
+          </ul>
+        </section>
+        <section data-state="spring-and-js">
+          <h1>Put it all together...</h1>
+          <img src="img/full-stack-spring-angular.png"/>
+        </section>
+        
+        <section>
+          <h1>AngularJS benefits</h1>
+          <h3>Bi-directional data-binding</h3>
+          <h3>Model/View/Controller (ok, MVVM)</h3>
+          <h3>Quite complete without being too opinionated</h3>
+        </section>
+        
+        <section>
+          <h3>Angular Modules</h3>
+              <pre><code contenteditable>angular.module('quizzoApp', ['ui.bootstrap']).
+  config(['$routeProvider', '$httpProvider', 
+    function ($routeProvider, $httpProvider) {
+    $routeProvider.
+      when('/register', {
+        templateUrl: 'views/assign_player.html', 
+        controller: 'RegisterCtrl'
+      }).
+      
+      when('/join_game/:gameId', {
+        templateUrl: 'views/joining_game.html', 
+        controller: 'JoinGameCtrl'
+      }).
+      ...
+  }]);
+              </code></pre>
+            </section>
+        <section>
+          <h3>Controllers</h3>
+          <pre><code contenteditable>angular.module('quizzoApp').controller('RegisterCtrl',
+   function ($scope, $location, registerPlayerSvc) {
+
+    $scope.$on('GoodNick', function (event, values) {
+      $scope.player = registerPlayerSvc.getPlayer();
+      $location.path('/show_games');
+    });
+
+    $rootScope.join_game = function (nickName) {
+      registerPlayerSvc.createNickName(nickName);
+    };
+});</code></pre>
+          </section>
+          <section>
+            <h3>Services</h3>
+            <pre><code contenteditable>angular.module('quizzoApp').factory('registerPlayerService',
+ function (serverPrefix, $location, $rootScope, $http) {
+   var implementation = {};
+
+   implementation.createPending = false;
+   implementation.currentPlayer = '';
+
+   implementation.createNickName = function (nickName) {
+     ...
+   };
+
+   implementation.getPlayer = function () {
+     return this.currentPlayer;
+   };
+
+   return implementation; 
+};</code></pre>
+              </section>
+        <section>
+          <h3>Calling a web service</h3>
+          <pre><code contenteditable>implementation.createNickName = function (nickName) {
+  var that = this;
+  this.createPending = true;
+  $http.defaults.withCredentials = true;
+  $http.post(serverPrefix + 'player/register/' + nickName).
+    success(function (data, status, headers, config) {
+      if (status === 201) {
+        $rootScope.badNick = false;
+        that.currentPlayer = nickName;
+        $rootScope.playerAndGameInformation
+        $rootScope.$broadcast('GoodNick');
+      } else if (status === 204) {
+        ...
+        $rootScope.$broadcast('BadNick');
+      }
+    });
+  };</code></pre>
+  </section>
+  <section>
+    <h3>Templates</h3>
+    <pre><code contenteditable>&lt;form&gt;
+&lt;label for=&quot;nickname&quot;&gt;&lt;b&gt;Nickname&lt;/b&gt;&lt;/label&gt;
+
+&lt;input type=&quot;text&quot; 
+   ng-model=&quot;nickName&quot;
+   ng-change=&quot;clear_nick_bad()&quot; /&gt; 
+
+&lt;span class=&quot;error&quot; 
+    ng-show=&quot;showJoinError&quot;&gt;{{joinError}}&lt;/span&gt;
+
+&lt;button ng-click=&quot;join_game(nickName)&quot;&gt;
+  Join Quizzo
+&lt;/button&gt;
+
+&lt;/form&gt;</code></pre>
+</section>
+  <section>
+    <h3>Templates</h3>
+    <pre><code contenteditable>&lt;div ng-repeat=&#x27;game in gamesAvailable&#x27;&gt;
+  &lt;a ng-href=&#x27;#/join_game/{{game.gameId}}&#x27;&gt;Play!&lt;/a&gt;
+  : 
+  &lt;p class=&#x27;lead&#x27;&gt;{{game.title}}&lt;/p&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+</section>
+        <section>
+            <h3>Spring MVC Controller</h3>
+            <pre><code contenteditable>@Controller
+@RequestMapping("/player")
+public class PlayerController {
+
+  @RequestMapping(method = RequestMethod.POST, 
+                   value="register/{nickName}")
+   public @ResponseBody ResponseEntity<Player>
+    registerUserByNickName(HttpSession session, 
+       @PathVariable String nickName) {
+      ...
+    }
+   ...
+}</code></pre>
+</section>
+<section>
+  <h3>Handling success</h3>
+  <pre><code contenteditable>PlayerGameSession playerGameSession =
+  getOrCreatePlayerGameSession(session);
+  
+playerGameSession.setPlayerId(player.getName());
+
+responseEntity = new ResponseEntity<Player>(player, HttpStatus.CREATED);
+return responseEntity;
+  </code></pre>
+        </section>
+        <section>
+          <h3>Handling failure</h3>
+          <pre><code contenteditable>try {
+    player = playerService.registerPlayer(nickName);
+} catch (PlayerAlreadyExistsException p) {
+    responseEntity = new ResponseEntity&lt;Player&gt;(
+        HttpStatus.NO_CONTENT);
+    return responseEntity;
+}</code></pre>
+</section>
+<section>
+  <h3>Quizzo design choices</h3>
+  <ul>
+    <li>Game state stored server-side</li>
+    <li>Credentials and score established by client but kept on server</li>
+    <li>User-specific state (what question, etc) were cached on client</li>
+  </ul>
+</section>
+<section>
+  <h3>Paying attention to server state</h3>
+  <pre><code conteneteditable>angular.module('quizzoApp', 
+    ['ui.bootstrap', 'angular-underscore']).
+  config(['$routeProvider', '$httpProvider', 
+    function ($routeProvider, $httpProvider) {
+      ...
+      $httpProvider.defaults.withCredentials = true;
+  }]);</code></pre>
+</section>
+<section>
+  <h1>Debugging Demo</h1>
+</section>
+<section>
+  <h3>It could be any JS framework</h3>
+  <p>See todomvc.com - Addy Osmani</p>
+</section>
+<section>
+  <h3>Spring MVC tips</h3>
+  <ul>
+    <li>Use <code>ResponseEntity</code> for returning conditional values</li>
+    <li>Try being RESTful where possible (POST/GET/PUT/DELETE for CRUD)</li>
+    <li>Use Jackson JSON for easy JSON serialization</li>
+    <li>Validate on both tiers... Ugly but necessary</li>
+    <li>Don't send too much - GETs are cheap, sort/filter on server for large sets</li>
+  </ul>
+</section>
+
 				<section data-state="springdata">
 					<h1>Spring Data</h1>
 					<h3>An Overview</h3>

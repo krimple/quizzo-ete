@@ -1,0 +1,17 @@
+BENEFITS
+True distribution of workload
+
+
+REAL EXPERIENCES
+Media interactivity
+Desktop-like functionality
+Browser apps like iPhone apps
+
+Show
+- routing / module
+- controller sample - show 
+- service
+- $rootScope as message bus
+- services hold state
+- 
+

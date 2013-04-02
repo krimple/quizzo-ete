@@ -24,3 +24,14 @@ html.mapping body {
 	background-position:center;
 	background-size: 100%;
 }
+
+.reveal pre code {
+  font-size: 17pt;
+  line-height: 18pt;
+    height: auto;
+    width: 800px;
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
