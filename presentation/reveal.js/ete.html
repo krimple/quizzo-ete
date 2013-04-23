@@ -1,44 +1,44 @@
 <!doctype html>
 <html lang="en">
 
-	<head>
-		<meta charset="utf-8">
+  <head>
+    <meta charset="utf-8">
 
-		<title>State of the Art Spring Based Single Page Applications</title>
+    <title>State of the Art Spring Based Single Page Applications</title>
 
-		<meta name="description" content="State of the Art Spring Based Single Page Applications">
-		<meta name="author" content="Ken Rimple, David Turanski">
+    <meta name="description" content="State of the Art Spring Based Single Page Applications">
+    <meta name="author" content="Ken Rimple, David Turanski">
 
-		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<link rel="stylesheet" href="css/reveal.min.css">
-		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+    <link rel="stylesheet" href="css/reveal.min.css">
+    <link rel="stylesheet" href="css/theme/default.css" id="theme">
 
-		<!-- For syntax highlighting -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
 
-		<!-- Custom -->
-		<link rel="stylesheet" href="css/custom.css">
+    <!-- Custom -->
+    <link rel="stylesheet" href="css/custom.css">
 
-		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
-		<script>
-			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
-		</script>
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+      document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+    </script>
 
-		<!--[if lt IE 9]>
-		<script src="lib/js/html5shiv.js"></script>
-		<![endif]-->
-	</head>
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
 
-	<body>
+  <body>
 
-		<div class="reveal">
+    <div class="reveal">
 
-			<!-- Any section element inside of this container is displayed as a slide -->
-			<div class="slides">
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
 
         <section data-state="springandjs">
           <h1>Modern Spring Web Applications</h1>
@@ -52,10 +52,21 @@
           <p class="fragment">Whatever we need on the backend</p>
           <img class="fragment" src="img/overall-block-intro-diagram.png"/>
         </section>
+        
+        <section data-state="who">
+          <h1>Presenters</h1>
+          <p>Ken Rimple - Chariot Solutions (JS and Spring MVC)</p>
+          <p>David Turanski - VMware (Spring / WebSockets / Spring Data / d3 push client)</p>
+        </section>
 
         <section data-state="why">
           <h1>Why should we care about SPA?</h1>
           <p>This is where UI innovation is happening</p>
+        </section>
+        
+        <section data-state="where">
+          <h1>Project Location</h1>
+          <p>All code available on GitHub at <a href='http://github.com/krimple/quizzo-ete'>github.com/krimple/quizzo-ete</a>.</p>
         </section>
 
         <section>
@@ -283,183 +294,179 @@ return responseEntity;
   </ul>
 </section>
 
-				<section data-state="springdata">
-					<br/><br/><br/>
-					<h1>Spring Data</h1>
-					<h3>An Overview</h3>
-					<p>
-						<!-- <small>David Turanski, Sr Software Engineer VMWare/SpringSource</a> / <a href="http://twitter.com/dturanski">@dturanski</a></small> -->
-					</p>
-				</section>
-				<section data-state="springdata">
-						<span style="position:absolute; TOP:90px; LEFT:820px; WIDTH:300px">
-						 <img src="img/mongodb.png" alt="Mongo DB"/>
-						</span>
-						<span style="position:absolute; TOP:60px; LEFT:480px; WIDTH:400px; color:rgba(0,0,0,0.6); font-size:1.0em; font-weight:bold">
-						  JPA
-						</span>
-						<span style="position:absolute; TOP:120px; LEFT:130px; WIDTH:800px; color:rgba(0,0,0,0.6); font-size:1.0em; font-weight:bold">
-						  Query DSL
-						</span>
-						<span style="position:absolute; TOP:200px; LEFT:130px; WIDTH:800px; color:rgba(0,0,0,0.6); font-size:1.0em; font-weight:bold">
-						  JDBC
-						</span>
-						<span style="position:absolute; TOP:0px; LEFT:300px; WIDTH:300px">
-						  <img src="img/redis.png" alt="Hadoop"/>
-						</span>
-						<span style="position:absolute; TOP:250px; LEFT:250px; WIDTH:200px">
-						 <img src="img/hbase.png" alt="HBASE"/>
-						</span>
-						<span style="position:absolute; TOP:300px; LEFT:620px; WIDTH:300px">
-						  <img src="img/neo4j.png" alt="Neo4J"/>
-						 </span>
-						 <span style="position:absolute; TOP:100px; LEFT:700px; WIDTH:100px">
-						  <img src="img/gemfire.png" alt="GemFire"/>
-						  GemFire
-						 </span>
-						 <span style="position:absolute; TOP:0px; LEFT:720px; WIDTH:300px">
-						  <img src="img/hadoop.png" alt="Hadoop"/>
-						 </span>
- 						<span style="position:absolute; TOP:-50px; LEFT:-280px; WIDTH:720px;">
-							<blockquote>
-						… provide a familiar and consistent Spring based programming model while retaining store-specific features and capabilities
-						</blockquote>
-					</span>
-				</section>
+        <section data-state="springdata">
+          <br/><br/><br/>
+          <h1>Spring Data</h1>
+          <h3>An Overview</h3>
+          <p>
+            <!-- <small>David Turanski, Sr Software Engineer VMWare/SpringSource</a> / <a href="http://twitter.com/dturanski">@dturanski</a></small> -->
+          </p>
+        </section>
+        <section data-state="springdata">
 
-				<section data-state="repositories">
-					 <span style="position:absolute; TOP:-200px; LEFT:-200px; WIDTH:600px;
-					 ">
-						  <h1>Repositories</h1>
-					 </span>
-				</section>	
-				<section >
-					<h3>Repository</h3>
-					<blockquote cite="http://martinfowler.com/eaaCatalog/repository.html 
+          JPA
+          Query DSL
+          JDBC
+
+          and...
+          
+             <img src="img/mongodb.png" alt="Mongo DB"/>
+
+              <img src="img/redis.png" alt="Hadoop"/>
+             <img src="img/hbase.png" alt="HBASE"/>
+              <img src="img/neo4j.png" alt="Neo4J"/>
+              <img src="img/gemfire.png" alt="GemFire"/>
+              <img src="img/hadoop.png" alt="Hadoop"/>
+              <blockquote>
+            … provide a familiar and consistent Spring based programming model while retaining store-specific features and capabilities
+            </blockquote>
+          </span>
+        </section>
+
+        <section data-state="repositories">
+           <span style="position:absolute; TOP:-200px; LEFT:-200px; WIDTH:600px;
+           ">
+              <h1>Repositories</h1>
+           </span>
+        </section>  
+        <section >
+          <h3>Repository</h3>
+          <blockquote cite="http://martinfowler.com/eaaCatalog/repository.html 
 ">Mediates between the domain and data mapping layers using a collection-like interface for accessing domain objects.</blockquote>
-					<a href="http://martinfowler.com/eaaCatalog/repository.html">Martin Fowler</a>
-					<a class="image" href="http://msdn.microsoft.com/en-us/library/ff649690.aspx" target="_blank">
-						<img src="img/repository-schematic.png"/>
-					</a>
-					
-				</section>	
-				<section>
-					 <span style="position:absolute; TOP:-250px; LEFT:0px; WIDTH:1000px">
-					 	 <p>Spring Data CRUD Repository - You get this out of the box.</p>
-					     <pre><code>
+          <a href="http://martinfowler.com/eaaCatalog/repository.html">Martin Fowler</a>
+          <a class="image" href="http://msdn.microsoft.com/en-us/library/ff649690.aspx" target="_blank">
+            <img src="img/repository-schematic.png"/>
+          </a>
+          
+        </section>  
+        <section>
+
+             <p>Spring Data CRUD Repository - You get this out of the box.</p>
+               <pre><code>
 public interface CrudRepository&lt;T, ID extends Serializable&gt; extends Repository&lt;T, ID&gt; {
-	&lt;S extends T&gt; S save(S entity);
-	&lt;S extends T&gt; Iterable&lt;S&gt; save(Iterable&lt;S&gt; entities);
-	T findOne(ID id);
-	boolean exists(ID id);
-	Iterable&lt;T&gt; findAll();
-	Iterable&lt;T&gt; findAll(Iterable&lt;ID&gt; ids);
-	long count();
-	void delete(ID id);
-	void delete(T entity);
-	void delete(Iterable&lt;? extends T&gt; entities);
-	void deleteAll();
+  &lt;S extends T&gt; S save(S entity);
+  &lt;S extends T&gt; Iterable&lt;S&gt; save(Iterable&lt;S&gt; entities);
+  T findOne(ID id);
+  boolean exists(ID id);
+  Iterable&lt;T&gt; findAll();
+  Iterable&lt;T&gt; findAll(Iterable&lt;ID&gt; ids);
+  long count();
+  void delete(ID id);
+  void delete(T entity);
+  void delete(Iterable&lt;? extends T&gt; entities);
+  void deleteAll();
 }
-					     </code></pre>
-					 </span>
-				</section>
-				<section>
-					 <span style="position:absolute; TOP:-250px; LEFT:-150px; WIDTH:1200px">
-					 	 <p>Query Methods</p>
-						<img src="img/query-methods.png"/>
-						<p>Also: StartsWith, EndsWith, Contains, After, Before</p>
-					 </span>
-				</section>
-				<section>
-				
-					 	 <p>PlayerAnswerRepository</p>
-					 	 <pre><code>
-public interface PlayerAnswerRepository extends MongoRepository&lt;PlayerAnswer,BigInteger&gt;, PlayerAnswerRepositoryCustom {
-	public List&lt;PlayerAnswer&gt; findByQuizId(String quizId);
-	public List&lt;PlayerAnswer&gt; findByGameId(String gameId);
-	public List&lt;PlayerAnswer&gt; findByGameIdAndPlayerId(String gameId, String playerId);
-	public PlayerAnswer findByGameIdAndPlayerIdAndQuestionNumber(String gameId, String playerId, int questionNumber);
-	public List&lt;PlayerAnswer&gt; findByGameIdAndQuestionNumber(String gameId, int questionNumber);
+               </code></pre>
+        </section>
+        <section>
+             <p>Query Methods</p>
+            <img src="img/query-methods.png"/>
+            <p>Also: StartsWith, EndsWith, Contains, After, Before</p>
+        </section>
+        <section>
+        
+             <p>PlayerAnswerRepository</p>
+             <pre><code>
+public interface PlayerAnswerRepository 
+  extends MongoRepository&lt;PlayerAnswer,BigInteger&gt;, 
+          PlayerAnswerRepositoryCustom {
+  public List&lt;PlayerAnswer&gt; findByQuizId(String quizId);
+  
+  public List&lt;PlayerAnswer&gt; findByGameId(String gameId);
+  
+  public List&lt;PlayerAnswer&gt; findByGameIdAndPlayerId(
+              String gameId, String playerId);
+...
+</code></pre>
+</section>
+<section>
+  <p>PlayerAnswerRepository (cont)</p>
+  <pre><code>
+  public PlayerAnswer 
+    findByGameIdAndPlayerIdAndQuestionNumber(
+              String gameId, String playerId, 
+              int questionNumber);
+
+  public List&lt;PlayerAnswer&gt; 
+    findByGameIdAndQuestionNumber(
+              String gameId, int questionNumber);
 }
-					 	 </pre></code>
-				</section>
+             </pre></code>
+        </section>
 
-				<section data-state="mapping">
-					 <span style="position:absolute; TOP:-200px; LEFT:-200px; WIDTH:600px;
-					 ">
-						  <h1>Mapping</h1>
-					 </span>
-					 <p>Spring Data provids store-specific annotations for domain classes<p>
-				</section>
-				<section>
-					<h3>Questions?</h3>
-					<img src="img/questions.png"/>
-				</section>
-				<section>
-					<p>More Information</p>
-					<span style="font-size:0.75em;">
-					<table width="100%">
-						<tr>
-							<td>Spring Data Project Page</td>
-							<td>
-								<a href="http://www.springsource.org/spring-data">http://www.springsource.org/spring-data</a>
-							</td>
-						</tr>
-						<tr>
-							<td>
-							<img src="img/spring-data-book.gif"/>
-							</td>
-							<td>
-								<a href="http://shop.oreilly.com/product/0636920024767.do">http://shop.oreilly.com/product/0636920024767.do</a>
-							</td>
-						</tr><tr>
-							<td>Source Code</td>
-							<td>
-								<a href="http://github.com/SpringSource">http://github.com/SpringSource</a>
-							</td>
-						</tr>
-					</table>
-				</span>
-				</section>
-				<section>
-					<p>Spring Integration Flow for WebSockets</p>
-					<img src="img/websocket-si-flow.png" width="1500"/>
-				</section>
+        <section data-state="mapping">
+              <h1>Mapping</h1>
+           <p>Spring Data provids store-specific annotations for domain classes<p>
+        </section>
+        <section>
+          <h3>Questions?</h3>
+          <img src="img/questions.png"/>
+        </section>
+        <section>
+          <p>More Information</p>
+          <span style="font-size:0.75em;">
+          <table width="100%">
+            <tr>
+              <td>Spring Data Project Page</td>
+              <td>
+                <a href="http://www.springsource.org/spring-data">http://www.springsource.org/spring-data</a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+              <img src="img/spring-data-book.gif"/>
+              </td>
+              <td>
+                <a href="http://shop.oreilly.com/product/0636920024767.do">http://shop.oreilly.com/product/0636920024767.do</a>
+              </td>
+            </tr><tr>
+              <td>Source Code</td>
+              <td>
+                <a href="http://github.com/SpringSource">http://github.com/SpringSource</a>
+              </td>
+            </tr>
+          </table>
+        </span>
+        </section>
+        <section>
+          <p>Spring Integration Flow for WebSockets</p>
+          <img src="img/websocket-si-flow.png" width="1500"/>
+        </section>
 
-			</div>
+      </div>
 
-		</div>
+    </div>
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.min.js"></script>
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.min.js"></script>
 
-		<script>
+    <script>
 
-			// Full list of configuration options available here:
-			// https://github.com/hakimel/reveal.js#configuration
-			Reveal.initialize({
-				controls: true,
-				progress: true,
-				history: true,
-				center: true,
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
 
-				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
 
-				// Optional libraries used to extend on reveal.js
-				dependencies: [
-					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
-					{ src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
-					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
-					// { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
-					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
-				]
-			});
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+          // { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+          // { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });
 
-		</script>
+    </script>
 
-	</body>
+  </body>
 </html>
